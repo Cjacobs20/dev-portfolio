@@ -127,6 +127,15 @@ body {
     border-radius: 20%;
   }
 
+  .heroImg .hovering {
+    max-width: auto;
+    max-height: 400px;
+    padding-bottom: 70px;
+    padding-top: 80px;
+    display: none;
+    border-radius: 20%;
+  }
+
   .salutation {
     justify-content: left;
     text-align: left;

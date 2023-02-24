@@ -33,6 +33,9 @@
 const content = document.querySelector('.content');
 const defaultImg = document.querySelector('.default');
 const hoverImg = document.querySelector('.hover');
+const left = document.querySelector('.left');
+const right = document.querySelector('.right');
+const hoveringImg = document.querySelector('.hovering');
 
 content.addEventListener('mouseenter', () => {
     defaultImg.style.display = 'none';
@@ -41,6 +44,24 @@ content.addEventListener('mouseenter', () => {
 content.addEventListener('mouseleave', () => {
     defaultImg.style.display = 'flex';
     hoverImg.style.display = 'none';
+});
+
+left.addEventListener('mouseenter', () => {
+  defaultImg.style.display = 'none';
+  hoveringImg.style.display = 'flex';
+});
+left.addEventListener('mouseleave', () => {
+  defaultImg.style.display = 'flex';
+  hoveringImg.style.display = 'none';
+});
+
+right.addEventListener('mouseenter', () => {
+  defaultImg.style.display = 'none';
+  hoveringImg.style.display = 'flex';
+});
+right.addEventListener('mouseleave', () => {
+  defaultImg.style.display = 'flex';
+  hoveringImg.style.display = 'none';
 });
 
 function toggleMenu() {
