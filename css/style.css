@@ -106,8 +106,8 @@ body {
     margin: none;
     border: none;
     text-align: center;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
   .heroImg .default {
     max-width: auto;
@@ -331,8 +331,8 @@ body {
   }
 
 #projectBoxmid {
-  border-radius: 20px;
-  box-shadow: 3px 3px 3px;
+  border-radius: 7px;
+  box-shadow: 2px 2px 9px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -353,7 +353,8 @@ body {
 
 #projectBoxmid:hover {
   box-shadow: 10px 10px 10px;
-  transition: 200ms;
+  border: 4px ridge aquamarine;
+  transition: 500ms;
   transform: translate3d(0px, -4px, 0px);
 }
 
