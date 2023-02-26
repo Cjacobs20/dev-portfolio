@@ -37,14 +37,14 @@ const left = document.querySelector('.left');
 const right = document.querySelector('.right');
 const hoveringImg = document.querySelector('.hovering');
 
-content.addEventListener('mouseenter', () => {
-    defaultImg.style.display = 'none';
-    hoverImg.style.display = 'flex';
-});
-content.addEventListener('mouseleave', () => {
-    defaultImg.style.display = 'flex';
-    hoverImg.style.display = 'none';
-});
+// content.addEventListener('mouseenter', () => {
+//     defaultImg.style.display = 'none';
+//     hoverImg.style.display = 'flex';
+// });
+// content.addEventListener('mouseleave', () => {
+//     defaultImg.style.display = 'flex';
+//     hoverImg.style.display = 'none';
+// });
 
 left.addEventListener('mouseenter', () => {
   defaultImg.style.display = 'none';
