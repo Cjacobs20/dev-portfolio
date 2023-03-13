@@ -566,7 +566,28 @@ html {
       width: auto;
       height: 450px;
       justify-content: space-around;
+      align-items: center;
       border-radius: 15px;
+      border: 3px ridge #E4C472;
+      left: 10px;
+      top: 10px;
+    }
+
+    .left {
+      align-items: center;
+    }
+
+    .right {
+      align-items: center;
+    }
+
+    .right a {
+      text-align: center;
+    }
+
+    .logo {
+      align-items: center;
+      padding-top: none;
     }
 
     .navbar.active {
