@@ -116,6 +116,7 @@ body {
     padding-top: 80px;
     display: flex;
     border-radius: 20%;
+    position: relative;
   }
 
   .heroImg .hover {
@@ -303,7 +304,7 @@ body {
     text-decoration: none;
   }
   .leftProject h1 a:hover {
-    color: aquamarine;
+    color: #E4C472;
     -webkit-text-stroke: 1px #100F0F ;
   }
   .leftProject h1 a::before {
@@ -312,7 +313,7 @@ body {
     width: 100%;
     height: 4px;
     border-radius: 4px;
-    background-color: aquamarine;
+    background-color: #E4C472;
     bottom: 0;
     left: 0;
     transform-origin: right;
@@ -338,7 +339,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color: lightgrey;
+  background-color: #ffffff;
   position: static;
   width: 60%;
   height: auto;
@@ -353,7 +354,7 @@ body {
 
 #projectBoxmid:hover {
   box-shadow: 10px 10px 10px;
-  border: 4px ridge aquamarine;
+  border: 4px ridge #E4C472;
   transition: 500ms;
   transform: translate3d(0px, -4px, 0px);
 }
