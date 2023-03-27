@@ -267,7 +267,7 @@ body {
     height: auto;
     left: 0px;
     top: 1910px;
-    background: #ffffff;
+    background: #E5DFCE;
   }
   
   h3 {
@@ -276,14 +276,14 @@ body {
     font-family: 'Libre Baskerville', serif;
     font-size: 40px;
     color: #201B19;
-    background-color: #ffffff;
+    background-color: #E5DFCE;
     justify-content: center;
     font-weight: 300;
   }
 
   .leftProject {
     padding: 20px;
-
+    padding-top: none;
   }
 
   .rightProject img{
@@ -298,6 +298,7 @@ body {
     font-family: 'Libre Baskerville', serif;
     font-size: 32px;
     text-transform: uppercase;
+    line-height: 32px;
     color: #E5DFCE;
     position: relative;
     text-decoration: none;
@@ -339,6 +340,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  padding-top: none;
   background-color: #100F0F;
   position: static;
   width: 60%;
@@ -548,6 +550,7 @@ html {
   .casestudyLink {
       text-decoration: none;
       color: #E5DFCE;
+      padding-top: none;
   }
   .menu-btn{
     display: none;
