@@ -267,7 +267,6 @@ body {
     height: auto;
     left: 0px;
     top: 1910px;
-
     background: #ffffff;
   }
   
@@ -299,7 +298,7 @@ body {
     font-family: 'Libre Baskerville', serif;
     font-size: 32px;
     text-transform: uppercase;
-    color: #201B19;
+    color: #E5DFCE;
     position: relative;
     text-decoration: none;
   }
@@ -324,11 +323,12 @@ body {
   .leftProject h1 a:hover::before {
     transform-origin: left;
     transform: scaleX(1);
+    color: #ffffff;
   }
   .leftProject h5 {
     font-family: 'prata', serif;
     font-size: 18px;
-    color: #100F0F;
+    color: #E5DFCE;
   }
 
 #projectBoxmid {
@@ -339,7 +339,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #100F0F;
   position: static;
   width: 60%;
   height: auto;
@@ -547,7 +547,7 @@ html {
   }
   .casestudyLink {
       text-decoration: none;
-      color: #201B19;
+      color: #E5DFCE;
   }
   .menu-btn{
     display: none;
