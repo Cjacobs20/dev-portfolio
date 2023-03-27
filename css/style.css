@@ -1,13 +1,14 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #E5DFCE;
 }
 .navbar {
     display: flex;
     position: fixed;
     width: 100%;
     height: auto;
-    background-color: #100F0F;
+    background-color: #031308;
     margin: none;
     border: none;
     z-index: 2;
@@ -78,7 +79,7 @@ body {
     padding-top: 50px;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: #100F0F;
+    background-color: #031308;
   }
   .banner h1 {
     font-family: 'Libre Baskerville', serif;
@@ -101,7 +102,7 @@ body {
     height: auto;
     left: 0px;
     top: 93px;
-    background: #100F0F;
+    background: #031308;
     padding-bottom: 20px;
     margin: none;
     border: none;
@@ -212,11 +213,10 @@ body {
       display: flex;
       justify-content: space-between;
       align-items: space-between;
-      background: #100F0F;
+      background: #031308;
       padding-right: 30px;
       padding-left: 30px;
-      /* position: fixed;
-      z-index: 2x; */
+      margin-top: none;
   }
   .footLogo {
     display: flex;
@@ -260,7 +260,7 @@ body {
   .myWork {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     position: static;
     width: 100%;
@@ -268,6 +268,7 @@ body {
     left: 0px;
     top: 1910px;
     background: #E5DFCE;
+    margin-bottom: none;
   }
   
   h3 {
@@ -305,7 +306,7 @@ body {
   }
   .leftProject h1 a:hover {
     color: #E4C472;
-    -webkit-text-stroke: 1px #100F0F ;
+    -webkit-text-stroke: 1px #031308 ;
   }
   .leftProject h1 a::before {
     content: '';
@@ -341,7 +342,7 @@ body {
   align-items: center;
   padding: 20px;
   padding-top: none;
-  background-color: #100F0F;
+  background-color: #031308;
   position: static;
   width: 60%;
   height: auto;
@@ -368,7 +369,7 @@ html {
 }
 
 .topAbout {
-  background-color: #100F0F;
+  background-color: #031308;
   border: none;
   padding: none;
 }
@@ -380,7 +381,7 @@ html {
 }
 
 .topAbout a {
-  background-color: #100F0F;
+  background-color: #031308;
   justify-content: left;
   padding-left: 20px;
 }
@@ -404,7 +405,7 @@ html {
   height: auto;
   left: 0px;
   top: 93px;
-  background: #100F0F;
+  background: #031308;
   padding-bottom: 50px;
   margin: none;
   border: none;
@@ -439,7 +440,7 @@ html {
   width: 300px;
   height: 400px;
   overflow: hidden;
-  background-color: #100F0F;
+  background-color: #031308;
   border-radius: 20px;
 }
 
@@ -560,7 +561,7 @@ html {
   @media screen and (max-width: 800px) {
     .menu-btn{
       display: block;
-      background-color: #100F0F;
+      background-color: #031308;
       position: fixed;
       z-index: 2;
     }
