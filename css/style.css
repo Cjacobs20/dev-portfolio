@@ -289,7 +289,6 @@ body {
     max-width: 100%;
     height: auto;
     display: flex;
-    height: auto;
     padding-right: 20px;
   }
 
@@ -342,7 +341,8 @@ body {
   padding-top: none;
   background-color: #031308;
   position: static;
-  width: 60%;
+  width: 80%;
+  max-width: 1000px;
   height: auto;
   left: 100px;
   top: 100px;
