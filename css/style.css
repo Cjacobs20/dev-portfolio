@@ -1,14 +1,14 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #E5DFCE;
+  background-color: #031312;
 }
 .navbar {
     display: flex;
     position: fixed;
     width: 100%;
     height: auto;
-    background-color: #031308;
+    background-color: #031312;
     margin: none;
     border: none;
     z-index: 2;
@@ -79,7 +79,7 @@ body {
     padding-top: 50px;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: #031308;
+    background-color: #031312;
   }
   .banner h1 {
     font-family: 'Libre Baskerville', serif;
@@ -100,7 +100,7 @@ body {
     position: static;
     width: 100%;
     height: auto;
-    background: #031308;
+    background: #031312;
     padding-bottom: 20px;
     margin: none;
     border: none;
@@ -156,7 +156,7 @@ body {
   .heroImg h3 {
     font-family: 'Libre Baskerville', serif;
     font-size: 24px;
-    color: #E5DFCE;
+    color: #F6F5EF;
     background: none;
     font-weight: 400;
     padding-right: 20px;
@@ -211,7 +211,7 @@ body {
       display: flex;
       justify-content: space-between;
       align-items: space-between;
-      background: #031308;
+      background: #031312;
       padding-right: 30px;
       padding-left: 30px;
       margin-top: none;
@@ -265,17 +265,18 @@ body {
     height: auto;
     left: 0px;
     top: 1910px;
-    background: #E5DFCE;
+    background: #F6F5EF;
     margin-bottom: none;
   }
   
   h3 {
     margin: 0;
+    padding-top: 24px;
     display: flex;
     font-family: 'Libre Baskerville', serif;
     font-size: 40px;
-    color: #201B19;
-    background-color: #E5DFCE;
+    color: #031312;
+    background-color: #F6F5EF;
     justify-content: center;
     font-weight: 300;
   }
@@ -297,13 +298,13 @@ body {
     font-size: 32px;
     text-transform: uppercase;
     line-height: 32px;
-    color: #E5DFCE;
+    color: #F6F5EF;
     position: relative;
     text-decoration: none;
   }
   .leftProject h1 a:hover {
     color: #E4C472;
-    -webkit-text-stroke: 1px #031308 ;
+    -webkit-text-stroke: 1px #031312 ;
   }
   .leftProject h1 a::before {
     content: '';
@@ -327,7 +328,7 @@ body {
   .leftProject h5 {
     font-family: 'prata', serif;
     font-size: 18px;
-    color: #E5DFCE;
+    color: #F6F5EF;
   }
 
 #projectBoxmid {
@@ -339,7 +340,7 @@ body {
   align-items: center;
   padding: 20px;
   padding-top: none;
-  background-color: #031308;
+  background-color: #031312;
   position: static;
   width: 85%;
   max-width: 1000px;
@@ -559,7 +560,7 @@ html {
   @media screen and (max-width: 800px) {
     .menu-btn{
       display: block;
-      background-color: #031308;
+      background-color: #031312;
       position: fixed;
       z-index: 2;
     }
