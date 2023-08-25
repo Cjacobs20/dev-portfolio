@@ -293,6 +293,11 @@ body {
     height: auto;
     display: flex;
     padding-right: 20px;
+    box-shadow: 20px #F6F5EF;
+  }
+
+  .rightProject{
+    box-shadow: 20px #F6F5EF;
   }
 
   .leftProject h1 {
