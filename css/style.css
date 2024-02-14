@@ -375,7 +375,7 @@ html {
 }
 
 .topAbout {
-  background-color: #031308;
+  background-color: #031312;
   border: none;
   padding: none;
 }
@@ -387,7 +387,7 @@ html {
 }
 
 .topAbout a {
-  background-color: #031308;
+  background-color: #031312;
   justify-content: left;
   padding-left: 20px;
 }
@@ -413,7 +413,7 @@ html {
   height: auto;
   left: 0px;
   top: 93px;
-  background: #031308;
+  background: #031312;
   padding-bottom: 50px;
   margin: none;
   border: none;
