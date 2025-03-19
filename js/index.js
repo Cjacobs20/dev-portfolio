@@ -69,30 +69,37 @@ function startRunning() {
     }
 }
 
-// Function to stop animation (idle pose)
+// Function to stop animation
 function stopRunning() {
     setTimeout(() => {
         isRunning = false;
-        xenomorph.style.animation = "none"; // Prevent infinite looping
+        xenomorph.style.animation = "none"; // Stops running cycle
         xenomorph.style.backgroundPosition = "0 0"; // Reset to first frame
     }, 300); // Stops after 300ms of inactivity
 }
 
-// Track mouse movement and trigger animation
+// Mouse movement controls
 document.addEventListener("mousemove", (event) => {
     const mouseX = event.clientX;
-    const xenoX = parseInt(xenomorph.style.left) || 0;
+    const windowWidth = window.innerWidth;
+
+    // Prevent Xenomorph from moving off-screen
+    const newX = Math.max(20, Math.min(mouseX - 75, windowWidth - 170));
 
     // Move Xenomorph toward the mouse
-    xenomorph.style.left = `${mouseX - 75}px`;
+    xenomorph.style.left = `${newX}px`;
 
     // Flip direction based on movement
-    xenomorph.style.transform = `scaleX(${mouseX > xenoX ? 1 : -1})`;
+    if (mouseX > parseInt(xenomorph.style.left)) {
+        xenomorph.style.transform = "scaleX(1)";
+    } else {
+        xenomorph.style.transform = "scaleX(-1)";
+    }
 
-    // Start animation only if it's not already running
+    // Start animation if not already running
     startRunning();
 
-    // Stop animation after movement ends
+    // Stop animation when idle
     clearTimeout(window.stopRunTimeout);
-    window.stopRunTimeout = setTimeout(stopRunning, 300); // Stops after 300ms of no movement
+    window.stopRunTimeout = setTimeout(stopRunning, 300);
 });
