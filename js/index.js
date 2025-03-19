@@ -59,17 +59,26 @@ likeBtn.addEventListener("click", function() {
 
 
 const xenomorph = document.getElementById("xenomorph");
+let isRunning = false;
 
 // Function to start animation
 function startRunning() {
-    xenomorph.style.animation = "run 1s steps(10) forwards"; // Runs once
+    if (!isRunning) {
+        xenomorph.style.animation = "run 1s steps(10) forwards";
+        isRunning = true;
+
+        setTimeout(() => {
+            isRunning = false;
+        }, 1000); // Prevents restarting mid-run
+    }
 }
 
-// Function to stop animation (resets sprite to first frame)
+// Function to stop animation (reset to first frame)
 function stopRunning() {
     setTimeout(() => {
         xenomorph.style.animation = "";
-    }, 1000); // Delays reset so the run completes
+        xenomorph.style.backgroundPosition = "0 0"; // Resets to first frame
+    }, 1000); // Stops after animation completes
 }
 
 // Track mouse movement and trigger animation
@@ -83,10 +92,10 @@ document.addEventListener("mousemove", (event) => {
     // Flip direction based on movement
     xenomorph.style.transform = `scaleX(${mouseX > xenoX ? 1 : -1})`;
 
-    // Start animation when the mouse moves
+    // Start animation only if it's not already running
     startRunning();
 
     // Stop animation after movement ends
     clearTimeout(window.stopRunTimeout);
-    window.stopRunTimeout = setTimeout(stopRunning, 300); // Stops running after 300ms of inactivity
+    window.stopRunTimeout = setTimeout(stopRunning, 300); // Stops after 300ms of no movement
 });
