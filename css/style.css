@@ -622,7 +622,7 @@ html {
   #xenomorph {
     position: fixed;
     bottom: 20px; /* Keeps it at the bottom of the screen */
-    left: 50px; /* Start position, not locked at 0 */
+    right: 20px; /* Start position, not locked at 0 */
     width: 150px;  /* Scaled-down size */
     height: 67px;  
     background: url('../images/Xenomorph/xeno_sprite_sheet.png') no-repeat;
@@ -634,4 +634,7 @@ html {
 @keyframes run {
     from { background-position: 0 0; }
     to { background-position: -18000px 0; } /* Adjust based on sprite sheet width */
+}
+.running {
+  animation: run 1s steps(10) infinite;
 }
