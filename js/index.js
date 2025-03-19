@@ -64,21 +64,18 @@ let isRunning = false;
 // Function to start animation
 function startRunning() {
     if (!isRunning) {
-        xenomorph.style.animation = "run 1s steps(10) forwards";
+        xenomorph.style.animation = "run 1s steps(10) infinite";
         isRunning = true;
-
-        setTimeout(() => {
-            isRunning = false;
-        }, 1000); // Prevents restarting mid-run
     }
 }
 
-// Function to stop animation (reset to first frame)
+// Function to stop animation (idle pose)
 function stopRunning() {
     setTimeout(() => {
-        xenomorph.style.animation = "";
-        xenomorph.style.backgroundPosition = "0 0"; // Resets to first frame
-    }, 1000); // Stops after animation completes
+        isRunning = false;
+        xenomorph.style.animation = "none"; // Prevent infinite looping
+        xenomorph.style.backgroundPosition = "0 0"; // Reset to first frame
+    }, 300); // Stops after 300ms of inactivity
 }
 
 // Track mouse movement and trigger animation

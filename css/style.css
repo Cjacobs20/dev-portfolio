@@ -623,14 +623,14 @@ html {
     position: fixed;
     bottom: 20px;
     left: 0;
-    width: 150px;  /* Scaled-down size */
-    height: 67px;
+    width: 150px;  /* Adjusted size */
+    height: 67px; 
     background: url('../images/Xenomorph/xeno_sprite_sheet.png') no-repeat;
-    background-size: 1000% auto; /* Adjusted for 10 frames */
+    background-size: 1000% auto; /* 10 frames */
     background-position: 0 0;
 }
 
 @keyframes run {
     from { background-position: 0 0; }
-    to { background-position: -18000px 0; } /* Moves through all frames */
+    to { background-position: -18000px 0; } /* Adjust based on sprite sheet width */
 }
