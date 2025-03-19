@@ -46,14 +46,6 @@ function toggleMenu() {
     }
   });
 
-const likeBtn = document.querySelector(".like-btn");
-const likeCount = document.querySelector(".like-count");
-
-likeBtn.addEventListener("click", function() {
-  let count = parseInt(likeCount.textContent);
-  likeCount.textContent = count + 1;
-});
-
 
 //Heeeere she comes to wreck your daaaaay!
 
