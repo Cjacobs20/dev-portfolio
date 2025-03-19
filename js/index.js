@@ -54,15 +54,39 @@ likeBtn.addEventListener("click", function() {
   likeCount.textContent = count + 1;
 });
 
+
+//Heeeere she comes to wreck your daaaaay!
+
+
 const xenomorph = document.getElementById("xenomorph");
 
+// Function to start animation
+function startRunning() {
+    xenomorph.style.animation = "run 1s steps(10) forwards"; // Runs once
+}
+
+// Function to stop animation (resets sprite to first frame)
+function stopRunning() {
+    setTimeout(() => {
+        xenomorph.style.animation = "";
+    }, 1000); // Delays reset so the run completes
+}
+
+// Track mouse movement and trigger animation
 document.addEventListener("mousemove", (event) => {
     const mouseX = event.clientX;
     const xenoX = parseInt(xenomorph.style.left) || 0;
 
-    // Move Xenomorph towards the mouse
+    // Move Xenomorph toward the mouse
     xenomorph.style.left = `${mouseX - 75}px`;
 
     // Flip direction based on movement
     xenomorph.style.transform = `scaleX(${mouseX > xenoX ? 1 : -1})`;
+
+    // Start animation when the mouse moves
+    startRunning();
+
+    // Stop animation after movement ends
+    clearTimeout(window.stopRunTimeout);
+    window.stopRunTimeout = setTimeout(stopRunning, 300); // Stops running after 300ms of inactivity
 });

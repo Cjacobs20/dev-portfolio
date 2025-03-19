@@ -621,10 +621,10 @@ html {
   }
   #xenomorph {
     position: fixed;
-    bottom: 20px; /* Keep it at the bottom of the screen */
+    bottom: 15px; /* Keep it at the bottom of the screen */
     left: 0;
-    width: 1800px;  /* Frame width */
-    height: 800px; /* Frame height */
+    width: 150px;  /* Frame width */
+    height: 67px; /* Frame height */
     background: url('../images/Xenomorph/xeno_sprite_sheet.png') no-repeat;
     background-size: 1000% auto; /* Adjust for number of frames */
     animation: run 1s steps(10) infinite;
