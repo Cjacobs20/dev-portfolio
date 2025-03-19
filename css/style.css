@@ -619,4 +619,18 @@ html {
       font-size: 25px;
     }
   }
+  #xenomorph {
+    position: fixed;
+    bottom: 20px; /* Keep it at the bottom of the screen */
+    left: 0;
+    width: 1800px;  /* Frame width */
+    height: 800px; /* Frame height */
+    background: url('../images/Xenomorph/xeno_sprite_sheet.png') no-repeat;
+    background-size: 1000% auto; /* Adjust for number of frames */
+    animation: run 1s steps(10) infinite;
+}
 
+@keyframes run {
+    from { background-position: 0 0; }
+    to { background-position: -18000px 0; } /* Moves through all frames */
+}

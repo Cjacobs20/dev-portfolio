@@ -53,3 +53,16 @@ likeBtn.addEventListener("click", function() {
   let count = parseInt(likeCount.textContent);
   likeCount.textContent = count + 1;
 });
+
+const xenomorph = document.getElementById("xenomorph");
+
+document.addEventListener("mousemove", (event) => {
+    const mouseX = event.clientX;
+    const xenoX = parseInt(xenomorph.style.left) || 0;
+
+    // Move Xenomorph towards the mouse
+    xenomorph.style.left = `${mouseX - 75}px`;
+
+    // Flip direction based on movement
+    xenomorph.style.transform = `scaleX(${mouseX > xenoX ? 1 : -1})`;
+});
