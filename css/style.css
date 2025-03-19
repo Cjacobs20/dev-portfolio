@@ -625,7 +625,7 @@ html {
     left: 0;
     width: 150px;  /* Scaled-down size */
     height: 67px;
-    background: url('xeno_sprite_sheet.png') no-repeat;
+    background: url('../images/Xenomorph/xeno_sprite_sheet.png') no-repeat;
     background-size: 1000% auto; /* Adjusted for 10 frames */
     background-position: 0 0;
 }
