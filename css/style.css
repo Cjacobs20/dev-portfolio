@@ -800,7 +800,7 @@ section {
   width: 150px;
   height: 67px;
   background: url('../images/Xenomorph/xeno_sprite_sheet.png') no-repeat;
-  background-size: 1000% auto;
+  background-size: 1500px 67px;
   background-position: 0 0;
   pointer-events: none;
   z-index: 50;
@@ -810,10 +810,10 @@ section {
 
 @keyframes xeno-run {
   from { background-position: 0 0; }
-  to   { background-position: -18000px 0; }
+  to   { background-position: -1500px 0; }
 }
 #xenomorph.running {
-  animation: xeno-run 1s steps(10) infinite;
+  animation: xeno-run 0.8s steps(10) infinite;
 }
 
 /* ─── FOOTER ─── */
