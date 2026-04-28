@@ -160,11 +160,6 @@ nav {
 .nav-logo span { color: var(--accent); }
 .nav-logo:hover { color: var(--accent); }
 
-.nav-logo img {
-  height: 32px;
-  width: auto;
-  display: block;
-}
 .nav-links {
   display: flex;
   align-items: center;

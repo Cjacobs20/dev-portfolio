@@ -882,7 +882,7 @@
   </footer>
 
   <!-- Xenomorph -->
-  <div id="xenomorph"></div>
+  <!-- <div id="xenomorph"></div> -->
 
   <script>
     // ── CURSOR ──
@@ -922,22 +922,22 @@
     document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 
     // ── XENOMORPH ──
-    const xeno = document.getElementById('xenomorph');
-    let isRunning = false;
-    let stopTimer;
-    document.addEventListener('mousemove', e => {
-      const newX = Math.max(20, Math.min(e.clientX - 75, window.innerWidth - 170));
-      xeno.style.left = newX + 'px';
-      xeno.style.right = 'auto';
-      xeno.style.transform = e.clientX > parseInt(xeno.style.left || 0) ? 'scaleX(1)' : 'scaleX(-1)';
-      if (!isRunning) { xeno.classList.add('running'); isRunning = true; }
-      clearTimeout(stopTimer);
-      stopTimer = setTimeout(() => {
-        xeno.classList.remove('running');
-        xeno.style.backgroundPosition = '0 0';
-        isRunning = false;
-      }, 300);
-    });
+    // const xeno = document.getElementById('xenomorph');
+    // let isRunning = false;
+    // let stopTimer;
+    // document.addEventListener('mousemove', e => {
+    //   const newX = Math.max(20, Math.min(e.clientX - 75, window.innerWidth - 170));
+    //   xeno.style.left = newX + 'px';
+    //   xeno.style.right = 'auto';
+    //   xeno.style.transform = e.clientX > parseInt(xeno.style.left || 0) ? 'scaleX(1)' : 'scaleX(-1)';
+    //   if (!isRunning) { xeno.classList.add('running'); isRunning = true; }
+    //   clearTimeout(stopTimer);
+    //   stopTimer = setTimeout(() => {
+    //     xeno.classList.remove('running');
+    //     xeno.style.backgroundPosition = '0 0';
+    //     isRunning = false;
+    //   }, 300);
+    // });
 
     // ── KONAMI ──
     let kseq = [];
