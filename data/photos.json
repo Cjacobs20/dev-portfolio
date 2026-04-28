@@ -1,0 +1,59 @@
+{
+  "photos": [
+    {
+      "id": "photo-001",
+      "filename": "placeholder-1.jpg",
+      "caption": "Sample caption here",
+      "category": "street",
+      "date": "2024-03-15",
+      "exif": {
+        "camera": "Canon AE-1",
+        "lens": "50mm f/1.8",
+        "aperture": "f/2.8",
+        "shutter": "1/250s",
+        "iso": "400",
+        "film": "Kodak Portra 400"
+      },
+      "featured": true,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "id": "photo-002",
+      "filename": "placeholder-2.jpg",
+      "caption": "Another sample caption",
+      "category": "landscape",
+      "date": "2024-05-22",
+      "exif": {
+        "camera": "Canon AE-1",
+        "lens": "28mm f/2.8",
+        "aperture": "f/8",
+        "shutter": "1/500s",
+        "iso": "200",
+        "film": "Kodak Ektar 100"
+      },
+      "featured": true,
+      "width": 800,
+      "height": 1200
+    },
+    {
+      "id": "photo-003",
+      "filename": "placeholder-3.jpg",
+      "caption": "Third sample",
+      "category": "street",
+      "date": "2024-07-10",
+      "exif": {
+        "camera": "Canon AE-1",
+        "lens": "50mm f/1.8",
+        "aperture": "f/4",
+        "shutter": "1/125s",
+        "iso": "800",
+        "film": "Ilford HP5"
+      },
+      "featured": false,
+      "width": 1200,
+      "height": 900
+    }
+  ],
+  "categories": ["all", "street", "landscape", "portrait", "misc"]
+}
