@@ -520,9 +520,9 @@ section {
     box-shadow 0.4s ease,
     padding 0.4s ease;
 
-  /* Interior dividing lines only — no outer frame */
+  /* Only vertical divider between columns — no horizontal line between rows */
   border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  border-bottom: none;
 }
 
 /* Remove right border from right-column cells */
@@ -530,10 +530,7 @@ section {
   border-right: none;
 }
 
-/* Remove bottom border from bottom-row cells */
-.hobby-cell:nth-last-child(-n+2) {
-  border-bottom: none;
-}
+
 
 /* Hovered cell: background lifts, glow pushes
    outward from the dividing lines, padding grows
@@ -570,6 +567,7 @@ section {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 14px;
+  transition: font-size 0.4s ease, letter-spacing 0.4s ease;
 }
 
 .hobby-title {
@@ -578,15 +576,28 @@ section {
   color: var(--text-1);
   letter-spacing: -0.02em;
   margin-bottom: 10px;
-  transition: color 0.2s;
+  transition: color 0.4s ease, font-size 0.4s ease;
 }
-.hobby-cell:hover .hobby-title { color: var(--accent); }
+.hobby-cell:hover .hobby-title {
+  color: var(--accent);
+  font-size: 34px;
+}
+
+.hobby-cell:hover .hobby-label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+
+.hobby-cell:hover .hobby-desc {
+  font-size: 14px;
+}
 
 .hobby-desc {
   font-size: 13px;
   color: var(--text-2);
   line-height: 1.7;
   max-width: 300px;
+  transition: font-size 0.4s ease;
 }
 
 .hobby-preview {
