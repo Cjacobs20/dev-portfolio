@@ -20,7 +20,7 @@
     },
     {
       "id": "photo-006",
-      "filename": "ada-nadava!.jpg",
+      "filename": "ada-nadava.jpg",
       "caption": "Ada Nadava!",
       "category": "misc",
       "date": "2026-04-28",
@@ -43,7 +43,7 @@
       "category": "misc",
       "date": "2026-04-28",
       "exif": { "camera": "Nikon FM2T", "lens": "", "aperture": "", "shutter": "", "iso": "", "film": "" },
-      "featured": false, "width": 0, "height": 0
+      "featured": true, "width": 0, "height": 0
     },
     {
       "id": "photo-009",
