@@ -87,8 +87,8 @@
       "caption": "Jalopy Express",
       "category": "misc",
       "date": "2026-04-28",
-      "exif": { "camera": "Nikon FM2T", "lens": "", "aperture": "", "shutter": "", "iso": "", "film": "" },
-      "featured": false, "width": 0, "height": 0
+      "exif": { "camera": "Nikon FM2T", "lens": "35MM Nikkor Ai-S", "aperture": "", "shutter": "", "iso": "", "film": "CineStill" },
+      "featured": true, "width": 0, "height": 0
     },
     {
       "id": "photo-014",
@@ -115,7 +115,7 @@
       "category": "misc",
       "date": "2026-04-28",
       "exif": { "camera": "Nikon FM2T", "lens": "35MM Nikkor Ai-S", "aperture": "", "shutter": "", "iso": "400", "film": "CineStill" },
-      "featured": false, "width": 0, "height": 0
+      "featured": true, "width": 0, "height": 0
     },
     {
       "id": "photo-017",
@@ -151,7 +151,7 @@
       "category": "misc",
       "date": "2026-04-28",
       "exif": { "camera": "Nikon FM2T", "lens": "35MM Nikkor Ai-S", "aperture": "", "shutter": "", "iso": "", "film": "" },
-      "featured": false, "width": 0, "height": 0
+      "featured": true, "width": 0, "height": 0
     },
     {
       "id": "photo-021",
