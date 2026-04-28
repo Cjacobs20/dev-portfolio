@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Access Required — Chris Jacobs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../images/favicon2.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .gate-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background: var(--bg);
+    }
+    .gate-box {
+      width: 100%;
+      max-width: 420px;
+      border: 1px solid var(--border-mid);
+      border-radius: 8px;
+      padding: 48px 40px;
+      background: var(--bg-2);
+      position: relative;
+    }
+    .gate-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gate-eyebrow::before {
+      content: '';
+      display: block;
+      width: 16px; height: 1px;
+      background: var(--accent);
+    }
+    .gate-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      color: var(--text-1);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+    .gate-title em { color: var(--accent); font-style: italic; }
+    .gate-sub {
+      font-size: 13px;
+      color: var(--text-2);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    .gate-input-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .gate-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-3);
+      border: 1px solid var(--border-mid);
+      border-radius: 4px;
+      color: var(--text-1);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .gate-input:focus { border-color: var(--accent); }
+    .gate-input::placeholder { color: var(--text-3); letter-spacing: 0.04em; }
+    .gate-submit {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      cursor: none;
+      transition: opacity 0.2s;
+    }
+    .gate-submit:hover { opacity: 0.82; }
+    .gate-error {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #ff4d4d;
+      margin-top: 12px;
+      display: none;
+      letter-spacing: 0.04em;
+    }
+    .gate-error.visible { display: block; }
+    .gate-back {
+      display: block;
+      text-align: center;
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--text-3);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .gate-back:hover { color: var(--text-2); }
+    .gate-glow {
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .shake {
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-8px); }
+      40%       { transform: translateX(8px); }
+      60%       { transform: translateX(-6px); }
+      80%       { transform: translateX(6px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <div class="gate-wrap">
+    <div class="gate-box">
+      <div class="gate-glow"></div>
+      <div class="gate-eyebrow" id="gateEyebrow">Access required</div>
+      <h1 class="gate-title" id="gateTitle">This one's <em>private.</em></h1>
+      <p class="gate-sub" id="gateSub">You need the password to view this section.</p>
+      <div class="gate-input-wrap">
+        <input
+          type="password"
+          class="gate-input"
+          id="gateInput"
+          placeholder="password"
+          autocomplete="off"
+          autofocus
+        >
+      </div>
+      <button class="gate-submit" id="gateSubmit">Enter</button>
+      <div class="gate-error" id="gateError">&#10005; Incorrect password. Try again.</div>
+      <a href="../index.html" class="gate-back">← Back to home</a>
+    </div>
+  </div>
+
+  <script>
+    // ── CURSOR ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function animCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    })();
+
+    // ── THEME ──
+    const saved = localStorage.getItem('cj-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+    // ── HASHED PASSWORDS ──
+    // To change a password: hash your new password with SHA-256 and replace below
+    // Tool: https://emn178.github.io/online-tools/sha256.html
+    const HASHES = {
+      art:   'c0b21d75ec9472c0c25d978140bc42447cb44f95cc8cb186041f201b796ca6e6',
+      photo: 'd43ce11443681dfa91414d0353ebc29664e49ebcc95306e24e853e8b8423242c',
+      misc:  'd889dd1f83ad81612ca788ac4054b10a5a1267d4f626fac32d75020fcd416a52'
+    };
+
+    const DESTINATIONS = {
+      art:   'art.html',
+      photo: 'photo.html',
+      misc:  'misc.html'
+    };
+
+    const LABELS = {
+      art:   { eyebrow: 'Fine Art', title: 'This one\'s private.', sub: 'Password required to view the art gallery.' },
+      photo: { eyebrow: 'Photography', title: 'Eyes only.', sub: 'Password required to view the photo gallery.' },
+      misc:  { eyebrow: 'Miscellaneous', title: 'Nothing to see here.', sub: 'Password required to view this section.' }
+    };
+
+    // ── GET SECTION FROM URL ──
+    const params = new URLSearchParams(window.location.search);
+    const section = params.get('section');
+
+    if (!section || !HASHES[section]) {
+      window.location.href = '../index.html';
+    }
+
+    // ── CHECK IF ALREADY AUTHENTICATED ──
+    if (sessionStorage.getItem('cj-auth-' + section) === 'true') {
+      window.location.href = DESTINATIONS[section];
+    }
+
+    // ── SET LABELS ──
+    const label = LABELS[section];
+    document.getElementById('gateEyebrow').textContent = label.eyebrow;
+    document.getElementById('gateTitle').innerHTML = label.title.replace("'", '\'');
+    document.getElementById('gateSub').textContent = label.sub;
+
+    // ── SHA-256 HASH FUNCTION ──
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // ── AUTH LOGIC ──
+    async function attempt() {
+      const input = document.getElementById('gateInput').value;
+      const hash = await sha256(input);
+      const box = document.querySelector('.gate-box');
+      const err = document.getElementById('gateError');
+
+      if (hash === HASHES[section]) {
+        sessionStorage.setItem('cj-auth-' + section, 'true');
+        window.location.href = DESTINATIONS[section];
+      } else {
+        err.classList.add('visible');
+        box.classList.remove('shake');
+        void box.offsetWidth; // reflow to restart animation
+        box.classList.add('shake');
+        document.getElementById('gateInput').value = '';
+        document.getElementById('gateInput').focus();
+      }
+    }
+
+    document.getElementById('gateSubmit').addEventListener('click', attempt);
+    document.getElementById('gateInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') attempt();
+    });
+  </script>
+</body>
+</html>
