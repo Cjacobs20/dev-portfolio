@@ -240,8 +240,8 @@
         "category":  "misc",
         "date":  "2026-04-28",
         "exif":  {
-                     "film":  "",
-                     "aperture":  "Portra",
+                     "film":  "Portra",
+                     "aperture":  "",
                      "iso":  "400",
                      "lens":  "50MM Nikkor Pancake",
                      "shutter":  "",
