@@ -10,8 +10,128 @@
   <link rel="icon" href="../images/favicon2.png">
   <link rel="stylesheet" href="../css/style.css">
   <style>
-    /* ── 3D CAROUSEL HERO ── */
-    .photo-hero {
+    /* ── NEUTRAL STAGE BACKGROUND PER THEME ── */
+    :root[data-theme="dark"]  .photo-hero { background: #181818; }
+    :root[data-theme="light"] .photo-hero { background: #e4e1dc; }
+    :root[data-theme="alien"] .photo-hero { background: #0e1410; }
+
+    /* ── VERTICAL SLIDER THEME PICKER ── */
+    .theme-slider-wrap {
+      position: fixed;
+      /* Start: top right */
+      top: 20px;
+      right: 24px;
+      z-index: 200;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      /* Animate to center-top on load */
+      animation: theme-picker-settle 1.2s cubic-bezier(0.4,0,0.2,1) 0.6s forwards;
+    }
+
+    @keyframes theme-picker-settle {
+      from {
+        top: 20px;
+        right: 24px;
+        transform: scale(0.85);
+      }
+      to {
+        top: 32px;
+        right: calc(50% - 52px);
+        transform: scale(1);
+      }
+    }
+
+    /* After animation settles */
+    .theme-slider-wrap.settled {
+      top: 32px;
+      right: calc(50% - 52px);
+      transform: scale(1);
+      animation: none;
+    }
+
+    .theme-slider {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: none;
+    }
+
+    .slider-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .theme-slider-wrap:hover .slider-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered reveal */
+    .theme-slider:nth-child(1) .slider-label { transition-delay: 0s; }
+    .theme-slider:nth-child(2) .slider-label { transition-delay: 0.08s; }
+    .theme-slider:nth-child(3) .slider-label { transition-delay: 0.16s; }
+
+    /* The bar track */
+    .slider-track {
+      width: 6px;
+      height: 60px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.1);
+      position: relative;
+      transition: width 0.3s cubic-bezier(0.4,0,0.2,1), height 0.4s cubic-bezier(0.4,0,0.2,1);
+      overflow: hidden;
+    }
+
+    /* Reveal bar on wrap hover — slides down one at a time */
+    .theme-slider-wrap:hover .slider-track {
+      height: 80px;
+    }
+    .theme-slider-wrap:hover .theme-slider:nth-child(1) .slider-track { transition-delay: 0s; }
+    .theme-slider-wrap:hover .theme-slider:nth-child(2) .slider-track { transition-delay: 0.07s; }
+    .theme-slider-wrap:hover .theme-slider:nth-child(3) .slider-track { transition-delay: 0.14s; }
+
+    /* Widens on hold */
+    .theme-slider.holding .slider-track {
+      width: 20px;
+      height: 120px;
+    }
+
+    /* Fill level — shows intensity */
+    .slider-fill {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      border-radius: 4px;
+      transition: height 0.15s ease;
+    }
+
+    .theme-slider[data-t="dark"]  .slider-fill { background: #0af5e7; }
+    .theme-slider[data-t="light"] .slider-fill { background: #007a72; }
+    .theme-slider[data-t="alien"] .slider-fill { background: #0af596; }
+
+    /* Active indicator dot */
+    .slider-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      transition: border-color 0.3s, transform 0.3s;
+      flex-shrink: 0;
+    }
+    .theme-slider.active .slider-dot {
+      border-color: var(--accent);
+      transform: scale(1.3);
+    }
+    .theme-slider[data-t="dark"]  .slider-dot { background: #1a1a1a; }
+    .theme-slider[data-t="light"] .slider-dot { background: #f5f2ed; }
+    .theme-slider[data-t="alien"] .slider-dot { background: #041208; }
       position: relative;
       width: 100%;
       height: 80vh;
@@ -390,6 +510,31 @@
   <script>window.CJ_SECTION = 'photo';</script>
   <script src="../js/auth-guard.js"></script>
 
+  <!-- Vertical Slider Theme Picker -->
+  <div class="theme-slider-wrap" id="themeSliderWrap">
+    <div class="theme-slider active" data-t="dark">
+      <span class="slider-label">Dark</span>
+      <div class="slider-track">
+        <div class="slider-fill" style="height:100%"></div>
+      </div>
+      <div class="slider-dot"></div>
+    </div>
+    <div class="theme-slider" data-t="light">
+      <span class="slider-label">Light</span>
+      <div class="slider-track">
+        <div class="slider-fill" style="height:50%"></div>
+      </div>
+      <div class="slider-dot"></div>
+    </div>
+    <div class="theme-slider" data-t="alien">
+      <span class="slider-label">Alien</span>
+      <div class="slider-track">
+        <div class="slider-fill" style="height:50%"></div>
+      </div>
+      <div class="slider-dot"></div>
+    </div>
+  </div>
+
   <!-- 3D Carousel Hero -->
   <div class="photo-hero" id="photoHero">
     <div class="carousel-stage">
@@ -453,6 +598,102 @@
     // ── THEME ──
     const savedTheme = localStorage.getItem('cj-theme');
     if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // ── VERTICAL SLIDER THEME PICKER ──
+    const wrap = document.getElementById('themeSliderWrap');
+    const sliders = document.querySelectorAll('.theme-slider');
+
+    // Mark active on load
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    sliders.forEach(s => s.classList.toggle('active', s.dataset.t === currentTheme));
+
+    // Settle animation — after animation completes, lock position via class
+    setTimeout(() => wrap.classList.add('settled'), 1800);
+
+    // Intensity map per theme — stores 0-100 value
+    const intensity = { dark: 100, light: 50, alien: 50 };
+
+    // Theme CSS variable sets keyed by intensity
+    // We interpolate accent saturation and bg darkness
+    function applyIntensity(theme, val) {
+      const root = document.documentElement;
+      // Clamp 0-100
+      val = Math.max(0, Math.min(100, val));
+      intensity[theme] = val;
+
+      if (root.getAttribute('data-theme') !== theme) return;
+
+      const t = val / 100;
+      if (theme === 'dark') {
+        // Intensity affects accent brightness
+        const r = Math.round(10 * t);
+        const g = Math.round(245 * t);
+        const b = Math.round(231 * t);
+        root.style.setProperty('--accent', `rgb(${r},${g},${b})`);
+        root.style.setProperty('--glow', `rgba(${r},${g},${b},${0.08 + 0.14 * t})`);
+      } else if (theme === 'light') {
+        const g = Math.round(60 + 62 * t);
+        root.style.setProperty('--accent', `rgb(0,${g},${Math.round(g * 0.92)})`);
+      } else if (theme === 'alien') {
+        const g = Math.round(150 + 95 * t);
+        root.style.setProperty('--accent', `rgb(10,${g},${Math.round(g * 0.63)})`);
+        root.style.setProperty('--glow', `rgba(10,${g},100,${0.1 + 0.2 * t})`);
+      }
+    }
+
+    sliders.forEach(slider => {
+      const theme = slider.dataset.t;
+      const track = slider.querySelector('.slider-track');
+      const fill = slider.querySelector('.slider-fill');
+      let holdTimer, isDragging = false, dragStartY, dragStartVal;
+
+      // Update fill height visually
+      function setFill(val) {
+        fill.style.height = val + '%';
+      }
+
+      // Click — activate theme
+      slider.addEventListener('click', () => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('cj-theme', theme);
+        sliders.forEach(s => s.classList.remove('active'));
+        slider.classList.add('active');
+        // Reset CSS overrides from other themes
+        document.documentElement.style.removeProperty('--accent');
+        document.documentElement.style.removeProperty('--glow');
+        applyIntensity(theme, intensity[theme]);
+      });
+
+      // Hold — widen for drag
+      slider.addEventListener('mousedown', e => {
+        holdTimer = setTimeout(() => {
+          slider.classList.add('holding');
+          isDragging = true;
+          dragStartY = e.clientY;
+          dragStartVal = intensity[theme];
+        }, 300);
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (!isDragging || slider !== document.querySelector('.theme-slider.holding')) return;
+        const dy = dragStartY - e.clientY; // drag up = increase
+        const newVal = Math.max(0, Math.min(100, dragStartVal + dy * 0.8));
+        intensity[theme] = newVal;
+        setFill(newVal);
+        applyIntensity(theme, newVal);
+      });
+
+      document.addEventListener('mouseup', () => {
+        clearTimeout(holdTimer);
+        if (isDragging) {
+          slider.classList.remove('holding');
+          isDragging = false;
+        }
+      });
+
+      // Init fill
+      setFill(intensity[theme]);
+    });
 
     // ── LOAD PHOTOS ──
     let allPhotos = [];
