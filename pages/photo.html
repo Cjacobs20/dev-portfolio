@@ -50,14 +50,14 @@
     }
     .carousel-ring {
       position: relative;
-      width: 600px;
-      height: 440px;
+      width: min(600px, 50vw);
+      height: min(440px, 37vw);
       transform-style: preserve-3d;
     }
     .carousel-card {
       position: absolute;
-      width: 600px;
-      height: 440px;
+      width: min(600px, 50vw);
+      height: min(440px, 37vw);
       border-radius: 3px;
       overflow: visible;
       backface-visibility: hidden;
@@ -656,7 +656,7 @@
       const ring = document.getElementById('carouselRing');
       const dots = document.getElementById('heroDots');
       const ANGLE_STEP = 360 / count;
-      function getRadius() { return Math.max(600, window.innerWidth * 0.42); }
+      function getRadius() { return Math.max(700, window.innerWidth * 0.46); }
 
       const cards = photos.map((photo, i) => {
         const card = document.createElement('div');

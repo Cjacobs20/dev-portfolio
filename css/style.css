@@ -966,3 +966,57 @@ footer {
   .hobby-title { font-size: 22px; }
   .stat-num { font-size: 32px; }
 }
+
+/* ─── LARGE SCREEN (1440px+) ─── */
+@media (min-width: 1440px) {
+  nav { padding: 0 80px; }
+
+  .hero {
+    padding: 120px 120px 80px;
+    gap: 80px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: clamp(80px, 6vw, 110px);
+    line-height: 0.95;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    max-width: 560px;
+  }
+
+  .avatar-ring { width: 420px; height: 420px; }
+  .avatar-inner { width: 340px; height: 340px; }
+
+  .section-header { padding: 80px 120px 56px; }
+  .section-title { font-size: clamp(48px, 4vw, 64px); }
+
+  .hobby-cell { padding: 56px 120px; }
+  .hobby-title { font-size: 34px; }
+  .hobby-desc { font-size: 15px; max-width: 360px; }
+
+  .projects-list { padding: 0 120px 80px; }
+  .project-title { font-size: 28px; }
+
+  .about-text { padding: 100px 120px; }
+  .about-visual { padding: 100px 120px; }
+  .stat-num { font-size: 52px; }
+  .stat-label { font-size: 15px; }
+
+  footer { padding: 40px 120px; }
+}
+
+/* ─── EXTRA LARGE (1920px+) ─── */
+@media (min-width: 1920px) {
+  .hero { padding: 140px 160px 100px; }
+  .hero-title { font-size: clamp(100px, 6vw, 130px); }
+  .section-header { padding: 100px 160px 64px; }
+  .hobby-cell { padding: 64px 160px; }
+  .projects-list { padding: 0 160px 100px; }
+  .about-text { padding: 120px 160px; }
+  .about-visual { padding: 120px 160px; }
+  footer { padding: 48px 160px; }
+}
