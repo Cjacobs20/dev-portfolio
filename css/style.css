@@ -874,6 +874,44 @@ footer {
    (or ../images/myLogo.svg from /pages/)
    ─────────────────────────────────────────────── */
 
+/* ─── ALIEN THEME TYPOGRAPHY ─── */
+:root[data-theme="alien"] body,
+:root[data-theme="alien"] p,
+:root[data-theme="alien"] a,
+:root[data-theme="alien"] span,
+:root[data-theme="alien"] button {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+:root[data-theme="alien"] h1,
+:root[data-theme="alien"] h2,
+:root[data-theme="alien"] h3,
+:root[data-theme="alien"] h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+:root[data-theme="alien"] .section-num,
+:root[data-theme="alien"] .hobby-label,
+:root[data-theme="alien"] .project-num,
+:root[data-theme="alien"] .project-tag,
+:root[data-theme="alien"] .tag,
+:root[data-theme="alien"] .nav-links a,
+:root[data-theme="alien"] .theme-label,
+:root[data-theme="alien"] .footer-copy,
+:root[data-theme="alien"] .footer-left {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
 /* ─── MOBILE ─── */
 @media (max-width: 900px) {
   nav { padding: 0 20px; }

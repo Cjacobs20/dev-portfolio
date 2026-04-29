@@ -6,7 +6,7 @@
   <title>Photography — Chris Jacobs</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="../images/favicon2.png">
   <link rel="stylesheet" href="../css/style.css">
   <style>
@@ -192,7 +192,46 @@
       overflow: visible;
     }
 
-    /* ── NAV BAR ── */
+    /* ── ALIEN THEME TYPOGRAPHY ── */
+    :root[data-theme="alien"] body,
+    :root[data-theme="alien"] p,
+    :root[data-theme="alien"] a,
+    :root[data-theme="alien"] span,
+    :root[data-theme="alien"] button {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    :root[data-theme="alien"] h1,
+    :root[data-theme="alien"] h2,
+    :root[data-theme="alien"] h3,
+    :root[data-theme="alien"] h4,
+    :root[data-theme="alien"] .lightbox-caption,
+    :root[data-theme="alien"] .hero-caption {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-style: normal;
+    }
+
+    :root[data-theme="alien"] .mono,
+    :root[data-theme="alien"] .filter-btn,
+    :root[data-theme="alien"] .filter-label,
+    :root[data-theme="alien"] .back-link,
+    :root[data-theme="alien"] .hero-exif-strip,
+    :root[data-theme="alien"] .masonry-meta,
+    :root[data-theme="alien"] .exif-key,
+    :root[data-theme="alien"] .exif-val,
+    :root[data-theme="alien"] .lightbox-category,
+    :root[data-theme="alien"] .slider-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
     .photo-nav {
       display: flex;
       align-items: center;
