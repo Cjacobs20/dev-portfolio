@@ -427,6 +427,8 @@ section {
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid var(--border-mid);
+  align-self: stretch;  /* stretch to match text block height */
+  max-height: 100%;
 }
 
 /* Corner sweep animation instead of full rotation */
@@ -1014,7 +1016,9 @@ footer {
     max-width: 560px;
   }
 
-  .avatar-frame { max-width: 420px; }
+  .avatar-frame { max-width: 480px; }
+
+  .hero-visual { align-items: center; }
 
   .section-header { padding: 80px 120px 56px; }
   .section-title { font-size: clamp(48px, 4vw, 64px); }
