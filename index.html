@@ -60,13 +60,12 @@
       </div>
     </div>
     <div class="hero-visual">
-      <div class="avatar-ring">
-        <div class="avatar-inner">
-          <img src="images/cartoonMeGSyel.svg" alt="Chris Jacobs" onerror="this.style.display='none';this.parentElement.innerHTML='👁'">
-        </div>
-        <div class="avatar-dot"></div>
-      </div>
-    </div>
+  <div class="avatar-frame" id="avatarFrame">
+    <img class="avatar-default" src="images/cartoonMeGSyel.svg" alt="Chris Jacobs">
+    <img class="avatar-surprised" src="images/cartoonMeExcite.svg" alt="Chris Jacobs surprised">
+    <div class="avatar-dot"></div>
+  </div>
+</div>
   </section>
 
   <section id="hobbies">
@@ -250,6 +249,13 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+    // ── AVATAR SWAP ──
+const avatarFrame = document.getElementById('avatarFrame');
+const seeTheWork = document.querySelector('a[href="#work"].btn-primary');
+if (seeTheWork && avatarFrame) {
+  seeTheWork.addEventListener('mouseenter', () => avatarFrame.classList.add('surprised'));
+  seeTheWork.addEventListener('mouseleave', () => avatarFrame.classList.remove('surprised'));
+}
 
     // ── XENOMORPH — suppressed ──
     // Uncomment when sprite sheets are ready
