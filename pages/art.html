@@ -1,382 +1,688 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fine Art — Chris Jacobs</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="../images/favicon2.png">
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    /* ── RESET ── */
-    body { overflow: hidden; background: #000 !important; cursor: none; }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fine Art — Chris Jacobs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../images/favicon2.png" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      :root {
+        /* ── CORRIDOR GEOMETRY — single source of truth ── */
+        --corridor-depth: 2900px; /* Camera 0 to back wall plane */
+        --corridor-width: 2000px; /* Floor/ceiling/back-wall span */
+        --wall-overlap: 50px; /* Side wall overshoot into back wall */
+        --camera-start: 700px; /* Initial camera Z */
+        --camera-max: 3600px; /* Max scroll travel */
+        --artwork-wall-offset: 500px; /* X distance from center to side wall */
+        --corridor-start: 600px; /* First piece distance from origin */
+        --corridor-end: 2700px; /* Last piece distance from origin */
+      }
+      /* ── RESET ── */
+      body {
+        overflow: hidden;
+        background: #000 !important;
+        cursor: none;
+      }
 
-    /* ── FIX CURSOR RING BLOWUP ── */
-    body:has(a:hover) .cursor-ring,
-    body:has(button:hover) .cursor-ring {
-      width: 36px; height: 36px; opacity: 0.45;
-    }
+      /* ── FIX CURSOR RING BLOWUP ── */
+      body:has(a:hover) .cursor-ring,
+      body:has(button:hover) .cursor-ring {
+        width: 36px;
+        height: 36px;
+        opacity: 0.45;
+      }
 
-    /* Force black background behind everything */
-    .gallery-stage { background: #000; }
+      /* Force black background behind everything */
+      .gallery-stage {
+        background: #000;
+      }
 
-    /* ── ARTWORK CONTAINER needs 3D context ── */
-    #artworkContainer {
-      position: absolute;
-      inset: 0;
-      transform-style: preserve-3d;
-    }
+      /* ── ARTWORK CONTAINER needs 3D context ── */
+      #artworkContainer {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+      }
 
-    /* ── HUD ── */
-    .gallery-hud {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 40px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
-      pointer-events: none;
-    }
-    .gallery-hud a, .gallery-hud button { pointer-events: all; }
-    .hud-back {
-      font-family: 'DM Mono', monospace; font-size: 11px;
-      color: rgba(255,255,255,0.5); text-decoration: none;
-      letter-spacing: 0.1em; transition: color 0.2s; cursor: none;
-    }
-    .hud-back:hover { color: var(--accent); }
-    .hud-title {
-      font-family: 'DM Mono', monospace; font-size: 10px;
-      color: rgba(255,255,255,0.3); letter-spacing: 0.2em; text-transform: uppercase;
-    }
-    .hud-hint {
-      font-family: 'DM Mono', monospace; font-size: 10px;
-      color: rgba(255,255,255,0.25); letter-spacing: 0.08em;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .hud-hint-icon {
-      width: 20px; height: 28px;
-      border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;
-      position: relative; display: inline-block;
-    }
-    .hud-hint-icon::after {
-      content: ''; position: absolute;
-      width: 4px; height: 6px;
-      background: rgba(255,255,255,0.4); border-radius: 2px;
-      top: 4px; left: 50%; transform: translateX(-50%);
-      animation: scroll-hint 1.5s ease-in-out infinite;
-    }
-    @keyframes scroll-hint {
-      0%, 100% { opacity: 1; top: 4px; }
-      50% { opacity: 0; top: 12px; }
-    }
+      /* ── HUD ── */
+      .gallery-hud {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.8) 0%,
+          transparent 100%
+        );
+        pointer-events: none;
+      }
+      .gallery-hud a,
+      .gallery-hud button {
+        pointer-events: all;
+      }
+      .hud-back {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.5);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+        cursor: none;
+      }
+      .hud-back:hover {
+        color: var(--accent);
+      }
+      .hud-title {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.3);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      .hud-hint {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.25);
+        letter-spacing: 0.08em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .hud-hint-icon {
+        width: 20px;
+        height: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        position: relative;
+        display: inline-block;
+      }
+      .hud-hint-icon::after {
+        content: "";
+        position: absolute;
+        width: 4px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 2px;
+        top: 4px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: scroll-hint 1.5s ease-in-out infinite;
+      }
+      @keyframes scroll-hint {
+        0%,
+        100% {
+          opacity: 1;
+          top: 4px;
+        }
+        50% {
+          opacity: 0;
+          top: 12px;
+        }
+      }
 
-    /* ── PROGRESS ── */
-    .gallery-progress {
-      position: fixed; bottom: 0; left: 0; height: 2px;
-      background: var(--accent); z-index: 100;
-      transition: width 0.1s ease; box-shadow: 0 0 8px var(--accent);
-    }
+      /* ── PROGRESS ── */
+      .gallery-progress {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        background: var(--accent);
+        z-index: 100;
+        transition: width 0.1s ease;
+        box-shadow: 0 0 8px var(--accent);
+      }
 
-    /* ── SCROLL CONTAINER ── */
-    .gallery-scroll {
-      position: fixed;
-      top: 0; right: 0;
-      width: 6px;
-      height: 100%;
-      overflow-y: scroll;
-      scrollbar-width: none;
-      z-index: 50;
-    }
-    .gallery-scroll::-webkit-scrollbar { display: none; }
-    .scroll-track { height: 600vh; pointer-events: none; width: 1px; }
+      /* ── SCROLL CONTAINER ── */
+      .gallery-scroll {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 6px;
+        height: 100%;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        z-index: 50;
+      }
+      .gallery-scroll::-webkit-scrollbar {
+        display: none;
+      }
+      .scroll-track {
+        height: 600vh;
+        pointer-events: none;
+        width: 1px;
+      }
 
-    /* ── 3D STAGE ── */
-    .gallery-stage {
-      position: fixed; inset: 0;
-      perspective: 700px;
-      perspective-origin: 50% 45%;
-    }
-    .gallery-room {
-      position: absolute; inset: 0;
-      transform-style: preserve-3d; will-change: transform;
-    }
+      /* ── 3D STAGE ── */
+      .gallery-stage {
+        position: fixed;
+        inset: 0;
+        perspective: 700px;
+        perspective-origin: 50% 45%;
+      }
+      .gallery-room {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
 
-    /* ── ROOM GEOMETRY ── */
-    .room-floor {
-      position: absolute;
-      width: 2000px; height: 4000px;
-      left: 50%; bottom: 0;
-      transform: translateX(-50%) rotateX(90deg);
-      transform-origin: bottom center;
-      background:
-        repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 120px),
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 120px),
-        #0a0a0a;
-    }
-    .room-ceiling {
-      position: absolute; width: 2000px; height: 4000px;
-      left: 50%; top: 0;
-      transform: translateX(-50%) rotateX(-90deg);
-      transform-origin: top center; background: #050505;
-    }
-    .room-wall-left {
-      position: absolute; width: 4000px; height: 100vh;
-      top: 0; right: calc(50% + 1px);
-      transform-origin: right center; transform: rotateY(90deg);
-      background: #111111;
-      transition: background 0.4s ease;
-    }
-    .room-wall-right {
-      position: absolute; width: 4000px; height: 100vh;
-      top: 0; left: calc(50% + 1px);
-      transform-origin: left center; transform: rotateY(-90deg);
-      background: #111111;
-      transition: background 0.4s ease;
-    }
+      /* ── ROOM GEOMETRY ── */
+      .room-floor {
+        position: absolute;
+        width: 2000px;
+        height: 4000px;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%) rotateX(90deg);
+        transform-origin: bottom center;
+        background:
+          repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.03) 0px,
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px,
+            transparent 120px
+          ),
+          repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.03) 0px,
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px,
+            transparent 120px
+          ),
+          #0a0a0a;
+      }
+      .room-ceiling {
+        position: absolute;
+        width: 2000px;
+        height: 4000px;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%) rotateX(-90deg);
+        transform-origin: top center;
+        background: #050505;
+      }
+      .room-wall-left {
+        position: absolute;
+        width: calc(var(--corridor-depth) + var(--wall-overlap));
+        height: 100vh;
+        top: 0;
+        right: calc(50% + 1px);
+        transform-origin: right center;
+        transform: rotateY(90deg);
+        background: #111111;
+        transition: background 0.4s ease;
+      }
+      .room-wall-right {
+        position: absolute;
+        width: calc(var(--corridor-depth) + var(--wall-overlap));
+        height: 100vh;
+        top: 0;
+        left: calc(50% + 1px);
+        transform-origin: left center;
+        transform: rotateY(-90deg);
+        background: #111111;
+        transition: background 0.4s ease;
+      }
 
-    /* ── THEME LIGHTING — direct element targeting ── */
-    :root[data-theme="light"] .room-wall-left,
-    :root[data-theme="light"] .room-wall-right { background: #2a2420; }
-    :root[data-theme="light"] .room-floor  { background: #1a1612 !important; }
-    :root[data-theme="light"] .room-ceiling { background: #1e1a16 !important; }
+      /* ── THEME LIGHTING — direct element targeting ── */
+      :root[data-theme="light"] .room-wall-left,
+      :root[data-theme="light"] .room-wall-right {
+        background: #2a2420;
+      }
+      :root[data-theme="light"] .room-floor {
+        background: #1a1612 !important;
+      }
+      :root[data-theme="light"] .room-ceiling {
+        background: #1e1a16 !important;
+      }
 
-    :root[data-theme="alien"] .room-wall-left,
-    :root[data-theme="alien"] .room-wall-right { background: #071a0e; }
-    :root[data-theme="alien"] .room-floor  { background: #041208 !important; }
-    :root[data-theme="alien"] .room-ceiling { background: #020d08 !important; }
+      :root[data-theme="alien"] .room-wall-left,
+      :root[data-theme="alien"] .room-wall-right {
+        background: #071a0e;
+      }
+      :root[data-theme="alien"] .room-floor {
+        background: #041208 !important;
+      }
+      :root[data-theme="alien"] .room-ceiling {
+        background: #020d08 !important;
+      }
 
-    /* ── ARTWORK ── */
-    .artwork {
-      position: absolute;
-      cursor: none;
-      left: 50%;
-      top: 50%;
-      transform-style: preserve-3d;
-    }
-    .artwork-frame {
-      position: relative; background: #1a1410; padding: 12px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.8);
-      transition: box-shadow 0.3s ease;
-      display: inline-block;
-    }
-    :root[data-theme="light"] .artwork-frame { background: #2a2018; box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 20px 60px rgba(0,0,0,0.6); }
-    :root[data-theme="light"] .artwork-light { border-top-color: rgba(255,220,140,0.18); }
-    :root[data-theme="alien"] .artwork-light { border-top-color: rgba(10,245,150,0.09); }
-    .artwork-frame img {
-      display: block;
-      max-width: 360px;
-      height: auto;
-      width: auto;
-    }
-    .artwork.size-large  .artwork-frame img { max-width: 360px; }
-    .artwork.size-medium .artwork-frame img { max-width: 260px; }
-    .artwork.size-small  .artwork-frame img { max-width: 180px; }
+      /* ── ARTWORK ── */
+      .artwork {
+        position: absolute;
+        cursor: none;
+        left: 50%;
+        top: 50%;
+        transform-style: preserve-3d;
+      }
+      .artwork-frame {
+        position: relative;
+        background: #1a1410;
+        padding: 12px;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.05),
+          0 20px 60px rgba(0, 0, 0, 0.8);
+        transition: box-shadow 0.3s ease;
+        display: inline-block;
+      }
+      :root[data-theme="light"] .artwork-frame {
+        background: #2a2018;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.08),
+          0 20px 60px rgba(0, 0, 0, 0.6);
+      }
+      :root[data-theme="light"] .artwork-light {
+        border-top-color: rgba(255, 220, 140, 0.18);
+      }
+      :root[data-theme="alien"] .artwork-light {
+        border-top-color: rgba(10, 245, 150, 0.09);
+      }
+      .artwork-frame img {
+        display: block;
+        max-width: 360px;
+        height: auto;
+        width: auto;
+      }
+      .artwork.size-large .artwork-frame img {
+        max-width: 360px;
+      }
+      .artwork.size-medium .artwork-frame img {
+        max-width: 260px;
+      }
+      .artwork.size-small .artwork-frame img {
+        max-width: 180px;
+      }
 
-    .artwork:hover .artwork-frame {
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 0 60px rgba(255,255,255,0.06);
-    }
-    .artwork-light {
-      position: absolute;
-      top: -240px; /* above the frame */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0; height: 0;
-      border-left: 80px solid transparent;
-      border-right: 80px solid transparent;
-      border-top: 240px solid rgba(255,240,200,0.06);
-      pointer-events: none;
-      filter: blur(12px);
-    }
-    :root[data-theme="light"] .artwork-light { border-top-color: rgba(255,220,140,0.15); }
-    :root[data-theme="alien"] .artwork-light { border-top-color: rgba(10,245,150,0.07); }
+      .artwork:hover .artwork-frame {
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.15),
+          0 0 60px rgba(255, 255, 255, 0.06);
+      }
+      .artwork-light {
+        position: absolute;
+        top: -240px; /* above the frame */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 80px solid transparent;
+        border-right: 80px solid transparent;
+        border-top: 240px solid rgba(255, 240, 200, 0.06);
+        pointer-events: none;
+        filter: blur(12px);
+      }
+      :root[data-theme="light"] .artwork-light {
+        border-top-color: rgba(255, 220, 140, 0.15);
+      }
+      :root[data-theme="alien"] .artwork-light {
+        border-top-color: rgba(10, 245, 150, 0.07);
+      }
 
-    /* ── BACK WALL ── */
-    .room-wall-back {
-      position: absolute;
-      width: 100vw; height: 100vh;
-      top: 0; left: 0;
-      transform: translateZ(-2900px);
-      background: #111111;
-    }
+      /* ── BACK WALL — sized to close the corridor ── */
+      .room-wall-back {
+        position: absolute;
+        width: var(--corridor-width);
+        height: 1400px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%)
+          translateZ(calc(-1 * var(--corridor-depth)));
+        background: #111111;
+      }
 
-    /* ── COLLECTION LABEL ── */
-    .collection-label {
-      position: absolute;
-      left: 50%; top: 50%;
-      transform: translate(-50%, -50%) translateZ(-2820px);
-      top: 60px;
-      font-family: 'DM Mono', monospace; font-size: 10px;
-      color: rgba(255,255,255,0.2); letter-spacing: 0.3em;
-      text-transform: uppercase; white-space: nowrap;
-    }
+      /* ── COLLECTION LABEL ── */
+      .collection-label {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%)
+          translateZ(calc(-1 * var(--corridor-depth) + 80px));
+        top: 60px;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.2);
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
 
-    /* ── COLLECTION PIECES — individually placed at back wall ── */
-    .collection-piece {
-      position: absolute;
-      left: 50%; top: 50%;
-      cursor: none;
-      transform: translate(-50%, -50%) translateZ(-2840px) translateX(var(--col-x));
-    }
-    .collection-piece.left  { --col-x: -380px; }
-    .collection-piece.center { --col-x: 0px; }
-    .collection-piece.right { --col-x: 380px; }
-    .collection-piece .artwork-frame { display: inline-block; }
-    .collection-piece .artwork-frame img { display: block; max-width: 280px; width: auto; height: auto; }
-    .collection-piece.center .artwork-frame img { max-width: 340px; }
-    /* ── LIGHTBOX ── */
-    .gallery-lightbox {
-      position: fixed; inset: 0; z-index: 500;
-      background: rgba(0,0,0,0.96);
-      display: flex; align-items: center; justify-content: center; gap: 60px;
-      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
-    }
-    .gallery-lightbox.open { opacity: 1; pointer-events: all; }
-    .lb-img-wrap { max-height: 80vh; max-width: 60vw; display: flex; align-items: center; }
-    .lb-img-wrap img { max-height: 80vh; max-width: 60vw; object-fit: contain; box-shadow: 0 40px 120px rgba(0,0,0,0.8); }
-    .lb-info { width: 280px; flex-shrink: 0; }
-    .lb-title { font-family: 'DM Serif Display', serif; font-size: 32px; color: #fff; letter-spacing: -0.02em; margin-bottom: 8px; line-height: 1.1; }
-    .lb-year { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.14em; margin-bottom: 32px; }
-    .lb-detail { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; }
-    .lb-detail:last-child { border-bottom: none; }
-    .lb-detail-key { color: rgba(255,255,255,0.25); text-transform: uppercase; }
-    .lb-close { position: fixed; top: 24px; right: 32px; font-size: 24px; color: rgba(255,255,255,0.4); background: none; border: none; cursor: none; transition: color 0.2s; z-index: 501; }
-    .lb-close:hover { color: #fff; }
+      /* ── COLLECTION PIECES — individually placed at back wall ── */
+      .collection-piece {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        cursor: none;
+        transform: translate(-50%, -50%)
+          translateZ(calc(-1 * var(--corridor-depth) + 60px))
+          translateX(var(--col-x));
+      }
+      .collection-piece.left {
+        --col-x: -380px;
+      }
+      .collection-piece.center {
+        --col-x: 0px;
+      }
+      .collection-piece.right {
+        --col-x: 380px;
+      }
+      .collection-piece .artwork-frame {
+        display: inline-block;
+      }
+      .collection-piece .artwork-frame img {
+        display: block;
+        max-width: 280px;
+        width: auto;
+        height: auto;
+      }
+      .collection-piece.center .artwork-frame img {
+        max-width: 340px;
+      }
+      /* ── LIGHTBOX ── */
+      .gallery-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        background: rgba(0, 0, 0, 0.96);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 60px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+      }
+      .gallery-lightbox.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .lb-img-wrap {
+        max-height: 80vh;
+        max-width: 60vw;
+        display: flex;
+        align-items: center;
+      }
+      .lb-img-wrap img {
+        max-height: 80vh;
+        max-width: 60vw;
+        object-fit: contain;
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.8);
+      }
+      .lb-info {
+        width: 280px;
+        flex-shrink: 0;
+      }
+      .lb-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 32px;
+        color: #fff;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+        line-height: 1.1;
+      }
+      .lb-year {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.14em;
+        margin-bottom: 32px;
+      }
+      .lb-detail {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.08em;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        justify-content: space-between;
+      }
+      .lb-detail:last-child {
+        border-bottom: none;
+      }
+      .lb-detail-key {
+        color: rgba(255, 255, 255, 0.25);
+        text-transform: uppercase;
+      }
+      .lb-close {
+        position: fixed;
+        top: 24px;
+        right: 32px;
+        font-size: 24px;
+        color: rgba(255, 255, 255, 0.4);
+        background: none;
+        border: none;
+        cursor: none;
+        transition: color 0.2s;
+        z-index: 501;
+      }
+      .lb-close:hover {
+        color: #fff;
+      }
 
-    /* ── MOBILE FALLBACK ── */
-    @media (max-width: 768px) {
-      .gallery-stage { display: none; }
-      .mobile-fallback { display: flex; flex-direction: column; align-items: center; padding: 100px 24px 60px; gap: 32px; }
-    }
-    @media (min-width: 769px) { .mobile-fallback { display: none; } }
-  </style>
-</head>
-<body>
+      /* ── MOBILE FALLBACK ── */
+      @media (max-width: 768px) {
+        .gallery-stage {
+          display: none;
+        }
+        .mobile-fallback {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 100px 24px 60px;
+          gap: 32px;
+        }
+      }
+      @media (min-width: 769px) {
+        .mobile-fallback {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
+    <script>
+      window.CJ_SECTION = "art";
+    </script>
+    <script src="../js/auth-guard.js"></script>
 
-  <script>window.CJ_SECTION = 'art';</script>
-  <script src="../js/auth-guard.js"></script>
-
-  <!-- HUD -->
-  <div class="gallery-hud">
-    <a href="../index.html" class="hud-back">← Exit Gallery</a>
-    <span class="hud-title">Fine Art &amp; Illustration</span>
-    <div style="display:flex;align-items:center;gap:6px;">
-      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3);margin-right:4px;letter-spacing:0.08em;">theme</span>
-      <button class="theme-btn" data-t="dark" title="Dark" aria-label="Dark"></button>
-      <button class="theme-btn" data-t="light" title="Light" aria-label="Light"></button>
-      <button class="theme-btn" data-t="alien" title="Alien" aria-label="Alien"></button>
+    <!-- HUD -->
+    <div class="gallery-hud">
+      <a href="../index.html" class="hud-back">← Exit Gallery</a>
+      <span class="hud-title">Fine Art &amp; Illustration</span>
+      <div style="display: flex; align-items: center; gap: 6px">
+        <span
+          style="
+            font-family: &quot;DM Mono&quot;, monospace;
+            font-size: 10px;
+            color: var(--text-3);
+            margin-right: 4px;
+            letter-spacing: 0.08em;
+          "
+          >theme</span
+        >
+        <button
+          class="theme-btn"
+          data-t="dark"
+          title="Dark"
+          aria-label="Dark"
+        ></button>
+        <button
+          class="theme-btn"
+          data-t="light"
+          title="Light"
+          aria-label="Light"
+        ></button>
+        <button
+          class="theme-btn"
+          data-t="alien"
+          title="Alien"
+          aria-label="Alien"
+        ></button>
+      </div>
+      <div class="hud-hint">
+        <span class="hud-hint-icon"></span>
+        scroll to walk
+      </div>
     </div>
-    <div class="hud-hint">
-      <span class="hud-hint-icon"></span>
-      scroll to walk
+
+    <div class="gallery-progress" id="galleryProgress"></div>
+
+    <!-- Lightbox -->
+    <div class="gallery-lightbox" id="lightbox">
+      <button class="lb-close" id="lbClose">✕</button>
+      <div class="lb-img-wrap"><img src="" alt="" id="lbImg" /></div>
+      <div class="lb-info">
+        <div class="lb-title" id="lbTitle"></div>
+        <div class="lb-year" id="lbYear"></div>
+        <div id="lbDetails"></div>
+      </div>
     </div>
-  </div>
 
-  <div class="gallery-progress" id="galleryProgress"></div>
-
-  <!-- Lightbox -->
-  <div class="gallery-lightbox" id="lightbox">
-    <button class="lb-close" id="lbClose">✕</button>
-    <div class="lb-img-wrap"><img src="" alt="" id="lbImg"></div>
-    <div class="lb-info">
-      <div class="lb-title" id="lbTitle"></div>
-      <div class="lb-year" id="lbYear"></div>
-      <div id="lbDetails"></div>
+    <!-- Scroll hint only, no overlay -->
+    <div class="gallery-scroll" id="galleryScroll">
+      <div class="scroll-track"></div>
     </div>
-  </div>
 
-  <!-- Scroll hint only, no overlay -->
-  <div class="gallery-scroll" id="galleryScroll"><div class="scroll-track"></div></div>
-
-  <!-- 3D Stage -->
-  <div class="gallery-stage">
-    <div class="gallery-room" id="galleryRoom">
-      <div class="room-floor"></div>
-      <div class="room-ceiling"></div>
-      <div class="room-wall-left"></div>
-      <div class="room-wall-right"></div>
-      <div id="artworkContainer"></div>
-      <!-- Back wall -->
-      <div class="room-wall-back" id="roomWallBack"></div>
-      <!-- Collection label -->
-      <div class="collection-label">The Collection</div>
+    <!-- 3D Stage -->
+    <div class="gallery-stage">
+      <div class="gallery-room" id="galleryRoom">
+        <div class="room-floor"></div>
+        <div class="room-ceiling"></div>
+        <div class="room-wall-left"></div>
+        <div class="room-wall-right"></div>
+        <div id="artworkContainer"></div>
+        <!-- Back wall -->
+        <div class="room-wall-back" id="roomWallBack"></div>
+        <!-- Collection label -->
+        <div class="collection-label">The Collection</div>
+      </div>
     </div>
-  </div>
 
-  <div class="mobile-fallback" id="mobileFallback"></div>
+    <div class="mobile-fallback" id="mobileFallback"></div>
 
-  <script>
-    // ── CURSOR ──
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function animCursor() {
-      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(animCursor);
-    })();
-
-    // ── THEME ──
-    const savedTheme = localStorage.getItem('cj-theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
-    const wallColors = {
-      dark:  { wall: '#111111', floor: '#0a0a0a', ceiling: '#050505' },
-      light: { wall: '#2a2420', floor: '#1a1612', ceiling: '#1e1a16' },
-      alien: { wall: '#071a0e', floor: '#041208', ceiling: '#020d08' }
-    };
-
-    function applyRoomTheme(theme) {
-      const c = wallColors[theme] || wallColors.dark;
-      document.querySelectorAll('.room-wall-left, .room-wall-right').forEach(el => el.style.background = c.wall);
-      document.querySelectorAll('.room-floor').forEach(el => el.style.background = c.floor);
-      document.querySelectorAll('.room-ceiling').forEach(el => el.style.background = c.ceiling);
-      document.querySelectorAll('.room-wall-back').forEach(el => el.style.background = c.wall);
-    }
-    applyRoomTheme(savedTheme);
-
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.t === savedTheme);
-      btn.addEventListener('click', () => {
-        const t = btn.dataset.t;
-        document.documentElement.setAttribute('data-theme', t);
-        localStorage.setItem('cj-theme', t);
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.t === t));
-        applyRoomTheme(t);
+    <script>
+      // ── CURSOR ──
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      let mx = -100,
+        my = -100,
+        rx = -100,
+        ry = -100;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
       });
-    });
+      (function animCursor() {
+        cursor.style.left = mx + "px";
+        cursor.style.top = my + "px";
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animCursor);
+      })();
 
-    // ── LOAD ART ──
-    fetch('../data/art.json')
-      .then(r => r.json())
-      .then(data => { buildGallery(data); buildMobileFallback(data); })
-      .catch(() => console.warn('art.json not found'));
+      // ── THEME ──
+      const savedTheme = localStorage.getItem("cj-theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
 
-    const room = document.getElementById('galleryRoom');
-    const progress = document.getElementById('galleryProgress');
-    const TOTAL_TRAVEL = 3600;
-    let currentZ = 700, targetZ = 700; // start well past entrance seam
+      const wallColors = {
+        dark: { wall: "#111111", floor: "#0a0a0a", ceiling: "#050505" },
+        light: { wall: "#2a2420", floor: "#1a1612", ceiling: "#1e1a16" },
+        alien: { wall: "#071a0e", floor: "#041208", ceiling: "#020d08" },
+      };
 
-    function buildGallery(data) {
-      const container = document.getElementById('artworkContainer');
-      const pieces = data.corridor;
-      const count = pieces.length;
+      function applyRoomTheme(theme) {
+        const c = wallColors[theme] || wallColors.dark;
+        document
+          .querySelectorAll(".room-wall-left, .room-wall-right")
+          .forEach((el) => (el.style.background = c.wall));
+        document
+          .querySelectorAll(".room-floor")
+          .forEach((el) => (el.style.background = c.floor));
+        document
+          .querySelectorAll(".room-ceiling")
+          .forEach((el) => (el.style.background = c.ceiling));
+        document
+          .querySelectorAll(".room-wall-back")
+          .forEach((el) => (el.style.background = c.wall));
+      }
+      applyRoomTheme(savedTheme);
 
-      pieces.forEach((piece, i) => {
-        const t = count > 1 ? i / (count - 1) : 0;
-        const zPos = -(600 + t * 2800); // z=-600 to z=-3400, well spread
-        const isLeft = piece.wall === 'left';
-        const xPos = isLeft ? -500 : 500;
-        // Rotate to face center — left wall pieces face right, right wall pieces face left
-        const rotY = isLeft ? -90 : 90;
-        const el = document.createElement('div');
-        el.className = `artwork size-${piece.size}`;
-        // Place at wall X position, rotate to face the walkway
-        el.style.cssText = `
+      document.querySelectorAll(".theme-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.t === savedTheme);
+        btn.addEventListener("click", () => {
+          const t = btn.dataset.t;
+          document.documentElement.setAttribute("data-theme", t);
+          localStorage.setItem("cj-theme", t);
+          document
+            .querySelectorAll(".theme-btn")
+            .forEach((b) => b.classList.toggle("active", b.dataset.t === t));
+          applyRoomTheme(t);
+        });
+      });
+
+      // ── LOAD ART ──
+      fetch("../data/art.json")
+        .then((r) => r.json())
+        .then((data) => {
+          buildGallery(data);
+          buildMobileFallback(data);
+        })
+        .catch(() => console.warn("art.json not found"));
+
+      const room = document.getElementById("galleryRoom");
+      const progress = document.getElementById("galleryProgress");
+      const cssRoot = getComputedStyle(document.documentElement);
+      const CAMERA_START = parseFloat(
+        cssRoot.getPropertyValue("--camera-start"),
+      );
+      const CAMERA_MAX = parseFloat(cssRoot.getPropertyValue("--camera-max"));
+      const CORRIDOR_START = parseFloat(
+        cssRoot.getPropertyValue("--corridor-start"),
+      );
+      const CORRIDOR_END = parseFloat(
+        cssRoot.getPropertyValue("--corridor-end"),
+      );
+      const ARTWORK_WALL_OFFSET = parseFloat(
+        cssRoot.getPropertyValue("--artwork-wall-offset"),
+      );
+      let currentZ = CAMERA_START,
+        targetZ = CAMERA_START;
+
+      function buildGallery(data) {
+        const container = document.getElementById("artworkContainer");
+        const pieces = data.corridor;
+        const count = pieces.length;
+
+        pieces.forEach((piece, i) => {
+          const t = count > 1 ? i / (count - 1) : 0;
+          const zPos = -(CORRIDOR_START + t * (CORRIDOR_END - CORRIDOR_START));
+          const isLeft = piece.wall === "left";
+          const xPos = isLeft ? -ARTWORK_WALL_OFFSET : ARTWORK_WALL_OFFSET;
+          // Rotate to face center — left wall pieces face right, right wall pieces face left
+          const rotY = isLeft ? -90 : 90;
+          const el = document.createElement("div");
+          el.className = `artwork size-${piece.size}`;
+          // Place at wall X position, rotate to face the walkway
+          el.style.cssText = `
           position: absolute;
           left: 50%; top: 50%;
           cursor: none;
@@ -384,71 +690,97 @@
                      translate3d(${xPos}px, 0px, ${zPos}px)
                      rotateY(${rotY}deg);
         `;
-        el.innerHTML = `
+          el.innerHTML = `
           <div class="artwork-light"></div>
           <div class="artwork-frame">
             <img src="../images/art/${piece.filename}" alt="${piece.title}"
               onerror="this.style.background='#1a1a1a';this.style.minWidth='200px';this.style.minHeight='200px'">
           </div>`;
-        el.addEventListener('click', () => openLightbox(piece));
-        container.appendChild(el);
-      });
+          el.addEventListener("click", () => openLightbox(piece));
+          container.appendChild(el);
+        });
 
-      const galleryRoom = document.getElementById('galleryRoom');
-      data.collection.forEach(piece => {
-        const el = document.createElement('div');
-        el.className = `collection-piece ${piece.position}`;
-        el.innerHTML = `
+        const galleryRoom = document.getElementById("galleryRoom");
+        data.collection.forEach((piece) => {
+          const el = document.createElement("div");
+          el.className = `collection-piece ${piece.position}`;
+          el.innerHTML = `
           <div class="artwork-light"></div>
           <div class="artwork-frame">
             <img src="../images/art/${piece.filename}" alt="${piece.title}"
               onerror="this.style.background='#1a1a1a';this.style.minWidth='200px';this.style.minHeight='200px'">
           </div>`;
-        el.addEventListener('click', () => openLightbox(piece));
-        galleryRoom.appendChild(el);
+          el.addEventListener("click", () => openLightbox(piece));
+          galleryRoom.appendChild(el);
+        });
+      }
+
+      // ── SCROLL → CAMERA ──
+      // scroll down = walk forward = increase translateZ
+      window.addEventListener(
+        "wheel",
+        (e) => {
+          targetZ = Math.max(
+            CAMERA_START,
+            Math.min(CAMERA_MAX, targetZ + e.deltaY * 1.2),
+          );
+          progress.style.width =
+            ((targetZ - CAMERA_START) / (CAMERA_MAX - CAMERA_START)) * 100 +
+            "%";
+        },
+        { passive: true },
+      );
+
+      window.addEventListener("keydown", (e) => {
+        const step = 120;
+        if (e.key === "ArrowDown" || e.key === "ArrowRight")
+          targetZ = Math.min(CAMERA_MAX, targetZ + step);
+        if (e.key === "ArrowUp" || e.key === "ArrowLeft")
+          targetZ = Math.max(CAMERA_START, targetZ - step);
+        progress.style.width =
+          ((targetZ - CAMERA_START) / (CAMERA_MAX - CAMERA_START)) * 100 + "%";
       });
-    }
 
-    // ── SCROLL → CAMERA ──
-    // scroll down = walk forward = increase translateZ
-    window.addEventListener('wheel', e => {
-      targetZ = Math.max(700, Math.min(TOTAL_TRAVEL, targetZ + e.deltaY * 1.2));
-      progress.style.width = ((targetZ - 700) / (TOTAL_TRAVEL - 700) * 100) + '%';
-    }, { passive: true });
+      (function cameraLoop() {
+        currentZ += (targetZ - currentZ) * 0.08;
+        room.style.transform = `translateZ(${currentZ}px)`;
+        requestAnimationFrame(cameraLoop);
+      })();
 
-    window.addEventListener('keydown', e => {
-      const step = 120;
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') targetZ = Math.min(TOTAL_TRAVEL, targetZ + step);
-      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') targetZ = Math.max(700, targetZ - step);
-      progress.style.width = ((targetZ - 700) / (TOTAL_TRAVEL - 700) * 100) + '%';
-    });
+      // ── LIGHTBOX ──
+      const lightbox = document.getElementById("lightbox");
+      function openLightbox(piece) {
+        document.getElementById("lbImg").src =
+          `../images/art/${piece.filename}`;
+        document.getElementById("lbTitle").textContent = piece.title;
+        document.getElementById("lbYear").textContent = piece.year;
+        const details = [
+          ["Medium", piece.medium],
+          ["Dimensions", piece.dimensions],
+        ].filter(([, v]) => v);
+        document.getElementById("lbDetails").innerHTML = details
+          .map(
+            ([k, v]) =>
+              `<div class="lb-detail"><span class="lb-detail-key">${k}</span><span>${v}</span></div>`,
+          )
+          .join("");
+        lightbox.classList.add("open");
+      }
+      document
+        .getElementById("lbClose")
+        .addEventListener("click", () => lightbox.classList.remove("open"));
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) lightbox.classList.remove("open");
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") lightbox.classList.remove("open");
+      });
 
-    (function cameraLoop() {
-      currentZ += (targetZ - currentZ) * 0.08;
-      room.style.transform = `translateZ(${currentZ}px)`;
-      requestAnimationFrame(cameraLoop);
-    })();
-
-    // ── LIGHTBOX ──
-    const lightbox = document.getElementById('lightbox');
-    function openLightbox(piece) {
-      document.getElementById('lbImg').src = `../images/art/${piece.filename}`;
-      document.getElementById('lbTitle').textContent = piece.title;
-      document.getElementById('lbYear').textContent = piece.year;
-      const details = [['Medium', piece.medium], ['Dimensions', piece.dimensions]].filter(([,v]) => v);
-      document.getElementById('lbDetails').innerHTML = details.map(([k,v]) =>
-        `<div class="lb-detail"><span class="lb-detail-key">${k}</span><span>${v}</span></div>`).join('');
-      lightbox.classList.add('open');
-    }
-    document.getElementById('lbClose').addEventListener('click', () => lightbox.classList.remove('open'));
-    lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
-
-    // ── MOBILE FALLBACK ──
-    function buildMobileFallback(data) {
-      const el = document.getElementById('mobileFallback');
-      [...data.corridor, ...data.collection].forEach(piece => {
-        el.innerHTML += `
+      // ── MOBILE FALLBACK ──
+      function buildMobileFallback(data) {
+        const el = document.getElementById("mobileFallback");
+        [...data.corridor, ...data.collection].forEach((piece) => {
+          el.innerHTML += `
           <div style="text-align:center;">
             <div class="artwork-frame" style="display:inline-block;">
               <img src="../images/art/${piece.filename}" alt="${piece.title}"
@@ -457,8 +789,8 @@
             </div>
             <p style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-2);margin-top:12px;letter-spacing:0.08em;">${piece.title} — ${piece.year}</p>
           </div>`;
-      });
-    }
-  </script>
-</body>
+        });
+      }
+    </script>
+  </body>
 </html>
