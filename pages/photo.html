@@ -1,767 +1,1263 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Photography — Chris Jacobs</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="../images/favicon2.png">
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Photography — Chris Jacobs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../images/favicon2.png" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      /* ── NEUTRAL STAGE BACKGROUND PER THEME ── */
+      :root[data-theme="dark"] .photo-hero {
+        background: #181818;
+      }
+      :root[data-theme="light"] .photo-hero {
+        background: #e4e1dc;
+      }
+      :root[data-theme="alien"] .photo-hero {
+        background: #0e1410;
+      }
 
-    /* ── NEUTRAL STAGE BACKGROUND PER THEME ── */
-    :root[data-theme="dark"]  .photo-hero { background: #181818; }
-    :root[data-theme="light"] .photo-hero { background: #e4e1dc; }
-    :root[data-theme="alien"] .photo-hero { background: #0e1410; }
+      /* ── 3D CAROUSEL HERO ── */
+      .photo-hero {
+        position: relative;
+        width: 100%;
+        height: 80vh;
+        min-height: 560px;
+        background: #181818;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition: background 0.4s ease;
+      }
+      .photo-hero::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 30%;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.45) 0%,
+          transparent 100%
+        );
+        z-index: 1;
+        pointer-events: none;
+      }
+      .carousel-stage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        perspective: 1600px;
+        perspective-origin: 50% 48%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .carousel-ring {
+        position: relative;
+        width: min(600px, 50vw);
+        height: min(440px, 37vw);
+        transform-style: preserve-3d;
+      }
+      .carousel-card {
+        position: absolute;
+        width: min(600px, 50vw);
+        height: min(440px, 37vw);
+        border-radius: 3px;
+        overflow: visible;
+        backface-visibility: hidden;
+        cursor: none;
+      }
+      .carousel-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        border-radius: 3px;
+        pointer-events: none;
+        user-select: none;
+      }
+      .hero-overlay {
+        position: absolute;
+        bottom: 32px;
+        left: 80px;
+        right: 80px;
+        z-index: 10;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        pointer-events: none;
+      }
+      .hero-caption {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.8);
+        letter-spacing: 0.1em;
+      }
+      .hero-exif-strip {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.08em;
+        text-align: right;
+      }
+      .hero-dots {
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        z-index: 10;
+      }
+      .hero-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.25);
+        transition:
+          background 0.4s,
+          transform 0.4s;
+        cursor: none;
+      }
+      .hero-dot.active {
+        background: var(--accent);
+        transform: scale(1.4);
+      }
 
-    /* ── 3D CAROUSEL HERO ── */
-    .photo-hero {
-      position: relative;
-      width: 100%;
-      height: 80vh;
-      min-height: 560px;
-      background: #181818;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      transition: background 0.4s ease;
-    }
-    .photo-hero::before {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 30%;
-      background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 100%);
-      z-index: 1;
-      pointer-events: none;
-    }
-    .carousel-stage {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      perspective: 1600px;
-      perspective-origin: 50% 48%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .carousel-ring {
-      position: relative;
-      width: min(600px, 50vw);
-      height: min(440px, 37vw);
-      transform-style: preserve-3d;
-    }
-    .carousel-card {
-      position: absolute;
-      width: min(600px, 50vw);
-      height: min(440px, 37vw);
-      border-radius: 3px;
-      overflow: visible;
-      backface-visibility: hidden;
-      cursor: none;
-    }
-    .carousel-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      border-radius: 3px;
-      pointer-events: none;
-      user-select: none;
-    }
-    .hero-overlay {
-      position: absolute;
-      bottom: 32px;
-      left: 80px;
-      right: 80px;
-      z-index: 10;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      pointer-events: none;
-    }
-    .hero-caption {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: rgba(255,255,255,0.8);
-      letter-spacing: 0.1em;
-    }
-    .hero-exif-strip {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.08em;
-      text-align: right;
-    }
-    .hero-dots {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 6px;
-      z-index: 10;
-    }
-    .hero-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.25);
-      transition: background 0.4s, transform 0.4s;
-      cursor: none;
-    }
-    .hero-dot.active { background: var(--accent); transform: scale(1.4); }
+      /* ── SIMPLE THEME PICKER (default) ── */
+      .theme-picker-simple {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .theme-picker-simple .theme-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--text-3);
+        margin-right: 4px;
+        letter-spacing: 0.08em;
+      }
+      .theme-picker-simple .theme-btn {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        cursor: none;
+        transition:
+          transform 0.2s,
+          border-color 0.2s;
+        background: none;
+        padding: 0;
+      }
+      .theme-picker-simple .theme-btn:hover {
+        transform: scale(1.25);
+      }
+      .theme-picker-simple .theme-btn.active {
+        border-color: var(--text-1);
+      }
+      .theme-picker-simple .theme-btn[data-t="dark"] {
+        background: #1a1a1a;
+        box-shadow: inset 0 0 0 3px #0af5e7;
+      }
+      .theme-picker-simple .theme-btn[data-t="light"] {
+        background: #f5f2ed;
+        box-shadow: inset 0 0 0 3px #007a72;
+      }
+      .theme-picker-simple .theme-btn[data-t="alien"] {
+        background: #041208;
+        box-shadow: inset 0 0 0 3px #0af596;
+      }
 
-    /* ── SIMPLE THEME PICKER (default) ── */
-    .theme-picker-simple {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .theme-picker-simple .theme-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--text-3);
-      margin-right: 4px;
-      letter-spacing: 0.08em;
-    }
-    .theme-picker-simple .theme-btn {
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      cursor: none;
-      transition: transform 0.2s, border-color 0.2s;
-      background: none;
-      padding: 0;
-    }
-    .theme-picker-simple .theme-btn:hover { transform: scale(1.25); }
-    .theme-picker-simple .theme-btn.active { border-color: var(--text-1); }
-    .theme-picker-simple .theme-btn[data-t="dark"]  { background: #1a1a1a; box-shadow: inset 0 0 0 3px #0af5e7; }
-    .theme-picker-simple .theme-btn[data-t="light"] { background: #f5f2ed; box-shadow: inset 0 0 0 3px #007a72; }
-    .theme-picker-simple .theme-btn[data-t="alien"] { background: #041208; box-shadow: inset 0 0 0 3px #0af596; }
-
-    /* ── ALIEN EASTER EGG THERMOMETER ──
+      /* ── ALIEN EASTER EGG THERMOMETER ──
        Only visible when alien theme is active.
        Hidden otherwise.
     ── */
-    .theme-thermo-wrap {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 200;
-      display: none;
-      gap: 10px;
-      align-items: flex-start;
-      overflow: visible;
-    }
-    :root[data-theme="alien"] .theme-thermo-wrap { display: flex; }
-    :root[data-theme="alien"] .theme-picker-simple { display: none; }
-
-    .thermo-slider {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: none;
-      position: relative;
-      overflow: visible;
-    }
-    .thermo-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 9px;
-      color: rgba(10,245,150,0.5);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      white-space: nowrap;
-      pointer-events: none;
-      margin-bottom: 2px;
-    }
-    .thermo-slider:hover .thermo-label,
-    .thermo-slider.active .thermo-label { opacity: 1; transform: translateY(0); }
-    .thermo-canvas { display: block; cursor: none; overflow: visible; }
-
-    /* ── ALIEN THEME TYPOGRAPHY ── */
-    :root[data-theme="alien"] .hero-caption,
-    :root[data-theme="alien"] .hero-exif-strip,
-    :root[data-theme="alien"] .filter-label,
-    :root[data-theme="alien"] .filter-btn,
-    :root[data-theme="alien"] .back-link,
-    :root[data-theme="alien"] .masonry-caption,
-    :root[data-theme="alien"] .masonry-meta {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    /* ── PAGE NAV ── */
-    .photo-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 32px 80px 0;
-    }
-    .back-link {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--text-3);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.2s;
-    }
-    .back-link:hover { color: var(--accent); }
-
-    /* ── FILTER BAR ── */
-    .filter-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 32px 80px 24px;
-      flex-wrap: wrap;
-    }
-    .filter-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--text-3);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-right: 8px;
-    }
-    .filter-btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      padding: 5px 14px;
-      border: 1px solid var(--border-mid);
-      border-radius: 20px;
-      color: var(--text-2);
-      background: none;
-      cursor: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-    }
-    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .filter-btn.active { border-color: var(--accent); color: #000; background: var(--accent); }
-
-    /* ── MASONRY GRID ── */
-    .masonry-wrap { padding: 0 80px 80px; }
-    .masonry-grid { columns: 3; column-gap: 28px; }
-    .masonry-item {
-      break-inside: avoid;
-      margin-bottom: 28px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 4px;
-      cursor: none;
-    }
-    .masonry-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.5s ease;
-      border-radius: 4px;
-    }
-    .masonry-item:hover img { transform: scale(1.03); }
-    .masonry-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      border-radius: 4px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 20px;
-    }
-    .masonry-item:hover .masonry-overlay { opacity: 1; }
-    .masonry-caption { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #fff; margin-bottom: 4px; }
-    .masonry-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.6); letter-spacing: 0.06em; }
-
-    /* ── EMPTY STATE ── */
-    .empty-state { padding: 80px; text-align: center; }
-    .empty-state .mono { font-size: 11px; color: var(--text-3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; display: block; }
-    .empty-state p { font-size: 14px; color: var(--text-2); line-height: 1.7; }
-
-    /* ── LIGHTBOX ── */
-    .lightbox {
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.92);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-    }
-    .lightbox.open { opacity: 1; pointer-events: all; }
-    .lightbox-inner { display: flex; gap: 40px; align-items: center; max-width: 90vw; max-height: 90vh; }
-    .lightbox-img-wrap { flex: 1; max-height: 85vh; display: flex; align-items: center; }
-    .lightbox-img-wrap img { max-width: 100%; max-height: 85vh; object-fit: contain; border-radius: 4px; }
-    .lightbox-info { width: 240px; flex-shrink: 0; }
-    .lightbox-caption { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; letter-spacing: -0.01em; margin-bottom: 8px; }
-    .lightbox-category { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 24px; }
-    .exif-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .exif-row:last-child { border-bottom: none; }
-    .exif-key { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; }
-    .exif-val { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.8); letter-spacing: 0.04em; text-align: right; }
-    .lightbox-close { position: fixed; top: 24px; right: 32px; font-size: 24px; color: rgba(255,255,255,0.5); background: none; border: none; cursor: none; transition: color 0.2s; z-index: 201; }
-    .lightbox-close:hover { color: #fff; }
-    .lightbox-nav { position: fixed; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,0.4); font-size: 32px; cursor: none; transition: color 0.2s; z-index: 201; padding: 16px; }
-    .lightbox-nav:hover { color: #fff; }
-    .lightbox-prev { left: 16px; }
-    .lightbox-next { right: 16px; }
-
-    /* ── MOBILE ── */
-    @media (max-width: 900px) {
-      .photo-nav { padding: 24px; }
-      .filter-bar { padding: 24px 24px 16px; }
-      .masonry-wrap { padding: 0 24px 48px; }
-      .masonry-grid { columns: 2; column-gap: 16px; }
-      .masonry-item { margin-bottom: 16px; }
-      .hero-overlay { left: 24px; right: 24px; bottom: 24px; }
-      .lightbox-inner { flex-direction: column; max-width: 95vw; }
-      .lightbox-info { width: 100%; }
-    }
-    @media (max-width: 480px) {
-      .masonry-grid { columns: 1; }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <script>window.CJ_SECTION = 'photo';</script>
-  <script src="../js/auth-guard.js"></script>
-
-  <!-- Simple theme picker (dark/light) -->
-  <div class="theme-picker-simple" id="themePickerSimple">
-    <span class="theme-label">theme</span>
-    <button class="theme-btn" data-t="dark" title="Dark" aria-label="Dark theme"></button>
-    <button class="theme-btn" data-t="light" title="Light" aria-label="Light theme"></button>
-    <button class="theme-btn" data-t="alien" title="Alien" aria-label="Alien theme"></button>
-  </div>
-
-  <!-- Alien easter egg thermometer (only shows in alien theme) -->
-  <div class="theme-thermo-wrap" id="thermoWrap"></div>
-
-  <!-- 3D Carousel Hero -->
-  <div class="photo-hero" id="photoHero">
-    <div class="carousel-stage">
-      <div class="carousel-ring" id="carouselRing"></div>
-    </div>
-    <div class="hero-overlay">
-      <div class="hero-caption" id="heroCaption"></div>
-      <div class="hero-exif-strip" id="heroExif"></div>
-    </div>
-    <div class="hero-dots" id="heroDots"></div>
-  </div>
-
-  <div class="photo-nav">
-    <a href="../index.html" class="back-link">← Home</a>
-    <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3);letter-spacing:0.1em;">PHOTOGRAPHY</span>
-  </div>
-
-  <div class="filter-bar" id="filterBar">
-    <span class="filter-label">Filter</span>
-  </div>
-
-  <div class="masonry-wrap">
-    <div class="masonry-grid" id="masonryGrid"></div>
-  </div>
-
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lbClose">✕</button>
-    <button class="lightbox-nav lightbox-prev" id="lbPrev">‹</button>
-    <button class="lightbox-nav lightbox-next" id="lbNext">›</button>
-    <div class="lightbox-inner">
-      <div class="lightbox-img-wrap"><img src="" alt="" id="lbImg"></div>
-      <div class="lightbox-info">
-        <div class="lightbox-caption" id="lbCaption"></div>
-        <div class="lightbox-category" id="lbCategory"></div>
-        <div class="exif-table" id="lbExif"></div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // ── CURSOR ──
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function animCursor() {
-      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(animCursor);
-    })();
-
-    // ── THEME ──
-    const savedTheme = localStorage.getItem('cj-theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
-    // Mark active dot
-    function syncDots(theme) {
-      document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.t === theme));
-    }
-    syncDots(savedTheme);
-
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const t = btn.dataset.t;
-        document.documentElement.setAttribute('data-theme', t);
-        localStorage.setItem('cj-theme', t);
-        syncDots(t);
-        const bgMap = { dark: '#181818', light: '#e4e1dc', alien: '#0e1410' };
-        document.getElementById('photoHero').style.background = bgMap[t] || '';
-      });
-    });
-
-    // ── ALIEN THERMOMETER EASTER EGG ──
-    // Only renders when alien theme is active. Three thermometers,
-    // barnacle-drop physics, neon glow — but tucked away as a reward
-    // for finding the alien theme.
-    (function buildAlienThermo() {
-      const THEMES = [
-        { key: 'dark',  label: 'Dark',  color: [10, 245, 231] },
-        { key: 'light', label: 'Light', color: [0, 190, 168]  },
-        { key: 'alien', label: 'Alien', color: [10, 245, 150] }
-      ];
-      const intensity = { dark: 0.8, light: 0.8, alien: 0.8 };
-      const wrap = document.getElementById('thermoWrap');
-      const CW = 48, CH = 200, DPR = 2;
-      const ANCHOR_Y = 6, STEM_H = 12, STEM_W = 6;
-      const TUBE_W = 13, TUBE_R = 6.5, BULB_R = 17;
-      const THERMO_FULL = 120, CASING = 3;
-
-      THEMES.forEach(({ key, label, color }) => {
-        const slider = document.createElement('div');
-        slider.className = 'thermo-slider' + (key === savedTheme ? ' active' : '');
-        slider.dataset.t = key;
-        const lbl = document.createElement('span');
-        lbl.className = 'thermo-label';
-        lbl.textContent = label;
-        const canvas = document.createElement('canvas');
-        canvas.className = 'thermo-canvas';
-        canvas.width = CW * DPR; canvas.height = CH * DPR;
-        canvas.style.width = CW + 'px'; canvas.style.height = CH + 'px';
-        const ctx = canvas.getContext('2d');
-        slider.appendChild(lbl);
-        slider.appendChild(canvas);
-        wrap.appendChild(slider);
-
-        let extY = 0, extV = 0, extTarget = 0;
-        let wiggleAng = 0, wiggleV = 0, wiggleActive = false;
-        let fillY = 0, fillTarget = 0;
-        let jiggleT = Math.random() * Math.PI * 2;
-        let hovered = false, isDragging = false;
-        let holdTimer, dragStartY, dragStartVal;
-
-        function isActive() { return slider.classList.contains('active'); }
-
-        function draw(t) {
-          const s = DPR, w = CW * s, h = CH * s, cx = w / 2;
-          const [r, g, b] = color;
-          const fillColor = `rgb(${r},${g},${b})`;
-          const active = isActive();
-          const glowBlur = active ? 20 * s : (hovered ? 12 * s : 5 * s);
-          const glowAlpha = active ? 1.0 : (hovered ? 0.6 : 0.2);
-
-          ctx.clearRect(0, 0, w, h);
-          const anchorY = ANCHOR_Y * s, stemH = STEM_H * s, stemW = STEM_W * s;
-          const tubeW = TUBE_W * s, tubeR = TUBE_R * s, bulbR = BULB_R * s;
-          const cas = CASING * s, ext = extY * s;
-          const swingOffset = Math.sin(wiggleAng) * ext * 0.3;
-
-          // Stem stub
-          ctx.beginPath();
-          ctx.roundRect(cx - stemW / 2 - cas, anchorY, stemW + cas * 2, stemH + cas, 4);
-          ctx.fillStyle = '#111'; ctx.fill();
-          ctx.beginPath();
-          ctx.roundRect(cx - stemW / 2, anchorY + 1, stemW, stemH - 1, 3);
-          ctx.shadowColor = fillColor;
-          ctx.shadowBlur = active ? 10 * s : 4 * s;
-          ctx.fillStyle = `rgba(${r},${g},${b},${active ? 0.7 : 0.35})`;
-          ctx.fill(); ctx.shadowBlur = 0;
-
-          if (ext < 2) return;
-          ctx.save(); ctx.translate(swingOffset, 0);
-
-          // Unified casing
-          ctx.beginPath();
-          ctx.moveTo(cx - tubeW / 2 - cas, anchorY + stemH);
-          ctx.lineTo(cx - tubeW / 2 - cas, anchorY + stemH + ext - bulbR);
-          ctx.arc(cx, anchorY + stemH + ext, bulbR + cas, Math.PI, 0, true);
-          ctx.lineTo(cx + tubeW / 2 + cas, anchorY + stemH);
-          ctx.closePath();
-          ctx.fillStyle = '#0d0d0d'; ctx.fill();
-
-          // Fleshy body
-          const bodyTop = anchorY + stemH;
-          ctx.beginPath();
-          ctx.moveTo(cx - tubeW / 2, bodyTop + tubeR);
-          ctx.arcTo(cx - tubeW / 2, bodyTop, cx, bodyTop, tubeR);
-          ctx.arcTo(cx + tubeW / 2, bodyTop, cx + tubeW / 2, bodyTop + tubeR, tubeR);
-          ctx.lineTo(cx + tubeW / 2, bodyTop + ext - bulbR);
-          ctx.arc(cx, bodyTop + ext, bulbR, 0, Math.PI, false);
-          ctx.closePath();
-          ctx.fillStyle = `rgba(${r},${g},${b},${active ? 0.09 : 0.04})`;
-          ctx.fill();
-          ctx.strokeStyle = `rgba(255,255,255,${active ? 0.14 : 0.05})`;
-          ctx.lineWidth = s * 0.5; ctx.stroke();
-
-          // Neon fill — clipped to body
-          ctx.save();
-          ctx.beginPath();
-          ctx.moveTo(cx - tubeW / 2, bodyTop + tubeR);
-          ctx.arcTo(cx - tubeW / 2, bodyTop, cx, bodyTop, tubeR);
-          ctx.arcTo(cx + tubeW / 2, bodyTop, cx + tubeW / 2, bodyTop + tubeR, tubeR);
-          ctx.lineTo(cx + tubeW / 2, bodyTop + ext - bulbR);
-          ctx.arc(cx, bodyTop + ext, bulbR, 0, Math.PI, false);
-          ctx.closePath(); ctx.clip();
-
-          ctx.shadowColor = fillColor; ctx.shadowBlur = glowBlur;
-          ctx.globalAlpha = glowAlpha;
-
-          // Bulb fill
-          ctx.beginPath();
-          ctx.arc(cx, bodyTop + ext, bulbR * (0.35 + 0.65 * fillY), 0, Math.PI * 2);
-          ctx.fillStyle = fillColor; ctx.fill();
-
-          // Tube fill
-          if (fillY > 0.02 && ext > bulbR * s) {
-            const tubeInnerH = ext - bulbR - tubeR;
-            const fillH = tubeInnerH * fillY;
-            const fillTop = bodyTop + ext - bulbR - fillH;
-            const jigAmt = (hovered ? 3 : 1) * s;
-            const surfaceY = fillTop + Math.sin(t * 3.4 + jiggleT) * jigAmt;
-            const bulgeSide = Math.sin(t * 2.1 + jiggleT + 1) * jigAmt * 0.4;
-            ctx.beginPath();
-            ctx.moveTo(cx - tubeW / 2, bodyTop + ext);
-            ctx.lineTo(cx - tubeW / 2, surfaceY);
-            ctx.bezierCurveTo(cx - tubeW / 2 + bulgeSide, surfaceY - 4 * s, cx + tubeW / 2 - bulgeSide, surfaceY - 4 * s, cx + tubeW / 2, surfaceY);
-            ctx.lineTo(cx + tubeW / 2, bodyTop + ext);
-            ctx.closePath(); ctx.fillStyle = fillColor; ctx.fill();
-            const dripPhase = Math.max(0, Math.sin(t * 1.1 + jiggleT * 1.8));
-            const dripLen = dripPhase * 9 * s * fillY;
-            if (dripLen > 2) {
-              ctx.beginPath();
-              ctx.ellipse(cx, surfaceY - dripLen * 0.5, 2.5 * s, dripLen * 0.55, 0, 0, Math.PI * 2);
-              ctx.fillStyle = `rgba(${r},${g},${b},0.75)`; ctx.fill();
-            }
-          }
-          ctx.restore();
-
-          // Glass highlight
-          const grad = ctx.createLinearGradient(cx - tubeW / 2, 0, cx - tubeW / 5, 0);
-          grad.addColorStop(0, 'rgba(255,255,255,0.14)');
-          grad.addColorStop(1, 'rgba(255,255,255,0)');
-          ctx.beginPath();
-          ctx.roundRect(cx - tubeW / 2, bodyTop, tubeW / 3, ext - bulbR, tubeR);
-          ctx.fillStyle = grad; ctx.fill();
-          ctx.restore();
-        }
-
-        let startTime = null;
-        function animate(ts) {
-          if (!startTime) startTime = ts;
-          const t = (ts - startTime) / 1000;
-          jiggleT += 0.016;
-          if (extTarget > extY) {
-            extV += 1.2; extV = Math.min(extV, 6);
-            extY = Math.min(extTarget, extY + extV);
-            if (extY >= extTarget && wiggleV === 0) { wiggleV = 0.08; wiggleActive = true; }
-          } else if (extTarget < extY) {
-            extV = 0; extY += (extTarget - extY) * 0.055;
-            if (Math.abs(extTarget - extY) < 0.3) extY = extTarget;
-            wiggleActive = false; wiggleAng *= 0.85;
-          }
-          if (wiggleActive || Math.abs(wiggleAng) > 0.001) {
-            wiggleV -= wiggleAng * 0.012; wiggleV *= 0.93; wiggleAng += wiggleV;
-            if (Math.abs(wiggleAng) < 0.001 && Math.abs(wiggleV) < 0.001) { wiggleAng = 0; wiggleV = 0; wiggleActive = false; }
-          }
-          if (extY > THERMO_FULL * 0.25) fillY += (fillTarget - fillY) * 0.022;
-          else fillY += (0 - fillY) * 0.12;
-          draw(t);
-          requestAnimationFrame(animate);
-        }
-        requestAnimationFrame(animate);
-
-        if (isActive()) fillTarget = intensity[key];
-
-        slider.addEventListener('mouseenter', () => { hovered = true; extTarget = THERMO_FULL; fillTarget = isActive() ? intensity[key] : intensity[key] * 0.4; });
-        slider.addEventListener('mouseleave', () => { if (isDragging) return; hovered = false; extTarget = 0; fillTarget = 0; });
-        slider.addEventListener('click', () => {
-          const t = key;
-          document.documentElement.setAttribute('data-theme', t);
-          localStorage.setItem('cj-theme', t);
-          syncDots(t);
-          document.querySelectorAll('.thermo-slider').forEach(s => s.classList.remove('active'));
-          slider.classList.add('active');
-          fillTarget = intensity[key];
-          const bgMap = { dark: '#181818', light: '#e4e1dc', alien: '#0e1410' };
-          document.getElementById('photoHero').style.background = bgMap[t] || '';
-        });
-        canvas.addEventListener('mousedown', e => {
-          holdTimer = setTimeout(() => { isDragging = true; dragStartY = e.clientY; dragStartVal = intensity[key]; extTarget = THERMO_FULL; }, 250);
-        });
-        document.addEventListener('mousemove', e => {
-          if (!isDragging || slider.dataset.t !== key) return;
-          const newVal = Math.max(0.05, Math.min(1.0, dragStartVal + (dragStartY - e.clientY) * 0.008));
-          intensity[key] = newVal; fillTarget = newVal;
-        });
-        document.addEventListener('mouseup', () => {
-          clearTimeout(holdTimer);
-          if (isDragging) { isDragging = false; if (!hovered) { extTarget = 0; fillTarget = 0; } }
-        });
-      });
-    })();
-
-    // ── LOAD PHOTOS ──
-    let allPhotos = [], filteredPhotos = [], currentLbIndex = 0;
-    const SESSION_SEED = Math.floor(Date.now() / (1000 * 60 * 30));
-
-    function seededRandom(seed) {
-      let s = seed;
-      return function() { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
-    }
-    function shuffleSeeded(arr, seed) {
-      const rng = seededRandom(seed), a = [...arr];
-      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-      return a;
-    }
-
-    fetch('../data/photos.json')
-      .then(r => r.json())
-      .then(data => { allPhotos = data.photos; buildFilters(data.categories); renderGrid('all'); buildHero(); })
-      .catch(() => { document.getElementById('masonryGrid').innerHTML = '<div class="empty-state"><span class="mono">No photos yet</span></div>'; });
-
-    function buildHero() {
-      const featured = allPhotos.filter(p => p.featured);
-      if (!featured.length) return;
-      const photos = shuffleSeeded(featured, SESSION_SEED);
-      const count = photos.length;
-      const ring = document.getElementById('carouselRing');
-      const dots = document.getElementById('heroDots');
-      const ANGLE_STEP = 360 / count;
-      function getRadius() { return Math.max(700, window.innerWidth * 0.46); }
-
-      const cards = photos.map((photo, i) => {
-        const card = document.createElement('div');
-        card.className = 'carousel-card';
-        const img = document.createElement('img');
-        img.src = `../images/photos/${photo.filename}`;
-        img.alt = photo.caption || '';
-        card.appendChild(img); ring.appendChild(card);
-        const dot = document.createElement('div');
-        dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => goTo(i));
-        dots.appendChild(dot);
-        return { card, photo };
-      });
-
-      let current = 0, animating = false, autoTimer;
-
-      function positionCards(activeIndex) {
-        const RADIUS = getRadius();
-        cards.forEach(({ card }, i) => {
-          const angle = (i - activeIndex) * ANGLE_STEP;
-          const rad = angle * Math.PI / 180;
-          const cosVal = Math.cos(rad), sinVal = Math.sin(rad);
-          const z = cosVal * RADIUS - RADIUS, x = sinVal * RADIUS * 0.38;
-          const scale = 0.48 + 0.52 * ((cosVal + 1) / 2);
-          const opacity = 0.2 + 0.8 * ((cosVal + 1) / 2);
-          const zIndex = Math.round(100 * ((cosVal + 1) / 2));
-          const shadowX = -sinVal * 28, shadowY = 36 + 12 * (1 - (cosVal + 1) / 2);
-          const shadowBlur = 20 + 40 * (1 - (cosVal + 1) / 2);
-          const shadowOpacity = 0.1 + 0.5 * (1 - (cosVal + 1) / 2);
-          card.style.transition = animating ? 'transform 1s cubic-bezier(0.4,0,0.2,1), opacity 1s ease, box-shadow 1s ease' : 'none';
-          card.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${-angle * 0.55}deg) scale(${scale})`;
-          card.style.opacity = opacity; card.style.zIndex = zIndex;
-          card.style.boxShadow = `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0,0,0,${shadowOpacity})`;
-        });
-        updateHeroInfo(cards[activeIndex].photo);
-        document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === activeIndex));
+      .theme-thermo-wrap {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 200;
+        display: none;
+        gap: 10px;
+        align-items: flex-start;
+        overflow: visible;
+      }
+      :root[data-theme="alien"] .theme-thermo-wrap {
+        display: flex;
+      }
+      :root[data-theme="alien"] .theme-picker-simple {
+        display: none;
       }
 
-      function goTo(index) { current = ((index % count) + count) % count; animating = true; positionCards(current); clearTimeout(autoTimer); autoTimer = setTimeout(advance, 5000); }
-      function advance() { goTo((current + 1) % count); }
-      window.addEventListener('resize', () => positionCards(current));
-      positionCards(0);
-      autoTimer = setTimeout(() => { animating = true; advance(); }, 5000);
-    }
+      .thermo-slider {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: none;
+        position: relative;
+        overflow: visible;
+      }
+      .thermo-label {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 9px;
+        color: rgba(10, 245, 150, 0.5);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        opacity: 0;
+        transform: translateY(4px);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        white-space: nowrap;
+        pointer-events: none;
+        margin-bottom: 2px;
+      }
+      .thermo-slider:hover .thermo-label,
+      .thermo-slider.active .thermo-label {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .thermo-canvas {
+        display: block;
+        cursor: none;
+        overflow: visible;
+      }
 
-    function updateHeroInfo(photo) {
-      document.getElementById('heroCaption').textContent = photo.caption || '';
-      const exif = photo.exif || {};
-      const parts = [exif.camera, exif.lens, exif.aperture, exif.shutter, exif.iso ? `ISO ${exif.iso}` : '', exif.film].filter(Boolean);
-      document.getElementById('heroExif').textContent = parts.join(' · ');
-    }
+      /* ── ALIEN THEME TYPOGRAPHY ── */
+      :root[data-theme="alien"] .hero-caption,
+      :root[data-theme="alien"] .hero-exif-strip,
+      :root[data-theme="alien"] .filter-label,
+      :root[data-theme="alien"] .filter-btn,
+      :root[data-theme="alien"] .back-link,
+      :root[data-theme="alien"] .masonry-caption,
+      :root[data-theme="alien"] .masonry-meta {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
 
-    function buildFilters(categories) {
-      const bar = document.getElementById('filterBar');
-      categories.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = 'filter-btn' + (cat === 'all' ? ' active' : '');
-        btn.textContent = cat;
-        btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderGrid(cat); });
-        bar.appendChild(btn);
+      /* ── PAGE NAV ── */
+      .photo-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 32px 80px 0;
+      }
+      .back-link {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--text-3);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.2s;
+      }
+      .back-link:hover {
+        color: var(--accent);
+      }
+
+      /* ── FILTER BAR ── */
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 32px 80px 24px;
+        flex-wrap: wrap;
+      }
+      .filter-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--text-3);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-right: 8px;
+      }
+      .filter-btn {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        padding: 5px 14px;
+        border: 1px solid var(--border-mid);
+        border-radius: 20px;
+        color: var(--text-2);
+        background: none;
+        cursor: none;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          background 0.2s;
+      }
+      .filter-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .filter-btn.active {
+        border-color: var(--accent);
+        color: #000;
+        background: var(--accent);
+      }
+
+      /* ── MASONRY GRID ── */
+      .masonry-wrap {
+        padding: 0 80px 80px;
+      }
+      .masonry-grid {
+        columns: 3;
+        column-gap: 28px;
+      }
+      .masonry-item {
+        break-inside: avoid;
+        margin-bottom: 28px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+        cursor: none;
+      }
+      .masonry-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s ease;
+        border-radius: 4px;
+      }
+      .masonry-item:hover img {
+        transform: scale(1.03);
+      }
+      .masonry-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.75) 0%,
+          transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 20px;
+      }
+      .masonry-item:hover .masonry-overlay {
+        opacity: 1;
+      }
+      .masonry-caption {
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        color: #fff;
+        margin-bottom: 4px;
+      }
+      .masonry-meta {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 0.06em;
+      }
+
+      /* ── EMPTY STATE ── */
+      .empty-state {
+        padding: 80px;
+        text-align: center;
+      }
+      .empty-state .mono {
+        font-size: 11px;
+        color: var(--text-3);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        display: block;
+      }
+      .empty-state p {
+        font-size: 14px;
+        color: var(--text-2);
+        line-height: 1.7;
+      }
+
+      /* ── LIGHTBOX ── */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: rgba(0, 0, 0, 0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .lightbox.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .lightbox-inner {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+        max-width: 90vw;
+        max-height: 90vh;
+      }
+      .lightbox-img-wrap {
+        flex: 1;
+        max-height: 85vh;
+        display: flex;
+        align-items: center;
+      }
+      .lightbox-img-wrap img {
+        max-width: 100%;
+        max-height: 85vh;
+        object-fit: contain;
+        border-radius: 4px;
+      }
+      .lightbox-info {
+        width: 240px;
+        flex-shrink: 0;
+      }
+      .lightbox-caption {
+        font-family: "DM Serif Display", serif;
+        font-size: 22px;
+        color: #fff;
+        letter-spacing: -0.01em;
+        margin-bottom: 8px;
+      }
+      .lightbox-category {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--accent);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+      }
+      .exif-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .exif-row:last-child {
+        border-bottom: none;
+      }
+      .exif-key {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .exif-val {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.8);
+        letter-spacing: 0.04em;
+        text-align: right;
+      }
+      .lightbox-close {
+        position: fixed;
+        top: 24px;
+        right: 32px;
+        font-size: 24px;
+        color: rgba(255, 255, 255, 0.5);
+        background: none;
+        border: none;
+        cursor: none;
+        transition: color 0.2s;
+        z-index: 201;
+      }
+      .lightbox-close:hover {
+        color: #fff;
+      }
+      .lightbox-nav {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 32px;
+        cursor: none;
+        transition: color 0.2s;
+        z-index: 201;
+        padding: 16px;
+      }
+      .lightbox-nav:hover {
+        color: #fff;
+      }
+      .lightbox-prev {
+        left: 16px;
+      }
+      .lightbox-next {
+        right: 16px;
+      }
+
+      /* ── MOBILE ── */
+      @media (max-width: 900px) {
+        .photo-nav {
+          padding: 24px;
+        }
+        .filter-bar {
+          padding: 24px 24px 16px;
+        }
+        .masonry-wrap {
+          padding: 0 24px 48px;
+        }
+        .masonry-grid {
+          columns: 2;
+          column-gap: 16px;
+        }
+        .masonry-item {
+          margin-bottom: 16px;
+        }
+        .hero-overlay {
+          left: 24px;
+          right: 24px;
+          bottom: 24px;
+        }
+        .lightbox-inner {
+          flex-direction: column;
+          max-width: 95vw;
+        }
+        .lightbox-info {
+          width: 100%;
+        }
+      }
+      @media (max-width: 480px) {
+        .masonry-grid {
+          columns: 1;
+        }
+      }
+    </style>
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GKH1LPCHRY"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-GKH1LPCHRY");
+    </script>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <script>
+      window.CJ_SECTION = "photo";
+    </script>
+    <script src="../js/auth-guard.js"></script>
+
+    <!-- Simple theme picker (dark/light) -->
+    <div class="theme-picker-simple" id="themePickerSimple">
+      <span class="theme-label">theme</span>
+      <button
+        class="theme-btn"
+        data-t="dark"
+        title="Dark"
+        aria-label="Dark theme"
+      ></button>
+      <button
+        class="theme-btn"
+        data-t="light"
+        title="Light"
+        aria-label="Light theme"
+      ></button>
+      <button
+        class="theme-btn"
+        data-t="alien"
+        title="Alien"
+        aria-label="Alien theme"
+      ></button>
+    </div>
+
+    <!-- Alien easter egg thermometer (only shows in alien theme) -->
+    <div class="theme-thermo-wrap" id="thermoWrap"></div>
+
+    <!-- 3D Carousel Hero -->
+    <div class="photo-hero" id="photoHero">
+      <div class="carousel-stage">
+        <div class="carousel-ring" id="carouselRing"></div>
+      </div>
+      <div class="hero-overlay">
+        <div class="hero-caption" id="heroCaption"></div>
+        <div class="hero-exif-strip" id="heroExif"></div>
+      </div>
+      <div class="hero-dots" id="heroDots"></div>
+    </div>
+
+    <div class="photo-nav">
+      <a href="../index.html" class="back-link">← Home</a>
+      <span
+        style="
+          font-family: &quot;DM Mono&quot;, monospace;
+          font-size: 10px;
+          color: var(--text-3);
+          letter-spacing: 0.1em;
+        "
+        >PHOTOGRAPHY</span
+      >
+    </div>
+
+    <div class="filter-bar" id="filterBar">
+      <span class="filter-label">Filter</span>
+    </div>
+
+    <div class="masonry-wrap">
+      <div class="masonry-grid" id="masonryGrid"></div>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lbClose">✕</button>
+      <button class="lightbox-nav lightbox-prev" id="lbPrev">‹</button>
+      <button class="lightbox-nav lightbox-next" id="lbNext">›</button>
+      <div class="lightbox-inner">
+        <div class="lightbox-img-wrap"><img src="" alt="" id="lbImg" /></div>
+        <div class="lightbox-info">
+          <div class="lightbox-caption" id="lbCaption"></div>
+          <div class="lightbox-category" id="lbCategory"></div>
+          <div class="exif-table" id="lbExif"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ── CURSOR ──
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      let mx = -100,
+        my = -100,
+        rx = -100,
+        ry = -100;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
       });
-    }
+      (function animCursor() {
+        cursor.style.left = mx + "px";
+        cursor.style.top = my + "px";
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animCursor);
+      })();
 
-    function renderGrid(filter) {
-      const grid = document.getElementById('masonryGrid');
-      grid.innerHTML = '';
-      filteredPhotos = filter === 'all' ? allPhotos : allPhotos.filter(p => p.category === filter);
-      if (!filteredPhotos.length) { grid.innerHTML = '<div class="empty-state"><span class="mono">No photos in this category yet</span></div>'; return; }
-      filteredPhotos.forEach((photo, i) => {
-        const item = document.createElement('div');
-        item.className = 'masonry-item';
-        item.innerHTML = `<img src="../images/photos/${photo.filename}" alt="${photo.caption || ''}" loading="lazy" onerror="this.style.background='var(--bg-3)';this.style.minHeight='200px'">
+      // ── THEME ──
+      const savedTheme = localStorage.getItem("cj-theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+
+      // Mark active dot
+      function syncDots(theme) {
+        document
+          .querySelectorAll(".theme-btn")
+          .forEach((b) => b.classList.toggle("active", b.dataset.t === theme));
+      }
+      syncDots(savedTheme);
+
+      document.querySelectorAll(".theme-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const t = btn.dataset.t;
+          document.documentElement.setAttribute("data-theme", t);
+          localStorage.setItem("cj-theme", t);
+          syncDots(t);
+          const bgMap = { dark: "#181818", light: "#e4e1dc", alien: "#0e1410" };
+          document.getElementById("photoHero").style.background =
+            bgMap[t] || "";
+        });
+      });
+
+      // ── ALIEN THERMOMETER EASTER EGG ──
+      // Only renders when alien theme is active. Three thermometers,
+      // barnacle-drop physics, neon glow — but tucked away as a reward
+      // for finding the alien theme.
+      (function buildAlienThermo() {
+        const THEMES = [
+          { key: "dark", label: "Dark", color: [10, 245, 231] },
+          { key: "light", label: "Light", color: [0, 190, 168] },
+          { key: "alien", label: "Alien", color: [10, 245, 150] },
+        ];
+        const intensity = { dark: 0.8, light: 0.8, alien: 0.8 };
+        const wrap = document.getElementById("thermoWrap");
+        const CW = 48,
+          CH = 200,
+          DPR = 2;
+        const ANCHOR_Y = 6,
+          STEM_H = 12,
+          STEM_W = 6;
+        const TUBE_W = 13,
+          TUBE_R = 6.5,
+          BULB_R = 17;
+        const THERMO_FULL = 120,
+          CASING = 3;
+
+        THEMES.forEach(({ key, label, color }) => {
+          const slider = document.createElement("div");
+          slider.className =
+            "thermo-slider" + (key === savedTheme ? " active" : "");
+          slider.dataset.t = key;
+          const lbl = document.createElement("span");
+          lbl.className = "thermo-label";
+          lbl.textContent = label;
+          const canvas = document.createElement("canvas");
+          canvas.className = "thermo-canvas";
+          canvas.width = CW * DPR;
+          canvas.height = CH * DPR;
+          canvas.style.width = CW + "px";
+          canvas.style.height = CH + "px";
+          const ctx = canvas.getContext("2d");
+          slider.appendChild(lbl);
+          slider.appendChild(canvas);
+          wrap.appendChild(slider);
+
+          let extY = 0,
+            extV = 0,
+            extTarget = 0;
+          let wiggleAng = 0,
+            wiggleV = 0,
+            wiggleActive = false;
+          let fillY = 0,
+            fillTarget = 0;
+          let jiggleT = Math.random() * Math.PI * 2;
+          let hovered = false,
+            isDragging = false;
+          let holdTimer, dragStartY, dragStartVal;
+
+          function isActive() {
+            return slider.classList.contains("active");
+          }
+
+          function draw(t) {
+            const s = DPR,
+              w = CW * s,
+              h = CH * s,
+              cx = w / 2;
+            const [r, g, b] = color;
+            const fillColor = `rgb(${r},${g},${b})`;
+            const active = isActive();
+            const glowBlur = active ? 20 * s : hovered ? 12 * s : 5 * s;
+            const glowAlpha = active ? 1.0 : hovered ? 0.6 : 0.2;
+
+            ctx.clearRect(0, 0, w, h);
+            const anchorY = ANCHOR_Y * s,
+              stemH = STEM_H * s,
+              stemW = STEM_W * s;
+            const tubeW = TUBE_W * s,
+              tubeR = TUBE_R * s,
+              bulbR = BULB_R * s;
+            const cas = CASING * s,
+              ext = extY * s;
+            const swingOffset = Math.sin(wiggleAng) * ext * 0.3;
+
+            // Stem stub
+            ctx.beginPath();
+            ctx.roundRect(
+              cx - stemW / 2 - cas,
+              anchorY,
+              stemW + cas * 2,
+              stemH + cas,
+              4,
+            );
+            ctx.fillStyle = "#111";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.roundRect(cx - stemW / 2, anchorY + 1, stemW, stemH - 1, 3);
+            ctx.shadowColor = fillColor;
+            ctx.shadowBlur = active ? 10 * s : 4 * s;
+            ctx.fillStyle = `rgba(${r},${g},${b},${active ? 0.7 : 0.35})`;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            if (ext < 2) return;
+            ctx.save();
+            ctx.translate(swingOffset, 0);
+
+            // Unified casing
+            ctx.beginPath();
+            ctx.moveTo(cx - tubeW / 2 - cas, anchorY + stemH);
+            ctx.lineTo(cx - tubeW / 2 - cas, anchorY + stemH + ext - bulbR);
+            ctx.arc(cx, anchorY + stemH + ext, bulbR + cas, Math.PI, 0, true);
+            ctx.lineTo(cx + tubeW / 2 + cas, anchorY + stemH);
+            ctx.closePath();
+            ctx.fillStyle = "#0d0d0d";
+            ctx.fill();
+
+            // Fleshy body
+            const bodyTop = anchorY + stemH;
+            ctx.beginPath();
+            ctx.moveTo(cx - tubeW / 2, bodyTop + tubeR);
+            ctx.arcTo(cx - tubeW / 2, bodyTop, cx, bodyTop, tubeR);
+            ctx.arcTo(
+              cx + tubeW / 2,
+              bodyTop,
+              cx + tubeW / 2,
+              bodyTop + tubeR,
+              tubeR,
+            );
+            ctx.lineTo(cx + tubeW / 2, bodyTop + ext - bulbR);
+            ctx.arc(cx, bodyTop + ext, bulbR, 0, Math.PI, false);
+            ctx.closePath();
+            ctx.fillStyle = `rgba(${r},${g},${b},${active ? 0.09 : 0.04})`;
+            ctx.fill();
+            ctx.strokeStyle = `rgba(255,255,255,${active ? 0.14 : 0.05})`;
+            ctx.lineWidth = s * 0.5;
+            ctx.stroke();
+
+            // Neon fill — clipped to body
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(cx - tubeW / 2, bodyTop + tubeR);
+            ctx.arcTo(cx - tubeW / 2, bodyTop, cx, bodyTop, tubeR);
+            ctx.arcTo(
+              cx + tubeW / 2,
+              bodyTop,
+              cx + tubeW / 2,
+              bodyTop + tubeR,
+              tubeR,
+            );
+            ctx.lineTo(cx + tubeW / 2, bodyTop + ext - bulbR);
+            ctx.arc(cx, bodyTop + ext, bulbR, 0, Math.PI, false);
+            ctx.closePath();
+            ctx.clip();
+
+            ctx.shadowColor = fillColor;
+            ctx.shadowBlur = glowBlur;
+            ctx.globalAlpha = glowAlpha;
+
+            // Bulb fill
+            ctx.beginPath();
+            ctx.arc(
+              cx,
+              bodyTop + ext,
+              bulbR * (0.35 + 0.65 * fillY),
+              0,
+              Math.PI * 2,
+            );
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+
+            // Tube fill
+            if (fillY > 0.02 && ext > bulbR * s) {
+              const tubeInnerH = ext - bulbR - tubeR;
+              const fillH = tubeInnerH * fillY;
+              const fillTop = bodyTop + ext - bulbR - fillH;
+              const jigAmt = (hovered ? 3 : 1) * s;
+              const surfaceY = fillTop + Math.sin(t * 3.4 + jiggleT) * jigAmt;
+              const bulgeSide = Math.sin(t * 2.1 + jiggleT + 1) * jigAmt * 0.4;
+              ctx.beginPath();
+              ctx.moveTo(cx - tubeW / 2, bodyTop + ext);
+              ctx.lineTo(cx - tubeW / 2, surfaceY);
+              ctx.bezierCurveTo(
+                cx - tubeW / 2 + bulgeSide,
+                surfaceY - 4 * s,
+                cx + tubeW / 2 - bulgeSide,
+                surfaceY - 4 * s,
+                cx + tubeW / 2,
+                surfaceY,
+              );
+              ctx.lineTo(cx + tubeW / 2, bodyTop + ext);
+              ctx.closePath();
+              ctx.fillStyle = fillColor;
+              ctx.fill();
+              const dripPhase = Math.max(0, Math.sin(t * 1.1 + jiggleT * 1.8));
+              const dripLen = dripPhase * 9 * s * fillY;
+              if (dripLen > 2) {
+                ctx.beginPath();
+                ctx.ellipse(
+                  cx,
+                  surfaceY - dripLen * 0.5,
+                  2.5 * s,
+                  dripLen * 0.55,
+                  0,
+                  0,
+                  Math.PI * 2,
+                );
+                ctx.fillStyle = `rgba(${r},${g},${b},0.75)`;
+                ctx.fill();
+              }
+            }
+            ctx.restore();
+
+            // Glass highlight
+            const grad = ctx.createLinearGradient(
+              cx - tubeW / 2,
+              0,
+              cx - tubeW / 5,
+              0,
+            );
+            grad.addColorStop(0, "rgba(255,255,255,0.14)");
+            grad.addColorStop(1, "rgba(255,255,255,0)");
+            ctx.beginPath();
+            ctx.roundRect(
+              cx - tubeW / 2,
+              bodyTop,
+              tubeW / 3,
+              ext - bulbR,
+              tubeR,
+            );
+            ctx.fillStyle = grad;
+            ctx.fill();
+            ctx.restore();
+          }
+
+          let startTime = null;
+          function animate(ts) {
+            if (!startTime) startTime = ts;
+            const t = (ts - startTime) / 1000;
+            jiggleT += 0.016;
+            if (extTarget > extY) {
+              extV += 1.2;
+              extV = Math.min(extV, 6);
+              extY = Math.min(extTarget, extY + extV);
+              if (extY >= extTarget && wiggleV === 0) {
+                wiggleV = 0.08;
+                wiggleActive = true;
+              }
+            } else if (extTarget < extY) {
+              extV = 0;
+              extY += (extTarget - extY) * 0.055;
+              if (Math.abs(extTarget - extY) < 0.3) extY = extTarget;
+              wiggleActive = false;
+              wiggleAng *= 0.85;
+            }
+            if (wiggleActive || Math.abs(wiggleAng) > 0.001) {
+              wiggleV -= wiggleAng * 0.012;
+              wiggleV *= 0.93;
+              wiggleAng += wiggleV;
+              if (Math.abs(wiggleAng) < 0.001 && Math.abs(wiggleV) < 0.001) {
+                wiggleAng = 0;
+                wiggleV = 0;
+                wiggleActive = false;
+              }
+            }
+            if (extY > THERMO_FULL * 0.25)
+              fillY += (fillTarget - fillY) * 0.022;
+            else fillY += (0 - fillY) * 0.12;
+            draw(t);
+            requestAnimationFrame(animate);
+          }
+          requestAnimationFrame(animate);
+
+          if (isActive()) fillTarget = intensity[key];
+
+          slider.addEventListener("mouseenter", () => {
+            hovered = true;
+            extTarget = THERMO_FULL;
+            fillTarget = isActive() ? intensity[key] : intensity[key] * 0.4;
+          });
+          slider.addEventListener("mouseleave", () => {
+            if (isDragging) return;
+            hovered = false;
+            extTarget = 0;
+            fillTarget = 0;
+          });
+          slider.addEventListener("click", () => {
+            const t = key;
+            document.documentElement.setAttribute("data-theme", t);
+            localStorage.setItem("cj-theme", t);
+            syncDots(t);
+            document
+              .querySelectorAll(".thermo-slider")
+              .forEach((s) => s.classList.remove("active"));
+            slider.classList.add("active");
+            fillTarget = intensity[key];
+            const bgMap = {
+              dark: "#181818",
+              light: "#e4e1dc",
+              alien: "#0e1410",
+            };
+            document.getElementById("photoHero").style.background =
+              bgMap[t] || "";
+          });
+          canvas.addEventListener("mousedown", (e) => {
+            holdTimer = setTimeout(() => {
+              isDragging = true;
+              dragStartY = e.clientY;
+              dragStartVal = intensity[key];
+              extTarget = THERMO_FULL;
+            }, 250);
+          });
+          document.addEventListener("mousemove", (e) => {
+            if (!isDragging || slider.dataset.t !== key) return;
+            const newVal = Math.max(
+              0.05,
+              Math.min(1.0, dragStartVal + (dragStartY - e.clientY) * 0.008),
+            );
+            intensity[key] = newVal;
+            fillTarget = newVal;
+          });
+          document.addEventListener("mouseup", () => {
+            clearTimeout(holdTimer);
+            if (isDragging) {
+              isDragging = false;
+              if (!hovered) {
+                extTarget = 0;
+                fillTarget = 0;
+              }
+            }
+          });
+        });
+      })();
+
+      // ── LOAD PHOTOS ──
+      let allPhotos = [],
+        filteredPhotos = [],
+        currentLbIndex = 0;
+      const SESSION_SEED = Math.floor(Date.now() / (1000 * 60 * 30));
+
+      function seededRandom(seed) {
+        let s = seed;
+        return function () {
+          s = (s * 16807 + 0) % 2147483647;
+          return (s - 1) / 2147483646;
+        };
+      }
+      function shuffleSeeded(arr, seed) {
+        const rng = seededRandom(seed),
+          a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(rng() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      fetch("../data/photos.json")
+        .then((r) => r.json())
+        .then((data) => {
+          allPhotos = data.photos;
+          buildFilters(data.categories);
+          renderGrid("all");
+          buildHero();
+        })
+        .catch(() => {
+          document.getElementById("masonryGrid").innerHTML =
+            '<div class="empty-state"><span class="mono">No photos yet</span></div>';
+        });
+
+      function buildHero() {
+        const featured = allPhotos.filter((p) => p.featured);
+        if (!featured.length) return;
+        const photos = shuffleSeeded(featured, SESSION_SEED);
+        const count = photos.length;
+        const ring = document.getElementById("carouselRing");
+        const dots = document.getElementById("heroDots");
+        const ANGLE_STEP = 360 / count;
+        function getRadius() {
+          return Math.max(700, window.innerWidth * 0.46);
+        }
+
+        const cards = photos.map((photo, i) => {
+          const card = document.createElement("div");
+          card.className = "carousel-card";
+          const img = document.createElement("img");
+          img.src = `../images/photos/${photo.filename}`;
+          img.alt = photo.caption || "";
+          card.appendChild(img);
+          ring.appendChild(card);
+          const dot = document.createElement("div");
+          dot.className = "hero-dot" + (i === 0 ? " active" : "");
+          dot.addEventListener("click", () => goTo(i));
+          dots.appendChild(dot);
+          return { card, photo };
+        });
+
+        let current = 0,
+          animating = false,
+          autoTimer;
+
+        function positionCards(activeIndex) {
+          const RADIUS = getRadius();
+          cards.forEach(({ card }, i) => {
+            const angle = (i - activeIndex) * ANGLE_STEP;
+            const rad = (angle * Math.PI) / 180;
+            const cosVal = Math.cos(rad),
+              sinVal = Math.sin(rad);
+            const z = cosVal * RADIUS - RADIUS,
+              x = sinVal * RADIUS * 0.38;
+            const scale = 0.48 + 0.52 * ((cosVal + 1) / 2);
+            const opacity = 0.2 + 0.8 * ((cosVal + 1) / 2);
+            const zIndex = Math.round(100 * ((cosVal + 1) / 2));
+            const shadowX = -sinVal * 28,
+              shadowY = 36 + 12 * (1 - (cosVal + 1) / 2);
+            const shadowBlur = 20 + 40 * (1 - (cosVal + 1) / 2);
+            const shadowOpacity = 0.1 + 0.5 * (1 - (cosVal + 1) / 2);
+            card.style.transition = animating
+              ? "transform 1s cubic-bezier(0.4,0,0.2,1), opacity 1s ease, box-shadow 1s ease"
+              : "none";
+            card.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${-angle * 0.55}deg) scale(${scale})`;
+            card.style.opacity = opacity;
+            card.style.zIndex = zIndex;
+            card.style.boxShadow = `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0,0,0,${shadowOpacity})`;
+          });
+          updateHeroInfo(cards[activeIndex].photo);
+          document
+            .querySelectorAll(".hero-dot")
+            .forEach((d, i) => d.classList.toggle("active", i === activeIndex));
+        }
+
+        function goTo(index) {
+          current = ((index % count) + count) % count;
+          animating = true;
+          positionCards(current);
+          clearTimeout(autoTimer);
+          autoTimer = setTimeout(advance, 5000);
+        }
+        function advance() {
+          goTo((current + 1) % count);
+        }
+        window.addEventListener("resize", () => positionCards(current));
+        positionCards(0);
+        autoTimer = setTimeout(() => {
+          animating = true;
+          advance();
+        }, 5000);
+      }
+
+      function updateHeroInfo(photo) {
+        document.getElementById("heroCaption").textContent =
+          photo.caption || "";
+        const exif = photo.exif || {};
+        const parts = [
+          exif.camera,
+          exif.lens,
+          exif.aperture,
+          exif.shutter,
+          exif.iso ? `ISO ${exif.iso}` : "",
+          exif.film,
+        ].filter(Boolean);
+        document.getElementById("heroExif").textContent = parts.join(" · ");
+      }
+
+      function buildFilters(categories) {
+        const bar = document.getElementById("filterBar");
+        categories.forEach((cat) => {
+          const btn = document.createElement("button");
+          btn.className = "filter-btn" + (cat === "all" ? " active" : "");
+          btn.textContent = cat;
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            renderGrid(cat);
+          });
+          bar.appendChild(btn);
+        });
+      }
+
+      function renderGrid(filter) {
+        const grid = document.getElementById("masonryGrid");
+        grid.innerHTML = "";
+        filteredPhotos =
+          filter === "all"
+            ? allPhotos
+            : allPhotos.filter((p) => p.category === filter);
+        if (!filteredPhotos.length) {
+          grid.innerHTML =
+            '<div class="empty-state"><span class="mono">No photos in this category yet</span></div>';
+          return;
+        }
+        filteredPhotos.forEach((photo, i) => {
+          const item = document.createElement("div");
+          item.className = "masonry-item";
+          item.innerHTML = `<img src="../images/photos/${photo.filename}" alt="${photo.caption || ""}" loading="lazy" onerror="this.style.background='var(--bg-3)';this.style.minHeight='200px'">
           <div class="masonry-overlay">
-            <div class="masonry-caption">${photo.caption || ''}</div>
+            <div class="masonry-caption">${photo.caption || ""}</div>
             <div class="masonry-meta">${photo.category} · ${photo.date}</div>
           </div>`;
-        item.addEventListener('click', () => openLightbox(i));
-        grid.appendChild(item);
+          item.addEventListener("click", () => openLightbox(i));
+          grid.appendChild(item);
+        });
+      }
+
+      function openLightbox(index) {
+        currentLbIndex = index;
+        updateLightbox();
+        document.getElementById("lightbox").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeLightbox() {
+        document.getElementById("lightbox").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function updateLightbox() {
+        const photo = filteredPhotos[currentLbIndex];
+        document.getElementById("lbImg").src =
+          `../images/photos/${photo.filename}`;
+        document.getElementById("lbImg").alt = photo.caption || "";
+        document.getElementById("lbCaption").textContent = photo.caption || "";
+        document.getElementById("lbCategory").textContent = photo.category;
+        const exif = photo.exif || {};
+        const rows = [
+          ["Camera", exif.camera],
+          ["Lens", exif.lens],
+          ["Aperture", exif.aperture],
+          ["Shutter", exif.shutter],
+          ["ISO", exif.iso],
+          ["Film", exif.film],
+        ].filter(([, v]) => v);
+        document.getElementById("lbExif").innerHTML = rows
+          .map(
+            ([k, v]) =>
+              `<div class="exif-row"><span class="exif-key">${k}</span><span class="exif-val">${v}</span></div>`,
+          )
+          .join("");
+      }
+
+      document
+        .getElementById("lbClose")
+        .addEventListener("click", closeLightbox);
+      document.getElementById("lbPrev").addEventListener("click", () => {
+        currentLbIndex =
+          (currentLbIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+        updateLightbox();
       });
-    }
-
-    function openLightbox(index) { currentLbIndex = index; updateLightbox(); document.getElementById('lightbox').classList.add('open'); document.body.style.overflow = 'hidden'; }
-    function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
-    function updateLightbox() {
-      const photo = filteredPhotos[currentLbIndex];
-      document.getElementById('lbImg').src = `../images/photos/${photo.filename}`;
-      document.getElementById('lbImg').alt = photo.caption || '';
-      document.getElementById('lbCaption').textContent = photo.caption || '';
-      document.getElementById('lbCategory').textContent = photo.category;
-      const exif = photo.exif || {};
-      const rows = [['Camera',exif.camera],['Lens',exif.lens],['Aperture',exif.aperture],['Shutter',exif.shutter],['ISO',exif.iso],['Film',exif.film]].filter(([,v])=>v);
-      document.getElementById('lbExif').innerHTML = rows.map(([k,v])=>`<div class="exif-row"><span class="exif-key">${k}</span><span class="exif-val">${v}</span></div>`).join('');
-    }
-
-    document.getElementById('lbClose').addEventListener('click', closeLightbox);
-    document.getElementById('lbPrev').addEventListener('click', () => { currentLbIndex = (currentLbIndex - 1 + filteredPhotos.length) % filteredPhotos.length; updateLightbox(); });
-    document.getElementById('lbNext').addEventListener('click', () => { currentLbIndex = (currentLbIndex + 1) % filteredPhotos.length; updateLightbox(); });
-    document.getElementById('lightbox').addEventListener('click', e => { if (e.target === document.getElementById('lightbox')) closeLightbox(); });
-    document.addEventListener('keydown', e => {
-      if (!document.getElementById('lightbox').classList.contains('open')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') { currentLbIndex = (currentLbIndex - 1 + filteredPhotos.length) % filteredPhotos.length; updateLightbox(); }
-      if (e.key === 'ArrowRight') { currentLbIndex = (currentLbIndex + 1) % filteredPhotos.length; updateLightbox(); }
-    });
-  </script>
-</body>
+      document.getElementById("lbNext").addEventListener("click", () => {
+        currentLbIndex = (currentLbIndex + 1) % filteredPhotos.length;
+        updateLightbox();
+      });
+      document.getElementById("lightbox").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("lightbox")) closeLightbox();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (!document.getElementById("lightbox").classList.contains("open"))
+          return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") {
+          currentLbIndex =
+            (currentLbIndex - 1 + filteredPhotos.length) %
+            filteredPhotos.length;
+          updateLightbox();
+        }
+        if (e.key === "ArrowRight") {
+          currentLbIndex = (currentLbIndex + 1) % filteredPhotos.length;
+          updateLightbox();
+        }
+      });
+    </script>
+  </body>
 </html>
