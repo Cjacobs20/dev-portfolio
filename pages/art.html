@@ -121,25 +121,15 @@
       cursor: none;
       left: 50%;
       top: 50%;
+      transform-style: preserve-3d;
     }
-
-    /* Left wall: pushed left and rotated to face right */
-    .artwork.wall-left {
-      transform: translateX(calc(-50% - 600px)) translateZ(var(--art-z)) translateY(-50%);
-    }
-
-    /* Right wall: pushed right and rotated to face left */
-    .artwork.wall-right {
-      transform: translateX(calc(-50% + 600px)) translateZ(var(--art-z)) translateY(-50%);
-    }
-
     .artwork-frame {
       position: relative; background: #1a1410; padding: 12px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.03);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.8);
       transition: box-shadow 0.3s ease;
     }
     .artwork:hover .artwork-frame {
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 20px 80px rgba(0,0,0,0.9), 0 0 40px rgba(255,255,255,0.05), inset 0 0 0 1px rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 0 60px rgba(255,255,255,0.06);
     }
     .artwork-frame img { display: block; object-fit: cover; }
     .artwork-light {
@@ -297,12 +287,15 @@
       const count = pieces.length;
 
       pieces.forEach((piece, i) => {
-        const zPos = -(CORRIDOR_START + (i / (count - 1)) * CORRIDOR_LENGTH);
+        const t = count > 1 ? i / (count - 1) : 0;
+        const zPos = -(400 + t * 3200); // spread from -400 to -3600
+        const xPos = piece.wall === 'left' ? -580 : 580;
         const el = document.createElement('div');
-        el.className = `artwork wall-${piece.wall} size-${piece.size}`;
-        el.style.setProperty('--art-z', `${-zPos}px`);
+        el.className = `artwork size-${piece.size}`;
         const sizeMap = { large: [360, 480], medium: [260, 320], small: [180, 220] };
         const [w, h] = sizeMap[piece.size];
+        // Set transform directly — no CSS variables
+        el.style.transform = `translate(-50%, -50%) translate3d(${xPos}px, 0px, ${zPos}px)`;
         el.innerHTML = `
           <div class="artwork-light"></div>
           <div class="artwork-frame">
