@@ -117,18 +117,22 @@
 
     /* ── ARTWORK ── */
     .artwork {
-      position: absolute; transform-style: preserve-3d; cursor: none;
+      position: absolute;
+      cursor: none;
+      left: 50%;
+      top: 50%;
     }
+
+    /* Left wall: pushed left and rotated to face right */
     .artwork.wall-left {
-      transform-origin: right center;
-      right: 50%; top: 50%;
-      transform: rotateY(90deg) translateZ(var(--art-offset));
+      transform: translateX(calc(-50% - 600px)) translateZ(var(--art-z)) translateY(-50%);
     }
+
+    /* Right wall: pushed right and rotated to face left */
     .artwork.wall-right {
-      transform-origin: left center;
-      left: 50%; top: 50%;
-      transform: rotateY(-90deg) translateZ(var(--art-offset));
+      transform: translateX(calc(-50% + 600px)) translateZ(var(--art-z)) translateY(-50%);
     }
+
     .artwork-frame {
       position: relative; background: #1a1410; padding: 12px;
       box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.03);
@@ -142,7 +146,7 @@
       position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
       width: 0; height: 0;
       border-left: 60px solid transparent; border-right: 60px solid transparent;
-      border-top: 200px solid rgba(255,240,200,0.03);
+      border-top: 200px solid rgba(255,240,200,0.04);
       pointer-events: none; filter: blur(8px);
     }
     .artwork.size-large  .artwork-frame img { width: 360px; height: 480px; }
@@ -293,10 +297,10 @@
       const count = pieces.length;
 
       pieces.forEach((piece, i) => {
-        const zPos = CORRIDOR_START - (i / (count - 1)) * CORRIDOR_LENGTH;
+        const zPos = -(CORRIDOR_START + (i / (count - 1)) * CORRIDOR_LENGTH);
         const el = document.createElement('div');
         el.className = `artwork wall-${piece.wall} size-${piece.size}`;
-        el.style.setProperty('--art-offset', `${Math.abs(zPos)}px`);
+        el.style.setProperty('--art-z', `${-zPos}px`);
         const sizeMap = { large: [360, 480], medium: [260, 320], small: [180, 220] };
         const [w, h] = sizeMap[piece.size];
         el.innerHTML = `
@@ -305,7 +309,6 @@
             <img src="../images/art/${piece.filename}" alt="${piece.title}" width="${w}" height="${h}"
               onerror="this.style.background='#1a1a1a';this.removeAttribute('src')">
           </div>`;
-        el.style.marginTop = `-${h / 2 + 12}px`;
         el.addEventListener('click', () => openLightbox(piece));
         container.appendChild(el);
       });
