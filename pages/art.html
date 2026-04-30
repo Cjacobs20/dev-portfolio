@@ -93,7 +93,8 @@
     /* ── 3D STAGE ── */
     .gallery-stage {
       position: fixed; inset: 0;
-      perspective: 900px; perspective-origin: 50% 45%;
+      perspective: 700px;
+      perspective-origin: 50% 45%;
     }
     .gallery-room {
       position: absolute; inset: 0;
@@ -122,26 +123,27 @@
       position: absolute; width: 4000px; height: 100vh;
       top: 0; right: calc(50% + 1px);
       transform-origin: right center; transform: rotateY(90deg);
-      background: var(--gallery-wall, #111);
+      background: #111111;
       transition: background 0.4s ease;
     }
     .room-wall-right {
       position: absolute; width: 4000px; height: 100vh;
       top: 0; left: calc(50% + 1px);
       transform-origin: left center; transform: rotateY(-90deg);
-      background: var(--gallery-wall, #111);
+      background: #111111;
       transition: background 0.4s ease;
     }
 
-    /* ── THEME LIGHTING ── */
-    :root[data-theme="dark"]  { --gallery-wall: #111111; --gallery-floor: #0a0a0a; --gallery-ambient: rgba(10,245,231,0.03); }
-    :root[data-theme="light"] { --gallery-wall: #e8e2d8; --gallery-floor: #d4cfc6; --gallery-ambient: rgba(255,240,200,0.12); }
-    :root[data-theme="alien"] { --gallery-wall: #071a0e; --gallery-floor: #041208; --gallery-ambient: rgba(10,245,150,0.06); }
+    /* ── THEME LIGHTING — direct element targeting ── */
+    :root[data-theme="light"] .room-wall-left,
+    :root[data-theme="light"] .room-wall-right { background: #2a2420; }
+    :root[data-theme="light"] .room-floor  { background: #1a1612 !important; }
+    :root[data-theme="light"] .room-ceiling { background: #1e1a16 !important; }
 
-    :root[data-theme="light"] .room-floor { background: #d4cfc6; }
-    :root[data-theme="light"] .room-ceiling { background: #ede8e0; }
-    :root[data-theme="alien"] .room-floor { background: #041208; }
-    :root[data-theme="alien"] .room-ceiling { background: #020d08; }
+    :root[data-theme="alien"] .room-wall-left,
+    :root[data-theme="alien"] .room-wall-right { background: #071a0e; }
+    :root[data-theme="alien"] .room-floor  { background: #041208 !important; }
+    :root[data-theme="alien"] .room-ceiling { background: #020d08 !important; }
 
     /* ── ARTWORK ── */
     .artwork {
@@ -157,10 +159,9 @@
       transition: box-shadow 0.3s ease;
       display: inline-block;
     }
-    :root[data-theme="light"] .artwork-frame { background: #f0ebe0; box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 20px 60px rgba(0,0,0,0.25); }
-    .artwork:hover .artwork-frame {
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 0 60px rgba(255,255,255,0.06);
-    }
+    :root[data-theme="light"] .artwork-frame { background: #2a2018; box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 20px 60px rgba(0,0,0,0.6); }
+    :root[data-theme="light"] .artwork-light { border-top-color: rgba(255,220,140,0.18); }
+    :root[data-theme="alien"] .artwork-light { border-top-color: rgba(10,245,150,0.09); }
     .artwork-frame img {
       display: block;
       max-width: 360px;
@@ -171,7 +172,9 @@
     .artwork.size-medium .artwork-frame img { max-width: 260px; }
     .artwork.size-small  .artwork-frame img { max-width: 180px; }
 
-    /* ── SPOTLIGHT — points DOWN from ceiling onto art ── */
+    .artwork:hover .artwork-frame {
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 0 60px rgba(255,255,255,0.06);
+    }
     .artwork-light {
       position: absolute;
       top: -240px; /* above the frame */
@@ -187,26 +190,39 @@
     :root[data-theme="light"] .artwork-light { border-top-color: rgba(255,220,140,0.15); }
     :root[data-theme="alien"] .artwork-light { border-top-color: rgba(10,245,150,0.07); }
 
-    /* ── COLLECTION ROOM ── */
-    .collection-room {
-      position: absolute; width: 1400px; height: 100vh;
-      top: 0; left: 50%;
-      transform: translateX(-50%) translateZ(-3200px);
-      transform-style: preserve-3d;
-      display: flex; align-items: center; justify-content: space-around;
-      padding: 0 80px;
+    /* ── BACK WALL ── */
+    .room-wall-back {
+      position: absolute;
+      width: 100vw; height: 100vh;
+      top: 0; left: 0;
+      transform: translateZ(-2900px);
+      background: #111111;
     }
+
+    /* ── COLLECTION LABEL ── */
     .collection-label {
-      position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%) translateZ(-2820px);
+      top: 60px;
       font-family: 'DM Mono', monospace; font-size: 10px;
       color: rgba(255,255,255,0.2); letter-spacing: 0.3em;
       text-transform: uppercase; white-space: nowrap;
     }
-    .collection-piece { cursor: none; }
+
+    /* ── COLLECTION PIECES — individually placed at back wall ── */
+    .collection-piece {
+      position: absolute;
+      left: 50%; top: 50%;
+      cursor: none;
+      transform: translate(-50%, -50%) translateZ(-2840px) translateX(var(--col-x));
+    }
+    .collection-piece.left  { --col-x: -380px; }
+    .collection-piece.center { --col-x: 0px; }
+    .collection-piece.right { --col-x: 380px; }
     .collection-piece .artwork-frame { display: inline-block; }
     .collection-piece .artwork-frame img { display: block; max-width: 280px; width: auto; height: auto; }
     .collection-piece.center .artwork-frame img { max-width: 340px; }
-
     /* ── LIGHTBOX ── */
     .gallery-lightbox {
       position: fixed; inset: 0; z-index: 500;
@@ -282,9 +298,10 @@
       <div class="room-wall-left"></div>
       <div class="room-wall-right"></div>
       <div id="artworkContainer"></div>
-      <div class="collection-room" id="collectionRoom">
-        <div class="collection-label">The Collection</div>
-      </div>
+      <!-- Back wall -->
+      <div class="room-wall-back" id="roomWallBack"></div>
+      <!-- Collection label -->
+      <div class="collection-label">The Collection</div>
     </div>
   </div>
 
@@ -306,12 +323,30 @@
     // ── THEME ──
     const savedTheme = localStorage.getItem('cj-theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
+
+    const wallColors = {
+      dark:  { wall: '#111111', floor: '#0a0a0a', ceiling: '#050505' },
+      light: { wall: '#2a2420', floor: '#1a1612', ceiling: '#1e1a16' },
+      alien: { wall: '#071a0e', floor: '#041208', ceiling: '#020d08' }
+    };
+
+    function applyRoomTheme(theme) {
+      const c = wallColors[theme] || wallColors.dark;
+      document.querySelectorAll('.room-wall-left, .room-wall-right').forEach(el => el.style.background = c.wall);
+      document.querySelectorAll('.room-floor').forEach(el => el.style.background = c.floor);
+      document.querySelectorAll('.room-ceiling').forEach(el => el.style.background = c.ceiling);
+      document.querySelectorAll('.room-wall-back').forEach(el => el.style.background = c.wall);
+    }
+    applyRoomTheme(savedTheme);
+
     document.querySelectorAll('.theme-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.t === savedTheme);
       btn.addEventListener('click', () => {
-        document.documentElement.setAttribute('data-theme', btn.dataset.t);
-        localStorage.setItem('cj-theme', btn.dataset.t);
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.t === btn.dataset.t));
+        const t = btn.dataset.t;
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('cj-theme', t);
+        document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.t === t));
+        applyRoomTheme(t);
       });
     });
 
@@ -324,7 +359,7 @@
     const room = document.getElementById('galleryRoom');
     const progress = document.getElementById('galleryProgress');
     const TOTAL_TRAVEL = 3600;
-    let currentZ = 400, targetZ = 400; // start past the entrance seam
+    let currentZ = 700, targetZ = 700; // start well past entrance seam
 
     function buildGallery(data) {
       const container = document.getElementById('artworkContainer');
@@ -359,36 +394,33 @@
         container.appendChild(el);
       });
 
-      const collRoom = document.getElementById('collectionRoom');
+      const galleryRoom = document.getElementById('galleryRoom');
       data.collection.forEach(piece => {
         const el = document.createElement('div');
         el.className = `collection-piece ${piece.position}`;
-        const isCenter = piece.position === 'center';
-        const w = isCenter ? 340 : 280;
-        const h = isCenter ? 440 : 360;
         el.innerHTML = `
           <div class="artwork-light"></div>
           <div class="artwork-frame">
-            <img src="../images/art/${piece.filename}" alt="${piece.title}" width="${w}" height="${h}"
-              onerror="this.style.background='#1a1a1a';this.removeAttribute('src')">
+            <img src="../images/art/${piece.filename}" alt="${piece.title}"
+              onerror="this.style.background='#1a1a1a';this.style.minWidth='200px';this.style.minHeight='200px'">
           </div>`;
         el.addEventListener('click', () => openLightbox(piece));
-        collRoom.appendChild(el);
+        galleryRoom.appendChild(el);
       });
     }
 
     // ── SCROLL → CAMERA ──
     // scroll down = walk forward = increase translateZ
     window.addEventListener('wheel', e => {
-      targetZ = Math.max(400, Math.min(TOTAL_TRAVEL, targetZ + e.deltaY * 1.2));
-      progress.style.width = ((targetZ - 400) / (TOTAL_TRAVEL - 400) * 100) + '%';
+      targetZ = Math.max(700, Math.min(TOTAL_TRAVEL, targetZ + e.deltaY * 1.2));
+      progress.style.width = ((targetZ - 700) / (TOTAL_TRAVEL - 700) * 100) + '%';
     }, { passive: true });
 
     window.addEventListener('keydown', e => {
       const step = 120;
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') targetZ = Math.min(TOTAL_TRAVEL, targetZ + step);
-      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') targetZ = Math.max(400, targetZ - step);
-      progress.style.width = ((targetZ - 400) / (TOTAL_TRAVEL - 400) * 100) + '%';
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') targetZ = Math.max(700, targetZ - step);
+      progress.style.width = ((targetZ - 700) / (TOTAL_TRAVEL - 700) * 100) + '%';
     });
 
     (function cameraLoop() {

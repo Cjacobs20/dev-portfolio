@@ -70,8 +70,8 @@
   "collection": [
     {
       "id": "art-col-001",
-      "filename": "bread-and-circuses.jpg",
-      "title": "Bread And Circuses",
+      "filename": "an-unsturdy-union.jpg",
+      "title": "An Unsturdy Union",
       "medium": "",
       "year": "2018",
       "dimensions": "",
@@ -79,8 +79,8 @@
     },
     {
       "id": "art-col-002",
-      "filename": "an-unsturdy-union.jpg",
-      "title": "An Unsturdy Union",
+      "filename": "bread-and-circuses.jpg",
+      "title": "Bread And Circuses",
       "medium": "",
       "year": "2018",
       "dimensions": "",
