@@ -163,7 +163,7 @@
     .collection-room {
       position: absolute; width: 1400px; height: 100vh;
       top: 0; left: 50%;
-      transform: translateX(-50%) translateZ(-3800px);
+      transform: translateX(-50%) translateZ(-3200px);
       transform-style: preserve-3d;
       display: flex; align-items: center; justify-content: space-around;
       padding: 0 80px;
@@ -293,6 +293,10 @@
       .catch(() => console.warn('art.json not found'));
 
     const room = document.getElementById('galleryRoom');
+    const progress = document.getElementById('galleryProgress');
+    const TOTAL_TRAVEL = 3400;
+    // Start inside the corridor entrance, not behind the room
+    let currentZ = 600, targetZ = 600;
 
     function buildGallery(data) {
       const container = document.getElementById('artworkContainer');
@@ -301,13 +305,12 @@
 
       pieces.forEach((piece, i) => {
         const t = count > 1 ? i / (count - 1) : 0;
-        const zPos = -(400 + t * 3200); // spread from -400 to -3600
-        const xPos = piece.wall === 'left' ? -580 : 580;
+        const zPos = -(200 + t * 2800); // start close, spread to -3000
+        const xPos = piece.wall === 'left' ? -480 : 480;
         const el = document.createElement('div');
         el.className = `artwork size-${piece.size}`;
         const sizeMap = { large: [360, 480], medium: [260, 320], small: [180, 220] };
         const [w, h] = sizeMap[piece.size];
-        // Set transform directly — no CSS variables
         el.style.transform = `translate(-50%, -50%) translate3d(${xPos}px, 0px, ${zPos}px)`;
         el.innerHTML = `
           <div class="artwork-light"></div>
@@ -338,21 +341,16 @@
     }
 
     // ── SCROLL → CAMERA ──
-    const progress = document.getElementById('galleryProgress');
-    const TOTAL_TRAVEL = 3800;
-    let currentZ = 0, targetZ = 0;
-
     window.addEventListener('wheel', e => {
-      targetZ = Math.max(0, Math.min(TOTAL_TRAVEL, targetZ + e.deltaY * 1.2));
-      progress.style.width = (targetZ / TOTAL_TRAVEL * 100) + '%';
+      targetZ = Math.max(600, Math.min(TOTAL_TRAVEL, targetZ + e.deltaY * 1.2));
+      progress.style.width = ((targetZ - 600) / (TOTAL_TRAVEL - 600) * 100) + '%';
     }, { passive: true });
 
-    // Keyboard navigation
     window.addEventListener('keydown', e => {
       const step = 120;
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') targetZ = Math.min(TOTAL_TRAVEL, targetZ + step);
-      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') targetZ = Math.max(0, targetZ - step);
-      progress.style.width = (targetZ / TOTAL_TRAVEL * 100) + '%';
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') targetZ = Math.max(600, targetZ - step);
+      progress.style.width = ((targetZ - 600) / (TOTAL_TRAVEL - 600) * 100) + '%';
     });
 
     (function cameraLoop() {
