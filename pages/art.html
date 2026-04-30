@@ -69,10 +69,16 @@
 
     /* ── SCROLL CONTAINER ── */
     .gallery-scroll {
-      position: fixed; inset: 0; overflow-y: scroll; scrollbar-width: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 6px;
+      height: 100%;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      z-index: 50;
     }
     .gallery-scroll::-webkit-scrollbar { display: none; }
-    .scroll-track { height: 600vh; pointer-events: none; }
+    .scroll-track { height: 600vh; pointer-events: none; width: 1px; }
 
     /* ── 3D STAGE ── */
     .gallery-stage {
@@ -226,10 +232,8 @@
     </div>
   </div>
 
-  <!-- Scroll track -->
-  <div class="gallery-scroll" id="galleryScroll">
-    <div class="scroll-track"></div>
-  </div>
+  <!-- Scroll hint only, no overlay -->
+  <div class="gallery-scroll" id="galleryScroll"><div class="scroll-track"></div></div>
 
   <!-- 3D Stage -->
   <div class="gallery-stage">
@@ -278,8 +282,7 @@
       .then(data => { buildGallery(data); buildMobileFallback(data); })
       .catch(() => console.warn('art.json not found'));
 
-    const CORRIDOR_LENGTH = 3200;
-    const CORRIDOR_START  = -400;
+    const room = document.getElementById('galleryRoom');
 
     function buildGallery(data) {
       const container = document.getElementById('artworkContainer');
@@ -325,16 +328,21 @@
     }
 
     // ── SCROLL → CAMERA ──
-    const scroller = document.getElementById('galleryScroll');
-    const room = document.getElementById('galleryRoom');
     const progress = document.getElementById('galleryProgress');
     const TOTAL_TRAVEL = 3800;
     let currentZ = 0, targetZ = 0;
 
-    scroller.addEventListener('scroll', () => {
-      const t = scroller.scrollTop / (scroller.scrollHeight - scroller.clientHeight);
-      targetZ = t * TOTAL_TRAVEL;
-      progress.style.width = (t * 100) + '%';
+    window.addEventListener('wheel', e => {
+      targetZ = Math.max(0, Math.min(TOTAL_TRAVEL, targetZ + e.deltaY * 1.2));
+      progress.style.width = (targetZ / TOTAL_TRAVEL * 100) + '%';
+    }, { passive: true });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', e => {
+      const step = 120;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') targetZ = Math.min(TOTAL_TRAVEL, targetZ + step);
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') targetZ = Math.max(0, targetZ - step);
+      progress.style.width = (targetZ / TOTAL_TRAVEL * 100) + '%';
     });
 
     (function cameraLoop() {
