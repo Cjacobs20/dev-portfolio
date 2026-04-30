@@ -1,0 +1,99 @@
+{
+  "corridor": [
+    {
+      "id": "art-001",
+      "filename": "placeholder-1.jpg",
+      "title": "Untitled I",
+      "medium": "Acrylic on canvas",
+      "year": "2023",
+      "dimensions": "24 x 36 in",
+      "wall": "left",
+      "size": "large",
+      "position": 1
+    },
+    {
+      "id": "art-002",
+      "filename": "placeholder-2.jpg",
+      "title": "Untitled II",
+      "medium": "Mixed media",
+      "year": "2022",
+      "dimensions": "18 x 24 in",
+      "wall": "right",
+      "size": "medium",
+      "position": 2
+    },
+    {
+      "id": "art-003",
+      "filename": "placeholder-3.jpg",
+      "title": "Untitled III",
+      "medium": "Oil on board",
+      "year": "2023",
+      "dimensions": "12 x 12 in",
+      "wall": "left",
+      "size": "small",
+      "position": 3
+    },
+    {
+      "id": "art-004",
+      "filename": "placeholder-4.jpg",
+      "title": "Untitled IV",
+      "medium": "Acrylic on canvas",
+      "year": "2024",
+      "dimensions": "30 x 40 in",
+      "wall": "right",
+      "size": "large",
+      "position": 4
+    },
+    {
+      "id": "art-005",
+      "filename": "placeholder-5.jpg",
+      "title": "Untitled V",
+      "medium": "Ink on paper",
+      "year": "2022",
+      "dimensions": "11 x 14 in",
+      "wall": "left",
+      "size": "small",
+      "position": 5
+    },
+    {
+      "id": "art-006",
+      "filename": "placeholder-6.jpg",
+      "title": "Untitled VI",
+      "medium": "Mixed media",
+      "year": "2024",
+      "dimensions": "20 x 20 in",
+      "wall": "right",
+      "size": "medium",
+      "position": 6
+    }
+  ],
+  "collection": [
+    {
+      "id": "art-col-001",
+      "filename": "placeholder-col-1.jpg",
+      "title": "Collection Piece I",
+      "medium": "Acrylic on canvas",
+      "year": "2021",
+      "dimensions": "24 x 36 in",
+      "position": "left"
+    },
+    {
+      "id": "art-col-002",
+      "filename": "placeholder-col-2.jpg",
+      "title": "Collection Piece II",
+      "medium": "Oil on canvas",
+      "year": "2022",
+      "dimensions": "36 x 48 in",
+      "position": "center"
+    },
+    {
+      "id": "art-col-003",
+      "filename": "placeholder-col-3.jpg",
+      "title": "Collection Piece III",
+      "medium": "Mixed media",
+      "year": "2023",
+      "dimensions": "24 x 24 in",
+      "position": "right"
+    }
+  ]
+}

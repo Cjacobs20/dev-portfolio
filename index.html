@@ -1,353 +1,484 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chris Jacobs</title>
-  <meta name="description" content="Chris Jacobs — Designer, LIS Analyst, and dedicated hobbyist based in Denver, CO.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="images/favicon2.png">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chris Jacobs</title>
+    <meta
+      name="description"
+      content="Chris Jacobs — Designer, LIS Analyst, and dedicated hobbyist based in Denver, CO."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="images/favicon2.png" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <nav>
-    <a href="#" class="nav-logo">C<span>.</span>J</a>
-    <ul class="nav-links">
-      <li><a href="#work">Work</a></li>
-      <li><a href="#art">Art</a></li>
-      <li><a href="#photo">Photo</a></li>
-      <li><a href="#misc">Misc</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="mailto:christianejacobs2020@gmail.com" class="nav-contact">Contact</a></li>
-    </ul>
-    <div class="theme-picker">
-      <span class="theme-label">theme</span>
-      <button class="theme-btn active" data-t="dark" title="Dark" aria-label="Dark theme"></button>
-      <button class="theme-btn" data-t="light" title="Light" aria-label="Light theme"></button>
-      <button class="theme-btn" data-t="alien" title="Alien" aria-label="Alien theme"></button>
-    </div>
-  </nav>
-
-  <section class="hero" id="home">
-    <div class="hero-bg-grid"></div>
-    <div class="hero-bg-glow"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">Denver, Colorado</div>
-      <h1 class="hero-title glitch" data-text="Generalist.">
-        Generalist<br>
-        In All Things<br>
-        <em>CREATIVE</em>
-      </h1>
-      <p class="hero-subtitle">
-        LIS &amp; Epic systems by day. Fine art, photography, and general tinkering the rest of the time. Occasional xenomorph wrangler.
-      </p>
-      <div class="hero-tags">
-        <span class="tag accent">Epic Beaker AP</span>
-        <span class="tag">Cogito</span>
-        <span class="tag">HL7 / FHIR</span>
-        <span class="tag">UX / UI</span>
-        <span class="tag">Denver → San Sebastián</span>
+    <nav>
+      <a href="#" class="nav-logo">C<span>.</span>J</a>
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#art">Art</a></li>
+        <li><a href="#photo">Photo</a></li>
+        <li><a href="#misc">Misc</a></li>
+        <li><a href="#about">About</a></li>
+        <li>
+          <a href="mailto:christianejacobs2020@gmail.com" class="nav-contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <div class="theme-picker">
+        <span class="theme-label">theme</span>
+        <button
+          class="theme-btn active"
+          data-t="dark"
+          title="Dark"
+          aria-label="Dark theme"
+        ></button>
+        <button
+          class="theme-btn"
+          data-t="light"
+          title="Light"
+          aria-label="Light theme"
+        ></button>
+        <button
+          class="theme-btn"
+          data-t="alien"
+          title="Alien"
+          aria-label="Alien theme"
+        ></button>
       </div>
-      <div class="hero-cta">
-        <a href="#work" class="btn-primary">See the work</a>
-        <a href="#about" class="btn-ghost">About me</a>
-      </div>
-    </div>
-    <div class="hero-visual">
-  <div class="avatar-frame" id="avatarFrame">
-    <img class="avatar-default" src="images/cartoonMeGSyel.svg" alt="Chris Jacobs">
-    <img class="avatar-surprised" src="images/cartoonMeExcite.svg" alt="Chris Jacobs surprised">
-    <div class="avatar-dot"></div>
-  </div>
-</div>
-  </section>
+    </nav>
 
-  <section id="hobbies">
-    <div class="section-header fade-in">
-      <div>
-        <span class="section-num">01 — SECTIONS</span>
-        <h2 class="section-title">Just some of <em>ME.</em></h2>
+    <section class="hero" id="home">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-bg-glow"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Denver, Colorado</div>
+        <h1 class="hero-title glitch" data-text="Generalist.">
+          Generalist<br />
+          In All Things<br />
+          <em>CREATIVE</em>
+        </h1>
+        <p class="hero-subtitle">
+          LIS &amp; Epic systems by day. Fine art, photography, and general
+          tinkering the rest of the time. Occasional xenomorph wrangler.
+        </p>
+        <div class="hero-tags">
+          <span class="tag accent">Epic Beaker AP</span>
+          <span class="tag">Cogito</span>
+          <span class="tag">HL7 / FHIR</span>
+          <span class="tag">UX / UI</span>
+          <span class="tag">Denver → San Sebastián</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#work" class="btn-primary">See the work</a>
+          <a href="#about" class="btn-ghost">About me</a>
+        </div>
       </div>
-    </div>
-    <div class="hobby-grid">
-      <a href="pages/gate.html?section=art" class="hobby-cell fade-in">
-        <div class="hobby-label">Fine Art</div>
-        <div class="hobby-title">Paintings &amp; Illustration</div>
-        <div class="hobby-desc">Traditional and digital work — acrylics, mixed media, and whatever else ends tickling the brainy bits.</div>
-        <div class="hobby-preview">[ gallery coming soon ]</div>
-      </a>
-      <a href="pages/gate.html?section=photo" class="hobby-cell fade-in">
-        <div class="hobby-label">Photography</div>
-        <div class="hobby-title">Lens &amp; Light</div>
-        <div class="hobby-desc">Street, landscape, whatever catches the eye. Analog ONLY.</div>
-        <div class="hobby-preview">[ photo grid coming soon ]</div>
-      </a>
-      <a href="pages/gate.html?section=misc" class="hobby-cell fade-in">
-        <div class="hobby-label">Miscellaneous</div>
-        <div class="hobby-title">Everything Else</div>
-        <div class="hobby-desc">MIJ guitars, PC builds, sim racing, audio gear. The rabbit holes are deep and numerous.</div>
-        <div class="hobby-preview">[ rotating spotlight ]</div>
-      </a>
-      <a href="pages/professional.html" class="hobby-cell fade-in">
-        <div class="hobby-label">Professional</div>
-        <div class="hobby-title">LIS &amp; Epic Work</div>
-        <div class="hobby-desc">Eight years in healthcare IT — Epic Beaker AP, Cogito, HL7/FHIR integrations, anatomic pathology workflows.</div>
-        <div class="hobby-preview">[ case studies / résumé ]</div>
-      </a>
-    </div>
-  </section>
+      <div class="hero-visual">
+        <div class="avatar-frame" id="avatarFrame">
+          <img
+            class="avatar-default"
+            src="images/cartoonMeGSyel.svg"
+            alt="Chris Jacobs"
+          />
+          <img
+            class="avatar-surprised"
+            src="images/cartoonMeExcite.svg"
+            alt="Chris Jacobs surprised"
+          />
+          <div class="avatar-dot"></div>
+        </div>
+      </div>
+    </section>
 
-  <section id="work">
-    <div class="section-header fade-in">
-      <div>
-        <span class="section-num">02 — SELECTED PROJECTS</span>
-        <h2 class="section-title">A bit of the <em>WORK.</em></h2>
+    <section id="hobbies">
+      <div class="section-header fade-in">
+        <div>
+          <span class="section-num">01 — SECTIONS</span>
+          <h2 class="section-title">Just some of <em>ME.</em></h2>
+        </div>
       </div>
-      <a href="https://github.com/Cjacobs20" target="_blank" class="section-link">All on GitHub ↗</a>
-    </div>
-    <div class="projects-list">
-      <a href="https://greenfield-recovery.webflow.io/" target="_blank" class="project-row fade-in">
-        <div class="project-left">
-          <span class="project-num">01</span>
-          <span class="project-title">Greenfield Capital Recovery</span>
-          <div class="project-tags">
-            <span class="project-tag">Webflow</span>
-            <span class="project-tag">UX</span>
+      <div class="hobby-grid">
+        <a href="pages/gate.html?section=art" class="hobby-cell fade-in">
+          <div class="hobby-label">Fine Art</div>
+          <div class="hobby-title">Paintings &amp; Illustration</div>
+          <div class="hobby-desc">
+            Traditional and digital work — acrylics, mixed media, and whatever
+            else ends tickling the brainy bits.
+          </div>
+          <div class="hobby-preview">[ gallery coming soon ]</div>
+        </a>
+        <a href="pages/gate.html?section=photo" class="hobby-cell fade-in">
+          <div class="hobby-label">Photography</div>
+          <div class="hobby-title">Lens &amp; Light</div>
+          <div class="hobby-desc">
+            Street, landscape, whatever catches the eye. Analog ONLY.
+          </div>
+          <div class="hobby-preview">[ photo grid coming soon ]</div>
+        </a>
+        <a href="pages/gate.html?section=misc" class="hobby-cell fade-in">
+          <div class="hobby-label">Miscellaneous</div>
+          <div class="hobby-title">Everything Else</div>
+          <div class="hobby-desc">
+            MIJ guitars, PC builds, sim racing, audio gear. The rabbit holes are
+            deep and numerous.
+          </div>
+          <div class="hobby-preview">[ rotating spotlight ]</div>
+        </a>
+        <a href="pages/professional.html" class="hobby-cell fade-in">
+          <div class="hobby-label">Professional</div>
+          <div class="hobby-title">LIS &amp; Epic Work</div>
+          <div class="hobby-desc">
+            Eight years in healthcare IT — Epic Beaker AP, Cogito, HL7/FHIR
+            integrations, anatomic pathology workflows.
+          </div>
+          <div class="hobby-preview">[ case studies / résumé ]</div>
+        </a>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="section-header fade-in">
+        <div>
+          <span class="section-num">02 — SELECTED PROJECTS</span>
+          <h2 class="section-title">A bit of the <em>WORK.</em></h2>
+        </div>
+        <a
+          href="https://github.com/Cjacobs20"
+          target="_blank"
+          class="section-link"
+          >All on GitHub ↗</a
+        >
+      </div>
+      <div class="projects-list">
+        <a
+          href="https://greenfield-recovery.webflow.io/"
+          target="_blank"
+          class="project-row fade-in"
+        >
+          <div class="project-left">
+            <span class="project-num">01</span>
+            <span class="project-title">Greenfield Capital Recovery</span>
+            <div class="project-tags">
+              <span class="project-tag">Webflow</span>
+              <span class="project-tag">UX</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+        <a
+          href="https://medium.com/@christianejacobs2020/community-basket-a-hypothetical-solution-to-communal-waste-af5464f13f7e"
+          target="_blank"
+          class="project-row fade-in"
+        >
+          <div class="project-left">
+            <span class="project-num">02</span>
+            <span class="project-title">Community Basket</span>
+            <div class="project-tags">
+              <span class="project-tag">UX</span>
+              <span class="project-tag">Product</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+        <a
+          href="https://medium.com/@christianejacobs2020/homegrown-an-android-mobile-application-making-house-plant-maintenance-easier-than-ever-59f077e9b219"
+          target="_blank"
+          class="project-row fade-in"
+        >
+          <div class="project-left">
+            <span class="project-num">03</span>
+            <span class="project-title">Homegrown</span>
+            <div class="project-tags">
+              <span class="project-tag">Android</span>
+              <span class="project-tag">Team</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+        <a
+          href="https://www.figma.com/proto/3zVOh7tdmWJYGUa8WBN8tn/Denver-Art-Society-Redesign?page-id=126%3A1349&node-id=136%3A2414&starting-point-node-id=136%3A2414"
+          target="_blank"
+          class="project-row fade-in"
+        >
+          <div class="project-left">
+            <span class="project-num">04</span>
+            <span class="project-title">Denver Art Society Redesign</span>
+            <div class="project-tags">
+              <span class="project-tag">Figma</span>
+              <span class="project-tag">Non-profit</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-header fade-in">
+        <div>
+          <span class="section-num">03 — ABOUT</span>
+          <h2 class="section-title">
+            Unravelling some of the <em>ENIGMA.</em>
+          </h2>
+        </div>
+      </div>
+      <div class="about-strip">
+        <div class="about-text fade-in">
+          <p>
+            Started in biology and fine art at Metro State Denver. Ended up in a
+            hospital. Found
+            <strong>histotechnology and anatomic pathology</strong> fascinating
+            — but not fulfilling. Creativity won.
+          </p>
+          <p>
+            Now I sit at the intersection of
+            <strong>healthcare IT and design</strong> — building and optimizing
+            LIS systems, integrations, and workflows for clinical labs while
+            keeping one foot firmly in the art world.
+          </p>
+          <p>
+            The hobbies are not a bit. MIJ guitars, tubed headphone amps, sim
+            racing, emergency prep, and the occasional xenomorph sprite — all
+            get equal attention.
+          </p>
+          <div style="margin-top: 32px">
+            <a href="Resume5.3.pdf" target="_blank" class="btn-primary"
+              >Download Résumé</a
+            >
           </div>
         </div>
-        <span class="project-arrow">↗</span>
-      </a>
-      <a href="https://medium.com/@christianejacobs2020/community-basket-a-hypothetical-solution-to-communal-waste-af5464f13f7e" target="_blank" class="project-row fade-in">
-        <div class="project-left">
-          <span class="project-num">02</span>
-          <span class="project-title">Community Basket</span>
-          <div class="project-tags">
-            <span class="project-tag">UX</span>
-            <span class="project-tag">Product</span>
+        <div class="about-visual fade-in">
+          <div class="stat-row">
+            <span class="stat-num">8+</span>
+            <span class="stat-label">Years in healthcare IT &amp; LIS</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-num">2</span>
+            <span class="stat-label"
+              >Epic certifications (Beaker AP + Cogito)</span
+            >
+          </div>
+          <div class="stat-row">
+            <span class="stat-num">4</span>
+            <span class="stat-label"
+              >Platforms: Epic, Sunquest, SCC, Soft Computer</span
+            >
+          </div>
+          <div class="stat-row">
+            <span class="stat-num">∞</span>
+            <span class="stat-label"
+              >Gear acquired, gear researched, gear regretted</span
+            >
           </div>
         </div>
-        <span class="project-arrow">↗</span>
-      </a>
-      <a href="https://medium.com/@christianejacobs2020/homegrown-an-android-mobile-application-making-house-plant-maintenance-easier-than-ever-59f077e9b219" target="_blank" class="project-row fade-in">
-        <div class="project-left">
-          <span class="project-num">03</span>
-          <span class="project-title">Homegrown</span>
-          <div class="project-tags">
-            <span class="project-tag">Android</span>
-            <span class="project-tag">Team</span>
-          </div>
-        </div>
-        <span class="project-arrow">↗</span>
-      </a>
-      <a href="https://www.figma.com/proto/3zVOh7tdmWJYGUa8WBN8tn/Denver-Art-Society-Redesign?page-id=126%3A1349&node-id=136%3A2414&starting-point-node-id=136%3A2414" target="_blank" class="project-row fade-in">
-        <div class="project-left">
-          <span class="project-num">04</span>
-          <span class="project-title">Denver Art Society Redesign</span>
-          <div class="project-tags">
-            <span class="project-tag">Figma</span>
-            <span class="project-tag">Non-profit</span>
-          </div>
-        </div>
-        <span class="project-arrow">↗</span>
-      </a>
-    </div>
-  </section>
-
-  <section id="about">
-    <div class="section-header fade-in">
-      <div>
-        <span class="section-num">03 — ABOUT</span>
-        <h2 class="section-title">Unravelling some of the <em>ENIGMA.</em></h2>
       </div>
-    </div>
-    <div class="about-strip">
-      <div class="about-text fade-in">
-        <p>Started in biology and fine art at Metro State Denver. Ended up in a hospital. Found <strong>histotechnology and anatomic pathology</strong> fascinating — but not fulfilling. Creativity won.</p>
-        <p>Now I sit at the intersection of <strong>healthcare IT and design</strong> — building and optimizing LIS systems, integrations, and workflows for clinical labs while keeping one foot firmly in the art world.</p>
-        <p>The hobbies are not a bit. MIJ guitars, tubed headphone amps, sim racing, emergency prep, and the occasional xenomorph sprite — all get equal attention.</p>
-        <div style="margin-top:32px;">
-          <a href="Resume5.3.pdf" target="_blank" class="btn-primary">Download Résumé</a>
-        </div>
+    </section>
+
+    <footer>
+      <div class="footer-left">
+        <div class="xeno-pip"></div>
+        he's watching
       </div>
-      <div class="about-visual fade-in">
-        <div class="stat-row">
-          <span class="stat-num">8+</span>
-          <span class="stat-label">Years in healthcare IT &amp; LIS</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-num">2</span>
-          <span class="stat-label">Epic certifications (Beaker AP + Cogito)</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-num">4</span>
-          <span class="stat-label">Platforms: Epic, Sunquest, SCC, Soft Computer</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-num">∞</span>
-          <span class="stat-label">Gear acquired, gear researched, gear regretted</span>
-        </div>
+      <div class="footer-links">
+        <a href="https://github.com/Cjacobs20" target="_blank">GitHub</a>
+        <a
+          href="https://www.linkedin.com/in/chris-jacobs-design/"
+          target="_blank"
+          >LinkedIn</a
+        >
+        <a href="https://www.instagram.com/theinfamousch/" target="_blank"
+          >Instagram</a
+        >
+        <a href="mailto:christianejacobs2020@gmail.com">Email</a>
       </div>
-    </div>
-  </section>
+      <span class="footer-copy">© 2026 Chris Jacobs</span>
+    </footer>
 
-  <footer>
-    <div class="footer-left">
-      <div class="xeno-pip"></div>
-      he's watching
-    </div>
-    <div class="footer-links">
-      <a href="https://github.com/Cjacobs20" target="_blank">GitHub</a>
-      <a href="https://www.linkedin.com/in/chris-jacobs-design/" target="_blank">LinkedIn</a>
-      <a href="https://www.instagram.com/theinfamousch/" target="_blank">Instagram</a>
-      <a href="mailto:christianejacobs2020@gmail.com">Email</a>
-    </div>
-    <span class="footer-copy">© 2026 Chris Jacobs</span>
-  </footer>
+    <!-- Xenomorph — suppressed until sprite sheets are ready -->
+    <!-- <div id="xenomorph"></div> -->
 
-  <!-- Xenomorph — suppressed until sprite sheets are ready -->
-  <!-- <div id="xenomorph"></div> -->
-
-  <script>
-    // ── CURSOR ──
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function animCursor() {
-      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(animCursor);
-    })();
-
-    // ── THEME PICKER ──
-    const root = document.documentElement;
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        root.setAttribute('data-theme', btn.dataset.t);
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        localStorage.setItem('cj-theme', btn.dataset.t);
+    <script>
+      // ── CURSOR ──
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      let mx = -100,
+        my = -100,
+        rx = -100,
+        ry = -100;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
       });
-    });
-    const saved = localStorage.getItem('cj-theme');
-    if (saved) {
-      root.setAttribute('data-theme', saved);
-      document.querySelectorAll('.theme-btn').forEach(b => {
-        b.classList.toggle('active', b.dataset.t === saved);
+      (function animCursor() {
+        cursor.style.left = mx + "px";
+        cursor.style.top = my + "px";
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animCursor);
+      })();
+
+      // ── THEME PICKER ──
+      const root = document.documentElement;
+      document.querySelectorAll(".theme-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          root.setAttribute("data-theme", btn.dataset.t);
+          document
+            .querySelectorAll(".theme-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          localStorage.setItem("cj-theme", btn.dataset.t);
+        });
       });
-    }
-
-    // ── SCROLL FADE ──
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-    // ── AVATAR SWAP ──
-const avatarFrame = document.getElementById('avatarFrame');
-const seeTheWork = document.querySelector('a[href="#work"].btn-primary');
-if (seeTheWork && avatarFrame) {
-  seeTheWork.addEventListener('mouseenter', () => avatarFrame.classList.add('surprised'));
-  seeTheWork.addEventListener('mouseleave', () => avatarFrame.classList.remove('surprised'));
-}
-// ── AVATAR FRAME CHASE ──
-// ── AVATAR FRAME CHASE ──
-const frame = document.getElementById('avatarFrame');
-if (frame) {
-  // Create canvas overlay
-  const cv = document.createElement('canvas');
-  cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;border-radius:3px;';
-  frame.appendChild(cv);
-  const ctx = cv.getContext('2d');
-
-  let lastX = 0, lastY = 0, speed = 0, progress = 0;
-
-  document.addEventListener('mousemove', e => {
-    const dx = e.clientX - lastX, dy = e.clientY - lastY;
-    speed = Math.min(Math.sqrt(dx * dx + dy * dy), 40);
-    lastX = e.clientX; lastY = e.clientY;
-  });
-
-  function drawChaser() {
-    const W = cv.offsetWidth, H = cv.offsetHeight;
-    cv.width = W * 2; cv.height = H * 2;
-    ctx.scale(2, 2);
-
-    speed *= 0.9; // friction decay
-    const perimeter = 2 * (W + H);
-    progress = (progress + speed * 0.6) % perimeter;
-
-    ctx.clearRect(0, 0, W, H);
-
-    // Draw accent accent color chaser dot along perimeter
-    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-    ctx.shadowColor = accent;
-    ctx.shadowBlur = 12;
-    ctx.fillStyle = accent;
-
-    // Convert progress to x,y along rectangle perimeter
-    function perimeterPoint(p) {
-      if (p < W) return [p, 0];                        // top
-      p -= W;
-      if (p < H) return [W, p];                        // right
-      p -= H;
-      if (p < W) return [W - p, H];                   // bottom
-      p -= W;
-      return [0, H - p];                               // left
-    }
-
-    // Draw two chasers 180deg apart
-    const [x1, y1] = perimeterPoint(progress);
-    const [x2, y2] = perimeterPoint((progress + perimeter / 2) % perimeter);
-
-    ctx.beginPath(); ctx.arc(x1, y1, 3, 0, Math.PI * 2); ctx.fill();
-    ctx.beginPath(); ctx.arc(x2, y2, 3, 0, Math.PI * 2); ctx.fill();
-
-    // Dim trail
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = `rgba(${accent.includes('rgb') ? '10,245,231' : '10,245,231'},0.15)`;
-    ctx.lineWidth = 1;
-    ctx.strokeRect(1, 1, W - 2, H - 2);
-
-    requestAnimationFrame(drawChaser);
-  }
-  drawChaser();
-}
-    // ── XENOMORPH — suppressed ──
-    // Uncomment when sprite sheets are ready
-    // const xeno = document.getElementById('xenomorph');
-    // let isRunning = false;
-    // let stopTimer;
-    // document.addEventListener('mousemove', e => {
-    //   const newX = Math.max(20, Math.min(e.clientX - 75, window.innerWidth - 170));
-    //   xeno.style.left = newX + 'px';
-    //   xeno.style.right = 'auto';
-    //   xeno.style.transform = e.clientX > parseInt(xeno.style.left || 0) ? 'scaleX(1)' : 'scaleX(-1)';
-    //   if (!isRunning) { xeno.classList.add('running'); isRunning = true; }
-    //   clearTimeout(stopTimer);
-    //   stopTimer = setTimeout(() => {
-    //     xeno.classList.remove('running');
-    //     xeno.style.backgroundPosition = '0 0';
-    //     isRunning = false;
-    //   }, 300);
-    // });
-
-    // ── KONAMI ──
-    let kseq = [];
-    const kcode = [38,38,40,40,37,39,37,39,66,65];
-    document.addEventListener('keydown', e => {
-      kseq.push(e.keyCode);
-      kseq = kseq.slice(-10);
-      if (kseq.join() === kcode.join()) {
-        alert('👁 You found the egg. The xenomorph is pleased.');
+      const saved = localStorage.getItem("cj-theme");
+      if (saved) {
+        root.setAttribute("data-theme", saved);
+        document.querySelectorAll(".theme-btn").forEach((b) => {
+          b.classList.toggle("active", b.dataset.t === saved);
+        });
       }
-    });
-  </script>
-</body>
+
+      // ── SCROLL FADE ──
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".fade-in").forEach((el) => obs.observe(el));
+      // ── AVATAR SWAP ──
+      const avatarFrame = document.getElementById("avatarFrame");
+      const seeTheWork = document.querySelector('a[href="#work"].btn-primary');
+      if (seeTheWork && avatarFrame) {
+        seeTheWork.addEventListener("mouseenter", () =>
+          avatarFrame.classList.add("surprised"),
+        );
+        seeTheWork.addEventListener("mouseleave", () =>
+          avatarFrame.classList.remove("surprised"),
+        );
+      }
+      // ── AVATAR FRAME CHASE ──
+      // ── AVATAR FRAME CHASE ──
+      const frame = document.getElementById("avatarFrame");
+      if (frame) {
+        // Create canvas overlay
+        const cv = document.createElement("canvas");
+        cv.style.cssText =
+          "position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;border-radius:3px;";
+        frame.appendChild(cv);
+        const ctx = cv.getContext("2d");
+
+        let lastX = 0,
+          lastY = 0,
+          speed = 0,
+          progress = 0;
+
+        document.addEventListener("mousemove", (e) => {
+          const dx = e.clientX - lastX,
+            dy = e.clientY - lastY;
+          speed = Math.min(Math.sqrt(dx * dx + dy * dy), 40);
+          lastX = e.clientX;
+          lastY = e.clientY;
+        });
+
+        function drawChaser() {
+          const W = cv.offsetWidth,
+            H = cv.offsetHeight;
+          cv.width = W * 2;
+          cv.height = H * 2;
+          ctx.scale(2, 2);
+
+          speed *= 0.9; // friction decay
+          const perimeter = 2 * (W + H);
+          progress = (progress + speed * 0.6) % perimeter;
+
+          ctx.clearRect(0, 0, W, H);
+
+          // Draw accent accent color chaser dot along perimeter
+          const accent = getComputedStyle(document.documentElement)
+            .getPropertyValue("--accent")
+            .trim();
+          ctx.shadowColor = accent;
+          ctx.shadowBlur = 12;
+          ctx.fillStyle = accent;
+
+          // Convert progress to x,y along rectangle perimeter
+          function perimeterPoint(p) {
+            if (p < W) return [p, 0]; // top
+            p -= W;
+            if (p < H) return [W, p]; // right
+            p -= H;
+            if (p < W) return [W - p, H]; // bottom
+            p -= W;
+            return [0, H - p]; // left
+          }
+
+          // Draw two chasers 180deg apart
+          const [x1, y1] = perimeterPoint(progress);
+          const [x2, y2] = perimeterPoint(
+            (progress + perimeter / 2) % perimeter,
+          );
+
+          ctx.beginPath();
+          ctx.arc(x1, y1, 3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x2, y2, 3, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Dim trail
+          ctx.shadowBlur = 0;
+          ctx.strokeStyle = `rgba(${accent.includes("rgb") ? "10,245,231" : "10,245,231"},0.15)`;
+          ctx.lineWidth = 1;
+          ctx.strokeRect(1, 1, W - 2, H - 2);
+
+          requestAnimationFrame(drawChaser);
+        }
+        drawChaser();
+      }
+      // ── XENOMORPH — suppressed ──
+      // Uncomment when sprite sheets are ready
+      // const xeno = document.getElementById('xenomorph');
+      // let isRunning = false;
+      // let stopTimer;
+      // document.addEventListener('mousemove', e => {
+      //   const newX = Math.max(20, Math.min(e.clientX - 75, window.innerWidth - 170));
+      //   xeno.style.left = newX + 'px';
+      //   xeno.style.right = 'auto';
+      //   xeno.style.transform = e.clientX > parseInt(xeno.style.left || 0) ? 'scaleX(1)' : 'scaleX(-1)';
+      //   if (!isRunning) { xeno.classList.add('running'); isRunning = true; }
+      //   clearTimeout(stopTimer);
+      //   stopTimer = setTimeout(() => {
+      //     xeno.classList.remove('running');
+      //     xeno.style.backgroundPosition = '0 0';
+      //     isRunning = false;
+      //   }, 300);
+      // });
+
+      // ── KONAMI ──
+      let kseq = [];
+      const kcode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+      document.addEventListener("keydown", (e) => {
+        kseq.push(e.keyCode);
+        kseq = kseq.slice(-10);
+        if (kseq.join() === kcode.join()) {
+          alert("👁 You found the egg. The xenomorph is pleased.");
+        }
+      });
+    </script>
+  </body>
 </html>
