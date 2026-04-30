@@ -11,12 +11,22 @@
   <link rel="stylesheet" href="../css/style.css">
   <style>
     /* ── RESET ── */
-    body { overflow: hidden; background: #000; cursor: none; }
+    body { overflow: hidden; background: #000 !important; cursor: none; }
 
     /* ── FIX CURSOR RING BLOWUP ── */
     body:has(a:hover) .cursor-ring,
     body:has(button:hover) .cursor-ring {
       width: 36px; height: 36px; opacity: 0.45;
+    }
+
+    /* Force black background behind everything */
+    .gallery-stage { background: #000; }
+
+    /* ── ARTWORK CONTAINER needs 3D context ── */
+    #artworkContainer {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
     }
 
     /* ── HUD ── */
