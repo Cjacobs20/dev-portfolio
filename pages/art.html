@@ -145,25 +145,7 @@
         box-shadow: 0 0 8px var(--accent);
       }
 
-      /* ── SCROLL CONTAINER ── */
-      .gallery-scroll {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 6px;
-        height: 100%;
-        overflow-y: scroll;
-        scrollbar-width: none;
-        z-index: 50;
-      }
-      .gallery-scroll::-webkit-scrollbar {
-        display: none;
-      }
-      .scroll-track {
-        height: 600vh;
-        pointer-events: none;
-        width: 1px;
-      }
+      
 
       /* ── 3D STAGE ── */
       .gallery-stage {
@@ -555,10 +537,7 @@
       </div>
     </div>
 
-    <!-- Scroll hint only, no overlay -->
-    <div class="gallery-scroll" id="galleryScroll">
-      <div class="scroll-track"></div>
-    </div>
+    
 
     <!-- 3D Stage -->
     <div class="gallery-stage">
@@ -717,19 +696,10 @@
 
       // ── SCROLL → CAMERA ──
       // scroll down = walk forward = increase translateZ
-      window.addEventListener(
-        "wheel",
-        (e) => {
-          targetZ = Math.max(
-            CAMERA_START,
-            Math.min(CAMERA_MAX, targetZ + e.deltaY * 1.2),
-          );
-          progress.style.width =
-            ((targetZ - CAMERA_START) / (CAMERA_MAX - CAMERA_START)) * 100 +
-            "%";
-        },
-        { passive: true },
-      );
+      window.addEventListener('wheel', e => {
+  targetZ = Math.max(CAMERA_START, Math.min(CAMERA_MAX, targetZ - e.deltaY * 1.2));
+  progress.style.width = ((targetZ - CAMERA_START) / (CAMERA_MAX - CAMERA_START) * 100) + '%';
+}, { passive: true });
 
       window.addEventListener("keydown", (e) => {
         const step = 120;
