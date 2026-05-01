@@ -20,7 +20,7 @@
         --wall-overlap: 50px; /* Side wall overshoot into back wall */
         --camera-start: 700px; /* Initial camera Z */
         --camera-max: 3600px; /* Max scroll travel */
-        --artwork-wall-offset: 500px; /* X distance from center to side wall */
+        --artwork-wall-offset: 990px; /* X distance from center to side wall */
         --corridor-start: 600px; /* First piece distance from origin */
         --corridor-end: 2700px; /* Last piece distance from origin */
       }
@@ -222,26 +222,14 @@
 
       /* ── THEME LIGHTING — direct element targeting ── */
       :root[data-theme="light"] .room-wall-left,
-      :root[data-theme="light"] .room-wall-right {
-        background: #2a2420;
-      }
-      :root[data-theme="light"] .room-floor {
-        background: #1a1612 !important;
-      }
-      :root[data-theme="light"] .room-ceiling {
-        background: #1e1a16 !important;
-      }
+:root[data-theme="light"] .room-wall-right { background: #4a3d2e; }
+:root[data-theme="light"] .room-floor  { background: #2a2018 !important; }
+:root[data-theme="light"] .room-ceiling { background: #332820 !important; }
 
-      :root[data-theme="alien"] .room-wall-left,
-      :root[data-theme="alien"] .room-wall-right {
-        background: #071a0e;
-      }
-      :root[data-theme="alien"] .room-floor {
-        background: #041208 !important;
-      }
-      :root[data-theme="alien"] .room-ceiling {
-        background: #020d08 !important;
-      }
+:root[data-theme="alien"] .room-wall-left,
+:root[data-theme="alien"] .room-wall-right { background: #0d3019; }
+:root[data-theme="alien"] .room-floor  { background: #061a0c !important; }
+:root[data-theme="alien"] .room-ceiling { background: #0a2614 !important; }
 
       /* ── ARTWORK ── */
       .artwork {
@@ -583,10 +571,10 @@
       document.documentElement.setAttribute("data-theme", savedTheme);
 
       const wallColors = {
-        dark: { wall: "#111111", floor: "#0a0a0a", ceiling: "#050505" },
-        light: { wall: "#2a2420", floor: "#1a1612", ceiling: "#1e1a16" },
-        alien: { wall: "#071a0e", floor: "#041208", ceiling: "#020d08" },
-      };
+  dark:  { wall: '#111111', floor: '#0a0a0a', ceiling: '#050505' },
+  light: { wall: '#4a3d2e', floor: '#2a2018', ceiling: '#332820' },
+  alien: { wall: '#0d3019', floor: '#061a0c', ceiling: '#0a2614' }
+};
 
       function applyRoomTheme(theme) {
         const c = wallColors[theme] || wallColors.dark;
