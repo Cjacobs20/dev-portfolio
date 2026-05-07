@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Professional — Chris Jacobs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../images/favicon2.png" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GKH1LPCHRY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-GKH1LPCHRY");
+    </script>
+    <style>
+      .pro-wrap {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 24px;
+        text-align: center;
+        position: relative;
+      }
+      .pro-bg-grid {
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--border) 1px, transparent 1px),
+          linear-gradient(90deg, var(--border) 1px, transparent 1px);
+        background-size: 60px 60px;
+        opacity: 0.5;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .pro-content {
+        position: relative;
+        z-index: 1;
+        max-width: 600px;
+      }
+      .pro-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--accent);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .pro-eyebrow::before,
+      .pro-eyebrow::after {
+        content: "";
+        display: block;
+        width: 24px;
+        height: 1px;
+        background: var(--accent);
+      }
+      .pro-title {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(40px, 6vw, 64px);
+        color: var(--text-1);
+        letter-spacing: -0.03em;
+        line-height: 1;
+        margin-bottom: 20px;
+      }
+      .pro-title em {
+        color: var(--accent);
+        font-style: italic;
+      }
+      .pro-sub {
+        font-size: 15px;
+        color: var(--text-2);
+        line-height: 1.8;
+        margin-bottom: 48px;
+      }
+      .pro-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 48px;
+      }
+      .pro-actions {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .pro-back {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--text-3);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .pro-back:hover { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <script src="../js/cursor.js"></script>
+
+    <div class="pro-bg-grid"></div>
+    <div class="pro-wrap">
+      <div class="pro-content">
+        <div class="pro-eyebrow">Professional</div>
+        <h1 class="pro-title">LIS &amp; Epic <em>Work.</em></h1>
+        <p class="pro-sub">
+          Eight years in healthcare IT — Epic Beaker AP, Cogito, HL7/FHIR
+          integrations, and anatomic pathology workflows. Case studies and
+          detailed breakdowns coming soon.
+        </p>
+        <div class="pro-tags">
+          <span class="tag accent">Epic Beaker AP</span>
+          <span class="tag">Cogito</span>
+          <span class="tag">HL7 / FHIR</span>
+          <span class="tag">Sunquest</span>
+          <span class="tag">SCC Soft</span>
+          <span class="tag">UX / UI</span>
+        </div>
+        <div class="pro-actions">
+          <a href="../Jacobs_Resume_SolutionsEngineer.pdf" target="_blank" class="btn-primary">Download Résumé</a>
+          <a href="../index.html" class="pro-back">← Back to home</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const saved = localStorage.getItem("cj-theme");
+      if (saved) document.documentElement.setAttribute("data-theme", saved);
+    </script>
+  </body>
+</html>

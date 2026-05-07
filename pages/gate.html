@@ -136,6 +136,7 @@
 <body>
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
+  <script src="../js/cursor.js"></script>
 
   <div class="gate-wrap">
     <div class="gate-box">
@@ -160,18 +161,6 @@
   </div>
 
   <script>
-    // ── CURSOR ──
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function animCursor() {
-      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(animCursor);
-    })();
-
     // ── THEME ──
     const saved = localStorage.getItem('cj-theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);

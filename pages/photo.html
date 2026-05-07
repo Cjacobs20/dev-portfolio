@@ -570,6 +570,7 @@
       window.CJ_SECTION = "photo";
     </script>
     <script src="../js/auth-guard.js"></script>
+    <script src="../js/cursor.js"></script>
 
     <!-- Simple theme picker (dark/light) -->
     <div class="theme-picker-simple" id="themePickerSimple">
@@ -645,27 +646,6 @@
     </div>
 
     <script>
-      // ── CURSOR ──
-      const cursor = document.getElementById("cursor");
-      const ring = document.getElementById("cursorRing");
-      let mx = -100,
-        my = -100,
-        rx = -100,
-        ry = -100;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
-      (function animCursor() {
-        cursor.style.left = mx + "px";
-        cursor.style.top = my + "px";
-        rx += (mx - rx) * 0.12;
-        ry += (my - ry) * 0.12;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animCursor);
-      })();
-
       // ── THEME ──
       const savedTheme = localStorage.getItem("cj-theme") || "dark";
       document.documentElement.setAttribute("data-theme", savedTheme);

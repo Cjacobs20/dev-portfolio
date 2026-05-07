@@ -720,14 +720,6 @@ section {
   animation: pip-pulse 2s ease-in-out infinite;
 }
 
-@keyframes rotate-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 /* ─── HOBBY GRID ─────────────────────────────────
    True grid expansion on hover. The hovered cell
@@ -1180,11 +1172,6 @@ footer {
   letter-spacing: 0.06em;
 }
 
-/* ─── FAVICON NOTE ─────────────────────────────
-   myLogo.svg is set as the favicon in each HTML
-   file via: <link rel="icon" href="images/myLogo.svg">
-   (or ../images/myLogo.svg from /pages/)
-   ─────────────────────────────────────────────── */
 
 /* ─── ALIEN THEME TYPOGRAPHY ─── */
 :root[data-theme="alien"] body,
