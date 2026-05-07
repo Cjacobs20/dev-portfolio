@@ -403,7 +403,10 @@
       }
 
       @media (max-width: 768px) {
+        body { overflow: auto !important; }
         .gallery-stage { display: none; }
+        .gallery-progress { display: none; }
+        .hud-hint { display: none; }
         .mobile-fallback {
           display: flex;
           flex-direction: column;

@@ -727,6 +727,49 @@ section {
   animation: pip-pulse 2s ease-in-out infinite;
 }
 
+/* ─── BASEBALL CARD ─── */
+.baseball-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 340px;
+  border: 1px solid var(--border-mid);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.18),
+    0 16px 48px rgba(0,0,0,0.22);
+}
+.baseball-card .avatar-frame {
+  max-width: none;
+  max-height: none;
+  align-self: auto;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border-mid);
+}
+.card-footer {
+  padding: 16px 20px 18px;
+  background: var(--bg-2);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.card-name {
+  font-family: "DM Serif Display", serif;
+  font-size: 20px;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.card-pos {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 
 /* ─── HOBBY GRID ─────────────────────────────────
    True grid expansion on hover. The hovered cell
@@ -1244,11 +1287,17 @@ footer {
 }
   .hero {
     grid-template-columns: 1fr;
-    padding: 100px 24px 48px;
+    padding: 80px 24px 56px;
     gap: 40px;
+    align-items: start;
+    min-height: unset;
   }
   .hero-visual {
-    display: none;
+    display: flex;
+    justify-content: center;
+  }
+  .baseball-card {
+    max-width: 260px;
   }
 
   .section-header {

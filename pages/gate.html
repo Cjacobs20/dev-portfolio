@@ -169,21 +169,24 @@
     // To change a password: hash your new password with SHA-256 and replace below
     // Tool: https://emn178.github.io/online-tools/sha256.html
     const HASHES = {
-      art:   'c0b21d75ec9472c0c25d978140bc42447cb44f95cc8cb186041f201b796ca6e6',
-      photo: 'd43ce11443681dfa91414d0353ebc29664e49ebcc95306e24e853e8b8423242c',
-      misc:  'd889dd1f83ad81612ca788ac4054b10a5a1267d4f626fac32d75020fcd416a52'
+      art:    'c0b21d75ec9472c0c25d978140bc42447cb44f95cc8cb186041f201b796ca6e6',
+      photo:  'd43ce11443681dfa91414d0353ebc29664e49ebcc95306e24e853e8b8423242c',
+      misc:   'd889dd1f83ad81612ca788ac4054b10a5a1267d4f626fac32d75020fcd416a52',
+      resume: 'c0b21d75ec9472c0c25d978140bc42447cb44f95cc8cb186041f201b796ca6e6' // same as art — update hash to change password
     };
 
     const DESTINATIONS = {
-      art:   'art.html',
-      photo: 'photo.html',
-      misc:  'misc.html'
+      art:    'art.html',
+      photo:  'photo.html',
+      misc:   'misc.html',
+      resume: '../Jacobs_Resume_SolutionsEngineer.pdf'
     };
 
     const LABELS = {
-      art:   { eyebrow: 'Fine Art', title: 'This one\'s private.', sub: 'Password required to view the art gallery.' },
-      photo: { eyebrow: 'Photography', title: 'Eyes only.', sub: 'Password required to view the photo gallery.' },
-      misc:  { eyebrow: 'Miscellaneous', title: 'Nothing to see here.', sub: 'Password required to view this section.' }
+      art:    { eyebrow: 'Fine Art',       title: 'This one\'s private.',   sub: 'Password required to view the art gallery.' },
+      photo:  { eyebrow: 'Photography',    title: 'Eyes only.',             sub: 'Password required to view the photo gallery.' },
+      misc:   { eyebrow: 'Miscellaneous',  title: 'Nothing to see here.',   sub: 'Password required to view this section.' },
+      resume: { eyebrow: 'Résumé',         title: 'Just one thing first.',  sub: 'Password required to download the résumé.' }
     };
 
     // ── GET SECTION FROM URL ──
@@ -196,7 +199,12 @@
 
     // ── CHECK IF ALREADY AUTHENTICATED ──
     if (sessionStorage.getItem('cj-auth-' + section) === 'true') {
-      window.location.href = DESTINATIONS[section];
+      if (section === 'resume') {
+        window.open(DESTINATIONS[section], '_blank');
+        window.location.href = '../index.html';
+      } else {
+        window.location.href = DESTINATIONS[section];
+      }
     }
 
     // ── SET LABELS ──
@@ -222,7 +230,12 @@
 
       if (hash === HASHES[section]) {
         sessionStorage.setItem('cj-auth-' + section, 'true');
-        window.location.href = DESTINATIONS[section];
+        if (section === 'resume') {
+          window.open(DESTINATIONS[section], '_blank');
+          window.location.href = '../index.html';
+        } else {
+          window.location.href = DESTINATIONS[section];
+        }
       } else {
         err.classList.add('visible');
         box.classList.remove('shake');
