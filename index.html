@@ -34,42 +34,70 @@
     <div class="cursor" id="cursor"></div>
     <div class="cursor-ring" id="cursorRing"></div>
 
-    <nav>
-      <a href="#" class="nav-logo">C<span>.</span>J</a>
-      <ul class="nav-links">
-        <li><a href="#work">Work</a></li>
-        <li><a href="#art">Art</a></li>
-        <li><a href="#photo">Photo</a></li>
-        <li><a href="#misc">Misc</a></li>
-        <li><a href="#about">About</a></li>
-        <li>
-          <a href="mailto:christianejacobs2020@gmail.com" class="nav-contact"
-            >Contact</a
-          >
-        </li>
-      </ul>
-      <div class="theme-picker">
-        <span class="theme-label">theme</span>
-        <button
-          class="theme-btn active"
-          data-t="dark"
-          title="Dark"
-          aria-label="Dark theme"
-        ></button>
-        <button
-          class="theme-btn"
-          data-t="light"
-          title="Light"
-          aria-label="Light theme"
-        ></button>
-        <button
-          class="theme-btn"
-          data-t="alien"
-          title="Alien"
-          aria-label="Alien theme"
-        ></button>
-      </div>
-    </nav>
+   <nav>
+  <a href="#" class="nav-logo">C<span>.</span>J</a>
+
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="pages/art.html">Art</a></li>
+    <li><a href="pages/photo.html">Photo</a></li>
+    <li><a href="#hobbies">Misc</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="mailto:christianejacobs2020@gmail.com" class="nav-overlay-contact" data-overlay-link>Contact</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="theme-picker">
+      <span class="theme-label">theme</span>
+      <button
+        class="theme-btn active"
+        data-t="dark"
+        title="Dark"
+        aria-label="Dark theme"
+      ></button>
+      <button
+        class="theme-btn"
+        data-t="light"
+        title="Light"
+        aria-label="Light theme"
+      ></button>
+      <button
+        class="theme-btn"
+        data-t="alien"
+        title="Alien"
+        aria-label="Alien theme"
+      ></button>
+    </div>
+
+    <button
+      class="nav-burger"
+      id="navBurger"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="navOverlay"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <ul class="nav-overlay-links">
+    <li><a href="#work" data-overlay-link>Work</a></li>
+    <li><a href="pages/art.html" data-overlay-link>Art</a></li>
+    <li><a href="pages/photo.html" data-overlay-link>Photo</a></li>
+    <li><a href="#hobbies" data-overlay-link>Misc</a></li>
+    <li><a href="#about" data-overlay-link>About</a></li>
+    <li>
+      
+        href="mailto:christianejacobs2020@gmail.com"
+        class="nav-overlay-contact"
+        data-overlay-link
+        >Contact</a
+      >
+    </li>
+  </ul>
+</div>
 
     <section class="hero" id="home">
       <div class="hero-bg-grid"></div>
@@ -364,6 +392,39 @@
         });
       }
 
+      // ── HAMBURGER NAV ──
+const burger = document.getElementById("navBurger");
+const overlay = document.getElementById("navOverlay");
+
+function openNav() {
+  burger.classList.add("open");
+  overlay.classList.add("open");
+  burger.setAttribute("aria-expanded", "true");
+  overlay.setAttribute("aria-hidden", "false");
+  burger.setAttribute("aria-label", "Close menu");
+  document.body.style.overflow = "hidden";
+}
+function closeNav() {
+  burger.classList.remove("open");
+  overlay.classList.remove("open");
+  burger.setAttribute("aria-expanded", "false");
+  overlay.setAttribute("aria-hidden", "true");
+  burger.setAttribute("aria-label", "Open menu");
+  document.body.style.overflow = "";
+}
+
+burger.addEventListener("click", () => {
+  burger.classList.contains("open") ? closeNav() : openNav();
+});
+
+document.querySelectorAll("[data-overlay-link]").forEach((link) => {
+  link.addEventListener("click", closeNav);
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && overlay.classList.contains("open")) closeNav();
+});
+
       // ── SCROLL FADE ──
       const obs = new IntersectionObserver(
         (entries) => {
@@ -496,3 +557,5 @@
     </script>
   </body>
 </html>
+
+

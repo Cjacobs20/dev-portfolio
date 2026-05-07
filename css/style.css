@@ -237,6 +237,132 @@ nav {
   background: var(--accent-dim) !important;
 }
 
+/* ─── NAV RIGHT GROUP (theme picker + burger) ─── */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ─── HAMBURGER BUTTON ─── */
+.nav-burger {
+  display: none;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: none;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.nav-burger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--text-1);
+  border-radius: 1px;
+  transition:
+    transform 0.3s ease,
+    opacity 0.2s ease,
+    background 0.3s ease;
+  transform-origin: center;
+}
+.nav-burger.open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+  background: var(--accent);
+}
+.nav-burger.open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-burger.open span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+  background: var(--accent);
+}
+
+/* ─── NAV OVERLAY (top-down full screen) ─── */
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  background: var(--bg);
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition:
+    transform 0.45s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.3s ease;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px 40px;
+}
+.nav-overlay.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+.nav-overlay::before {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 68%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+.nav-overlay-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.nav-overlay-links a {
+  font-family: "DM Serif Display", serif;
+  font-size: 36px;
+  color: var(--text-1);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+  cursor: none;
+}
+.nav-overlay-links a:hover {
+  color: var(--accent);
+}
+.nav-overlay-contact {
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 13px !important;
+  padding: 10px 24px;
+  border: 1px solid var(--accent);
+  border-radius: 22px;
+  color: var(--accent) !important;
+  letter-spacing: 0.08em !important;
+  display: inline-block;
+  margin-top: 12px;
+}
+
+:root[data-theme="alien"] .nav-overlay-links a {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
 /* ─── THEME PICKER ─── */
 .theme-picker {
   display: flex;
@@ -1104,12 +1230,14 @@ footer {
     padding: 0 20px;
   }
   .nav-links {
-    gap: 16px;
-  }
-  .nav-links li:not(:last-child):not(:nth-last-child(2)) {
-    display: none;
-  }
-
+  display: none;
+}
+.nav-burger {
+  display: flex;
+}
+.theme-picker .theme-label {
+  display: none;
+}
   .hero {
     grid-template-columns: 1fr;
     padding: 100px 24px 48px;
