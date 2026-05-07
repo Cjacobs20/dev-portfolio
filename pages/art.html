@@ -158,7 +158,7 @@
         top: 0;
         transform: translateX(-50%) rotateX(-90deg);
         transform-origin: top center;
-        background: #050505;
+        background: #161616;
         transition: background 0.4s ease;
       }
       .room-wall-left {
@@ -170,7 +170,7 @@
         margin-top: calc(var(--wall-height) / -2);
         transform-origin: right center;
         transform: rotateY(90deg);
-        background: #111;
+        background: linear-gradient(to bottom, #2e2e2e 0%, #252525 55%, #1c1c1c 100%);
         transition: background 0.4s ease;
       }
       .room-wall-right {
@@ -182,7 +182,7 @@
         margin-top: calc(var(--wall-height) / -2);
         transform-origin: left center;
         transform: rotateY(-90deg);
-        background: #111;
+        background: linear-gradient(to bottom, #2e2e2e 0%, #252525 55%, #1c1c1c 100%);
         transition: background 0.4s ease;
       }
       .room-wall-back {
@@ -192,21 +192,36 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%) translateZ(calc(-1 * var(--corridor-depth)));
-        background: #111;
+        background: linear-gradient(to bottom, #2e2e2e 0%, #252525 55%, #1c1c1c 100%);
         transition: background 0.4s ease;
       }
 
+      :root[data-theme="light"] body            { background: #ede9e0 !important; }
+      :root[data-theme="light"] .gallery-stage  { background: #ede9e0; }
       :root[data-theme="light"] .room-wall-left,
       :root[data-theme="light"] .room-wall-right,
-      :root[data-theme="light"] .room-wall-back { background: #4a3d2e; }
-      :root[data-theme="light"] .room-floor    { background: #2a2018 !important; }
-      :root[data-theme="light"] .room-ceiling  { background: #332820 !important; }
+      :root[data-theme="light"] .room-wall-back {
+        background: linear-gradient(to bottom, #faf8f4 0%, #ede9e0 65%, #e0d9cd 100%);
+      }
+      :root[data-theme="light"] .room-floor {
+        background:
+          repeating-linear-gradient(90deg, rgba(255,180,80,0.05) 0px, rgba(255,180,80,0.05) 1px, transparent 1px, transparent 64px),
+          #2a1a0e !important;
+      }
+      :root[data-theme="light"] .room-ceiling  { background: #fdfcfa !important; }
 
+      :root[data-theme="dark"]  body            { background: #2e2e2e !important; }
+      :root[data-theme="dark"]  .gallery-stage  { background: #2e2e2e; }
+
+      :root[data-theme="alien"] body            { background: #163020 !important; }
+      :root[data-theme="alien"] .gallery-stage  { background: #163020; }
       :root[data-theme="alien"] .room-wall-left,
       :root[data-theme="alien"] .room-wall-right,
-      :root[data-theme="alien"] .room-wall-back { background: #0d3019; }
+      :root[data-theme="alien"] .room-wall-back {
+        background: linear-gradient(to bottom, #163020 0%, #0d3019 60%, #07200f 100%);
+      }
       :root[data-theme="alien"] .room-floor    { background: #061a0c !important; }
-      :root[data-theme="alien"] .room-ceiling  { background: #0a2614 !important; }
+      :root[data-theme="alien"] .room-ceiling  { background: #0b1f10 !important; }
 
       .artwork {
         position: absolute;
@@ -216,19 +231,26 @@
       }
       .artwork-frame {
         position: relative;
-        background: #1a1410;
-        padding: 12px;
+        background: #1e1710;
+        padding: 14px;
         box-shadow:
-          0 0 0 1px rgba(255,255,255,0.05),
-          0 20px 60px rgba(0,0,0,0.8);
+          inset 1px 1px 0 rgba(255,255,255,0.1),
+          inset -1px -1px 0 rgba(0,0,0,0.6),
+          4px 6px 0 rgba(0,0,0,0.5),
+          7px 12px 0 rgba(0,0,0,0.25),
+          0 24px 60px rgba(0,0,0,0.85);
         transition: box-shadow 0.3s ease;
         display: inline-block;
       }
       :root[data-theme="light"] .artwork-frame {
-        background: #2a2018;
+        background: #c8a870;
         box-shadow:
-          0 0 0 1px rgba(255,255,255,0.08),
-          0 20px 60px rgba(0,0,0,0.6);
+          inset 1px 1px 0 rgba(255,255,255,0.45),
+          inset -1px -1px 0 rgba(0,0,0,0.22),
+          4px 6px 0 rgba(0,0,0,0.28),
+          7px 12px 0 rgba(0,0,0,0.13),
+          0 0 80px rgba(255,215,100,0.38),
+          0 24px 50px rgba(0,0,0,0.28);
       }
       .artwork-frame img {
         display: block;
@@ -241,24 +263,23 @@
       .artwork.size-small  .artwork-frame img { max-width: 180px; }
       .artwork:hover .artwork-frame {
         box-shadow:
+          inset 1px 1px 0 rgba(255,255,255,0.1),
+          inset -1px -1px 0 rgba(0,0,0,0.6),
+          4px 6px 0 rgba(0,0,0,0.5),
+          7px 12px 0 rgba(0,0,0,0.25),
           0 0 0 1px rgba(255,255,255,0.15),
-          0 0 60px rgba(255,255,255,0.06);
+          0 0 60px rgba(255,255,255,0.1);
+      }
+      :root[data-theme="light"] .artwork:hover .artwork-frame {
+        box-shadow:
+          inset 1px 1px 0 rgba(255,255,255,0.45),
+          inset -1px -1px 0 rgba(0,0,0,0.22),
+          4px 6px 0 rgba(0,0,0,0.28),
+          7px 12px 0 rgba(0,0,0,0.13),
+          0 0 0 1px rgba(200,168,112,0.7),
+          0 0 40px rgba(200,168,112,0.25);
       }
 
-      .artwork-light {
-        position: absolute;
-        top: -240px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0; height: 0;
-        border-left: 80px solid transparent;
-        border-right: 80px solid transparent;
-        border-top: 240px solid rgba(255,240,200,0.06);
-        pointer-events: none;
-        filter: blur(12px);
-      }
-      :root[data-theme="light"] .artwork-light { border-top-color: rgba(255,220,140,0.15); }
-      :root[data-theme="alien"] .artwork-light { border-top-color: rgba(10,245,150,0.07); }
 
       .collection-label {
         position: absolute;
@@ -362,6 +383,25 @@
       }
       .lb-close:hover { color: #fff; }
 
+      /* ── GALLERY HUD THEME BUTTONS ── */
+      .gallery-hud .theme-btn {
+        opacity: 0.3;
+        transition: transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+      }
+      .gallery-hud .theme-btn:hover {
+        opacity: 0.7;
+        transform: scale(1.25);
+      }
+      .gallery-hud .theme-btn.active {
+        opacity: 1;
+        transform: scale(1.45);
+        border-color: transparent;
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.7), 0 0 10px rgba(255,255,255,0.2);
+      }
+      :root[data-theme="light"] .gallery-hud .theme-btn.active {
+        box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 0 8px rgba(0,0,0,0.12);
+      }
+
       @media (max-width: 768px) {
         .gallery-stage { display: none; }
         .mobile-fallback {
@@ -427,13 +467,25 @@
     <div class="mobile-fallback" id="mobileFallback"></div>
 
     <script>
-      const savedTheme = localStorage.getItem("cj-theme") || "dark";
+      const savedTheme = localStorage.getItem("cj-theme") || "light";
       document.documentElement.setAttribute("data-theme", savedTheme);
 
       const wallColors = {
-        dark:  { wall: "#111111", floor: "#0a0a0a", ceiling: "#050505" },
-        light: { wall: "#4a3d2e", floor: "#2a2018", ceiling: "#332820" },
-        alien: { wall: "#0d3019", floor: "#061a0c", ceiling: "#0a2614" },
+        dark: {
+          wall:    "linear-gradient(to bottom, #2e2e2e 0%, #252525 55%, #1c1c1c 100%)",
+          floor:   "#0a0a0a",
+          ceiling: "#161616",
+        },
+        light: {
+          wall:    "linear-gradient(to bottom, #faf8f4 0%, #ede9e0 65%, #e0d9cd 100%)",
+          floor:   "repeating-linear-gradient(90deg,rgba(255,180,80,0.05) 0px,rgba(255,180,80,0.05) 1px,transparent 1px,transparent 64px),#2a1a0e",
+          ceiling: "#fdfcfa",
+        },
+        alien: {
+          wall:    "linear-gradient(to bottom, #163020 0%, #0d3019 60%, #07200f 100%)",
+          floor:   "#061a0c",
+          ceiling: "#0b1f10",
+        },
       };
 
       function applyRoomTheme(theme) {
@@ -502,7 +554,6 @@
                        rotateY(${rotY}deg);
           `;
           el.innerHTML = `
-            <div class="artwork-light"></div>
             <div class="artwork-frame">
               <img src="../images/art/${piece.filename}" alt="${piece.title}"
                 onerror="this.style.background='#1a1a1a';this.style.minWidth='200px';this.style.minHeight='200px'">
@@ -516,7 +567,6 @@
           const el = document.createElement("div");
           el.className = `collection-piece ${piece.position}`;
           el.innerHTML = `
-            <div class="artwork-light"></div>
             <div class="artwork-frame">
               <img src="../images/art/${piece.filename}" alt="${piece.title}"
                 onerror="this.style.background='#1a1a1a';this.style.minWidth='200px';this.style.minHeight='200px'">
