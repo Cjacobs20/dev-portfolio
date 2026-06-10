@@ -16,60 +16,114 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="shortcut icon" type="image/x-icon" href="../images/favicon2.svg">
 </head>
-<body>
-    <button class="menu-btn" onclick="toggleMenu()"><img src="../images/myLogo.svg"></button>
-    <div class="navbar">
-        <div class="logo">
-            <a href="https://cjacobs20.github.io/dev-portfolio/" title="Back To Home"><img src="../images/myLogo.svg"></img></a>
-        </div>
-        <div class="left">
-            <a>About</a>
-            <a href="https://github.com/Cjacobs20" target="_blank" title="View My Projects and Their Repositories">Git Hub</a>
-            <a href="https://www.instagram.com/theinfamousch/" target="_blank" title="@theinfamousch">Instagram</a>
-            <a href="../Resume4.3.pdf" target="_blank" title="Design and Development Résumé">Résumé</a>
-        </div>
+<body class="canto-page">
+    <div class="page-wrap">
+        <header class="page-header">
+            <a class="back-link" href="https://cjacobs20.github.io/dev-portfolio/" title="Back To Home">
+                <img src="../images/arrowIcon.svg" alt="Back">
+                <span>Back to portfolio</span>
+            </a>
+            <nav class="page-links">
+                <a href="https://github.com/Cjacobs20" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/chris-jacobs-design/" target="_blank">LinkedIn</a>
+                <a href="../Resume4.3.pdf" target="_blank">Résumé</a>
+                <a href="mailto:christianejacobs2020@gmail.com">Email</a>
+            </nav>
+        </header>
 
-        <div class="right">
-            <a href="https://www.linkedin.com/in/chris-jacobs-design/">LinkedIn</a>
-            <a href="https://www.instagram.com/cj_babes_art/" target="_blank" title="Fine Art and Such">Personal Work</a>
-        </div>
+        <main class="canto-hero">
+            <section class="canto-copy">
+                <span class="eyebrow">Lab automation for airgapped instruments</span>
+                <h1>Canto Workflow Buddy <span>v3</span></h1>
+                <p>
+                    A Windows desktop utility built for a BD Canto flow cytometer running on an airgapped lab network. It wraps the instrument vendor's inbound/outbound batch scripts into a single control panel, making lab workflows easier and more reliable.
+                </p>
+                <p>
+                    The app was built to work fully offline, with no installers or package managers required. It uses PowerShell + WPF for the UI, a borderless Edge host for animation, and file-based IPC to surface live status.
+                </p>
+                <div class="hero-tags">
+                    <span class="tag">PowerShell</span>
+                    <span class="tag">WPF / XAML</span>
+                    <span class="tag">Offline</span>
+                    <span class="tag">Lab automation</span>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-primary" type="button" data-state="running">Simulate run</button>
+                    <button class="btn-ghost" type="button" data-state="success">Mark success</button>
+                </div>
+            </section>
+
+            <aside class="status-panel">
+                <div class="panel-header">
+                    <strong>Interactive status panel</strong>
+                    <span class="status-badge status-idle">Idle</span>
+                </div>
+                <div class="panel-body">
+                    <div class="status-state">Idle</div>
+                    <p class="status-hint">Use the buttons below to step through the workflow states and make the demo feel alive.</p>
+                    <div class="status-controls">
+                        <button class="btn-outline" type="button" data-state="running">Run job</button>
+                        <button class="btn-outline" type="button" data-state="success">Success</button>
+                        <button class="btn-outline" type="button" data-state="failure">Failure</button>
+                        <button class="btn-outline" type="button" data-state="idle">Reset</button>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <section class="presentation-section">
+            <div class="section-header">
+                <h2>Interactive walkthrough</h2>
+                <a class="section-link" href="#workflow">Tap each step</a>
+            </div>
+            <div class="presentation-grid">
+                <button class="presentation-tab active" type="button" data-panel="workflow">Workflow</button>
+                <button class="presentation-tab" type="button" data-panel="ui">UI</button>
+                <button class="presentation-tab" type="button" data-panel="constraints">Constraints</button>
+            </div>
+
+            <div class="presentation-panels">
+                <article class="presentation-panel active" id="workflow">
+                    <h3>Workflow orchestration</h3>
+                    <p>
+                        The Buddy coordinates inbound and outbound Canto batch steps from one application shell, turning a manual script pipeline into a single workstream.
+                    </p>
+                    <ul>
+                        <li>One-click job execution for sample prep, acquisition, and data export</li>
+                        <li>Automated folder monitoring to detect completed runs and trigger follow-up actions</li>
+                        <li>Human-readable status updates for locked-down lab operators</li>
+                    </ul>
+                </article>
+                <article class="presentation-panel" id="ui">
+                    <h3>UI with low-risk polish</h3>
+                    <p>
+                        The UI is tailored for a restricted Windows lab PC: simple controls, large state labels, and an animated status character that reflects real runtime conditions.
+                    </p>
+                    <ul>
+                        <li>WPF/XAML screen built for airgapped machines</li>
+                        <li>Edge app host used for fast local animation and status feedback</li>
+                        <li>Accessible, consistent flows for non-IT lab technicians</li>
+                    </ul>
+                </article>
+                <article class="presentation-panel" id="constraints">
+                    <h3>Airgapped constraints</h3>
+                    <p>
+                        This project needed to run in an isolated lab network with zero external dependency access, so every integration point is local and deterministic.
+                    </p>
+                    <ul>
+                        <li>No external package managers or online services</li>
+                        <li>File-based IPC between UI and monitoring layers</li>
+                        <li>Robust fail/success handling for gated clinical workflows</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <footer>
+            <h4>© 2026 Chris Jacobs</h4>
+            <h4><a href="mailto:christianejacobs2020@gmail.com">Email Me</a></h4>
+        </footer>
     </div>
-
-    <div class="topAbout">
-        <a href="https://cjacobs20.github.io/dev-portfolio/" title="Back To Home"><img src="../images/arrowIcon.svg"></img></a>
-        <h1>Canto Workflow Buddy v3</h1>
-    </div>
-
-    <div class="mainSection">
-        <p>
-            Canto Workflow Buddy v3 is a Windows desktop utility built for a BD Canto flow cytometer running on an airgapped lab network.
-            It wraps the instrument vendor's inbound/outbound batch scripts into a single control panel, making lab workflows easier and more reliable.
-        </p>
-        <p>
-            The app was designed to work completely offline, with no installers or package managers required.
-            It uses PowerShell + WPF for the UI, a borderless Edge app for animation, and simple file-based IPC to communicate between the UI and the status display.
-        </p>
-        <p>
-            Key features include one-click job execution, automatic result folder monitoring, and a playful status character that reacts to idle, running, success, and failure states.
-        </p>
-        <div class="content">
-            <ul>
-                <li><strong>Environment:</strong> Windows 10/11, PowerShell 5.1, Microsoft Edge Chromium</li>
-                <li><strong>Tech:</strong> PowerShell, WPF/XAML, Three.js, Edge app mode</li>
-                <li><strong>Constraint:</strong> Fully offline, airgapped lab system with no external dependencies</li>
-            </ul>
-        </div>
-        <div class="content">
-            <p>
-                This project is a strong portfolio entry because it demonstrates real-world healthcare automation with constrained infrastructure, creative problem solving, and a polished UX built for a locked-down instrument PC.
-            </p>
-        </div>
-    </div>
-
-    <footer>
-        <h4>© 2026 Chris Jacobs</h4>
-        <h4><a href="mailto:christianejacobs2020@gmail.com">Email Me</a></h4>
-    </footer>
 </body>
-<script src="../js/index.js"></script>
+<script src="../js/canto-buddy.js"></script>
 </html>
