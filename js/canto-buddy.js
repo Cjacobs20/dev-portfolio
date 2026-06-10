@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const controlButtons = document.querySelectorAll(".status-controls button, .hero-actions button[data-state]");
   const tabs = document.querySelectorAll(".presentation-tab");
   const panels = document.querySelectorAll(".presentation-panel");
+  const biggieFrame = document.getElementById("biggie-frame");
+  const biggieFrameMini = document.getElementById("biggie-frame-mini");
 
   const states = {
     idle: {
@@ -40,6 +42,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const target = button.dataset.state;
       button.classList.toggle("active", target === stateKey);
     });
+
+    document.querySelectorAll(".showcase-dot").forEach((dot) => {
+      dot.classList.toggle("active", dot.dataset.state === stateKey);
+    });
+
+    // Drive both Biggie iframes
+    const msg = { cantoState: stateKey };
+    if (biggieFrame && biggieFrame.contentWindow) {
+      biggieFrame.contentWindow.postMessage(msg, "*");
+    }
+    if (biggieFrameMini && biggieFrameMini.contentWindow) {
+      biggieFrameMini.contentWindow.postMessage(msg, "*");
+    }
   }
 
   function activatePanel(panelId) {

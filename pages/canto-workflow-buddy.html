@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKH1LPCHRY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-GKH1LPCHRY');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canto Workflow Buddy v3</title>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Prata&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="shortcut icon" type="image/x-icon" href="../images/favicon2.svg">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GKH1LPCHRY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-GKH1LPCHRY');
+    </script>
 </head>
 <body class="canto-page">
     <div class="page-wrap">
@@ -29,6 +31,12 @@
                 <a href="../Resume4.3.pdf" target="_blank">Résumé</a>
                 <a href="mailto:christianejacobs2020@gmail.com">Email</a>
             </nav>
+            <div class="theme-picker">
+                <span class="theme-label">theme</span>
+                <button class="theme-btn active" data-t="dark" title="Dark" aria-label="Dark theme"></button>
+                <button class="theme-btn" data-t="light" title="Light" aria-label="Light theme"></button>
+                <button class="theme-btn" data-t="alien" title="Alien" aria-label="Alien theme"></button>
+            </div>
         </header>
 
         <main class="canto-hero">
@@ -59,6 +67,9 @@
                     <span class="status-badge status-idle">Idle</span>
                 </div>
                 <div class="panel-body">
+                    <div class="mini-biggie-wrap">
+                        <iframe id="biggie-frame-mini" src="./canto-biggie-embed.html" title="" frameborder="0" tabindex="-1"></iframe>
+                    </div>
                     <div class="status-state">Idle</div>
                     <p class="status-hint">Use the buttons below to step through the workflow states and make the demo feel alive.</p>
                     <div class="status-controls">
@@ -70,6 +81,22 @@
                 </div>
             </aside>
         </main>
+
+        <section class="buddy-showcase">
+            <div class="showcase-header">
+                <span class="eyebrow">Status character</span>
+                <p>The icon man mirrors live instrument state — try the buttons above.</p>
+            </div>
+            <div class="showcase-canvas-wrap">
+                <iframe id="biggie-frame" src="./canto-biggie-embed.html" title="Canto Workflow Buddy" frameborder="0"></iframe>
+            </div>
+            <div class="showcase-state-strip">
+                <span class="showcase-dot active" data-state="idle">Idle</span>
+                <span class="showcase-dot" data-state="running">Running</span>
+                <span class="showcase-dot" data-state="success">Success</span>
+                <span class="showcase-dot" data-state="failure">Failure</span>
+            </div>
+        </section>
 
         <section class="presentation-section">
             <div class="section-header">
@@ -126,4 +153,21 @@
     </div>
 </body>
 <script src="../js/canto-buddy.js"></script>
+<script>
+    (function () {
+        const root = document.documentElement;
+        const saved = localStorage.getItem("cj-theme");
+        if (saved) root.setAttribute("data-theme", saved);
+        document.querySelectorAll(".theme-btn").forEach((btn) => {
+            btn.classList.toggle("active", btn.dataset.t === (saved || "dark"));
+            btn.addEventListener("click", () => {
+                root.setAttribute("data-theme", btn.dataset.t);
+                localStorage.setItem("cj-theme", btn.dataset.t);
+                document.querySelectorAll(".theme-btn").forEach((b) =>
+                    b.classList.toggle("active", b === btn)
+                );
+            });
+        });
+    })();
+</script>
 </html>
