@@ -152,7 +152,7 @@ body:has(button:hover) .cursor-ring {
 }
 
 /* ─── NAV ─── */
-nav {
+body > nav {
   position: fixed;
   top: 0;
   left: 0;
@@ -924,6 +924,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   font-family: "DM Mono", monospace;
   font-size: 10px;
   color: var(--text-3);
@@ -933,6 +934,75 @@ section {
 .hobby-cell:hover .hobby-preview {
   border-color: var(--accent);
   border-style: solid;
+}
+
+/* ─── HOBBY PREVIEW CONTENT ─── */
+.hp-strip {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  align-self: stretch;
+}
+.hp-strip img {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.5) brightness(0.85);
+  transition: filter 0.4s ease;
+}
+.hobby-cell:hover .hp-strip img {
+  filter: grayscale(0) brightness(1);
+}
+.hp-ticker {
+  width: 100%;
+  overflow: hidden;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+.hp-ticker-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: hp-scroll 16s linear infinite;
+}
+.hp-ticker-inner span {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
+  padding-right: 48px;
+  transition: color 0.3s;
+}
+.hobby-cell:hover .hp-ticker-inner span {
+  color: var(--text-2);
+}
+@keyframes hp-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.hp-stats {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 12px;
+  overflow: hidden;
+}
+.hp-stats span {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  border: 1px solid var(--border-mid);
+  border-radius: 2px;
+  padding: 4px 10px;
+  white-space: nowrap;
+  transition: border-color 0.3s, color 0.3s;
+}
+.hobby-cell:hover .hp-stats span {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* ─── PROJECTS ─── */
@@ -1292,9 +1362,6 @@ section {
 }
 
 /* ─── CANTO WORKFLOW BUDDY PAGE ─── */
-body.canto-page {
-  cursor: auto;
-}
 .page-wrap {
   max-width: 1200px;
   margin: 0 auto;
