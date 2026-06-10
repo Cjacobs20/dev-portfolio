@@ -12,6 +12,14 @@
     />
     <link rel="icon" href="../images/favicon2.png" />
     <link rel="stylesheet" href="../css/style.css" />
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GKH1LPCHRY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GKH1LPCHRY');
+    </script>
     <style>
       :root {
         --corridor-depth: 2900px;
@@ -31,12 +39,6 @@
         cursor: none;
       }
 
-      body:has(a:hover) .cursor-ring,
-      body:has(button:hover) .cursor-ring {
-        width: 36px;
-        height: 36px;
-        opacity: 0.45;
-      }
 
       .gallery-hud {
         position: fixed;

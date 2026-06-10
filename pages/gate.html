@@ -9,6 +9,14 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="icon" href="../images/favicon2.png">
   <link rel="stylesheet" href="../css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GKH1LPCHRY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GKH1LPCHRY');
+  </script>
   <style>
     .gate-wrap {
       min-height: 100vh;
@@ -135,7 +143,6 @@
 </head>
 <body>
   <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
   <script src="../js/cursor.js"></script>
 
   <div class="gate-wrap">
@@ -230,6 +237,7 @@
 
       if (hash === HASHES[section]) {
         sessionStorage.setItem('cj-auth-' + section, 'true');
+        gtag('event', 'gate_success', { section });
         if (section === 'resume') {
           window.open(DESTINATIONS[section], '_blank');
           window.location.href = '../index.html';
@@ -237,6 +245,7 @@
           window.location.href = DESTINATIONS[section];
         }
       } else {
+        gtag('event', 'gate_failure', { section });
         err.classList.add('visible');
         box.classList.remove('shake');
         void box.offsetWidth; // reflow to restart animation

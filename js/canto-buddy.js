@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
   controlButtons.forEach((button) => {
     button.addEventListener("click", function () {
       setState(this.dataset.state);
+      if (window.gtag) gtag("event", "demo_interaction", { state: this.dataset.state });
     });
   });
 

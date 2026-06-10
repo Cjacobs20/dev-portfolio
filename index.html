@@ -456,6 +456,7 @@
             .forEach((b) => b.classList.remove("active"));
           btn.classList.add("active");
           localStorage.setItem("cj-theme", btn.dataset.t);
+          gtag("event", "theme_change", { theme: btn.dataset.t });
         });
       });
       const saved = localStorage.getItem("cj-theme");
@@ -498,6 +499,34 @@ document.querySelectorAll("[data-overlay-link]").forEach((link) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && overlay.classList.contains("open")) closeNav();
 });
+
+      // ── ANALYTICS EVENTS ──
+      document.querySelectorAll(".project-row").forEach((el) => {
+        el.addEventListener("click", () => {
+          gtag("event", "project_click", { project_name: el.querySelector(".project-title").textContent.trim() });
+        });
+      });
+      document.querySelectorAll(".hobby-cell").forEach((el) => {
+        el.addEventListener("click", () => {
+          gtag("event", "section_click", { section_name: el.querySelector(".hobby-label").textContent.trim() });
+        });
+      });
+      document.querySelectorAll('a[href^="http"], a[href^="https"]').forEach((el) => {
+        el.addEventListener("click", () => {
+          gtag("event", "outbound_click", { url: el.href, label: el.textContent.trim() });
+        });
+      });
+      document.querySelectorAll('a[href^="mailto"]').forEach((el) => {
+        el.addEventListener("click", () => {
+          gtag("event", "contact_click");
+        });
+      });
+      const resumeLink = document.querySelector('a[href*="section=resume"]');
+      if (resumeLink) {
+        resumeLink.addEventListener("click", () => {
+          gtag("event", "resume_click");
+        });
+      }
 
       // ── SCROLL FADE ──
       const obs = new IntersectionObserver(
