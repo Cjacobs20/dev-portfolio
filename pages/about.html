@@ -48,6 +48,71 @@
             During my time at Metropolitan State University of Denver, I delved into studies encompassing biology, ecology, and fine art. Initially aiming to pursue further education in medicine after completing my undergraduate degree, I unexpectedly found myself immersed in a hospital setting upon graduation, where I discovered alternative vocational aspirations. While working in pathology, I realized my appreciation for the significance and intricacy of the medical realm, yet it failed to fulfill my personal criteria for success. My true passion lies in creativity, which has consistently provided me with the greatest sense of fulfillment.
         </p>
         <div id="currently-playing"></div>
+        <style>
+          #now-playing-widget {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 24px 0;
+            padding: 14px 18px;
+            border: 1px solid rgba(0,0,0,0.12);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.03);
+            max-width: 420px;
+            font-family: 'Libre Baskerville', serif;
+          }
+          #now-playing-widget img {
+            width: 52px;
+            height: 52px;
+            border-radius: 4px;
+            object-fit: cover;
+            flex-shrink: 0;
+          }
+          #now-playing-widget img.spinning {
+            animation: vinyl-spin 8s linear infinite;
+          }
+          @keyframes vinyl-spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+          }
+          .np-meta { min-width: 0; }
+          .np-eyebrow {
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+          .np-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #e74c3c;
+            animation: np-pulse 1.4s ease-in-out infinite;
+          }
+          @keyframes np-pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.3; }
+          }
+          .np-track {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .np-artist {
+            font-size: 12px;
+            color: #555;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        </style>
         <div class="content">
             <img src="../images/greenMe.jpg"></img>
         </div> 
@@ -64,4 +129,42 @@
     </footer>
 </body> 
 <script src="../js/index.js"></script>
+<script>
+  (function () {
+    const API_KEY  = '70fdc025bf2657ec22f6e41dc831a838'; // ← replace with key from last.fm/api/account/create
+    const USERNAME = 'CJBabes';
+    const container = document.getElementById('currently-playing');
+
+    fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json&limit=1`)
+      .then(r => r.json())
+      .then(data => {
+        const tracks = data?.recenttracks?.track;
+        if (!tracks || !tracks.length) return;
+
+        const track      = Array.isArray(tracks) ? tracks[0] : tracks;
+        const isLive     = track['@attr']?.nowplaying === 'true';
+        const name       = track.name || 'Unknown track';
+        const artist     = track.artist?.['#text'] || 'Unknown artist';
+        const imageUrl   = track.image?.find(i => i.size === 'large')?.['#text'] || '';
+        const fallbackImg = 'https://lastfm.freetls.fastly.net/i/u/64s/4128a6eb29f94943c9d206c08e625904.jpg';
+
+        container.innerHTML = `
+          <div id="now-playing-widget">
+            <img src="${imageUrl || fallbackImg}" alt="Album art" id="npArt" onerror="this.src='${fallbackImg}'">
+            <div class="np-meta">
+              <div class="np-eyebrow">
+                ${isLive ? '<span class="np-dot"></span> Now playing' : 'Last played'}
+              </div>
+              <div class="np-track">${name}</div>
+              <div class="np-artist">${artist}</div>
+            </div>
+          </div>`;
+
+        if (isLive) {
+          document.getElementById('npArt').classList.add('spinning');
+        }
+      })
+      .catch(() => {}); // silently skip if offline or API key not set
+  })();
+</script>
 </html>
