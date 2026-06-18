@@ -1,170 +1,509 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKH1LPCHRY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About — Chris Jacobs</title>
+    <meta name="description" content="About Chris Jacobs — LIS analyst, designer, photographer, and dedicated hobbyist based in Denver, CO." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../images/favicon2.png" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GKH1LPCHRY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-GKH1LPCHRY");
+    </script>
+    <style>
+      /* ── PAGE LAYOUT ── */
+      .about-page {
+        min-height: 100vh;
+        padding: 120px 24px 80px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
 
-  gtag('config', 'G-GKH1LPCHRY');
-</script>
-        <meta charset="utf-8">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Prata&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="../css/style.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      /* ── PAGE HEADER ── */
+      .about-header {
+        margin-bottom: 72px;
+      }
+      .about-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--accent);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .about-eyebrow::before {
+        content: "";
+        display: block;
+        width: 24px;
+        height: 1px;
+        background: var(--accent);
+      }
+      .about-title {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(44px, 7vw, 80px);
+        color: var(--text-1);
+        letter-spacing: -0.03em;
+        line-height: 1;
+        margin-bottom: 0;
+      }
+      .about-title em {
+        color: var(--accent);
+        font-style: italic;
+      }
 
-        <link rel="shortcut icon" type="image/x-icon" href="../images/favicon2.svg">
-    </head>
-<body>
-    <button class="menu-btn" onclick="toggleMenu()"><img src="../images/myLogo.svg"></button>
-    <div class="navbar">
-        <div class="logo">
-            <a href="https://cjacobs20.github.io/dev-portfolio/" title="Back To Home"><img src="../images/myLogo.svg"></img></a>
-        </div>
-        <div class="left">
-            <a>About</a>
-            <a href="https://github.com/Cjacobs20" target="_blank" title="View My Projects and Their Repositories">Git Hub</a>
-            <a href="https://www.instagram.com/theinfamousch/" target="_blank" title="@theinfamousch">Instagram</a>
-            <a href="../Resume4.3.pdf" target="_blank" title="Design and Development Résumé">Résumé</a>
-        </div>
-
-        <div class="right">
-            <a href="https://www.linkedin.com/in/chris-jacobs-design/">LinkedIn</a>
-            <a href="https://www.instagram.com/cj_babes_art/" target="_blank" title="Fine Art and Such">Personal Work</a>
-        </div>
-    </div>
-
-    <div class="topAbout">
-    <a href="https://cjacobs20.github.io/dev-portfolio/" title="Back To Home"><img src="../images/arrowIcon.svg"></img></a>
-    <h1>About Me</h1>
-    </div>
-
-    <div class="mainSection">
-        <p>
-            During my time at Metropolitan State University of Denver, I delved into studies encompassing biology, ecology, and fine art. Initially aiming to pursue further education in medicine after completing my undergraduate degree, I unexpectedly found myself immersed in a hospital setting upon graduation, where I discovered alternative vocational aspirations. While working in pathology, I realized my appreciation for the significance and intricacy of the medical realm, yet it failed to fulfill my personal criteria for success. My true passion lies in creativity, which has consistently provided me with the greatest sense of fulfillment.
-        </p>
-        <div id="currently-playing"></div>
-        <style>
-          #now-playing-widget {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin: 24px 0;
-            padding: 14px 18px;
-            border: 1px solid rgba(0,0,0,0.12);
-            border-radius: 8px;
-            background: rgba(0,0,0,0.03);
-            max-width: 420px;
-            font-family: 'Libre Baskerville', serif;
-          }
-          #now-playing-widget img {
-            width: 52px;
-            height: 52px;
-            border-radius: 4px;
-            object-fit: cover;
-            flex-shrink: 0;
-          }
-          #now-playing-widget img.spinning {
-            animation: vinyl-spin 8s linear infinite;
-          }
-          @keyframes vinyl-spin {
-            from { transform: rotate(0deg); }
-            to   { transform: rotate(360deg); }
-          }
-          .np-meta { min-width: 0; }
-          .np-eyebrow {
-            font-size: 9px;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: #888;
-            margin-bottom: 3px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-          }
-          .np-dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: #e74c3c;
-            animation: np-pulse 1.4s ease-in-out infinite;
-          }
-          @keyframes np-pulse {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.3; }
-          }
-          .np-track {
-            font-size: 14px;
-            font-weight: 700;
-            color: #111;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          .np-artist {
-            font-size: 12px;
-            color: #555;
-            margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        </style>
-        <div class="content">
-            <img src="../images/greenMe.jpg"></img>
-        </div> 
-    </div>
-    
-    <footer>
-            <!-- <div class="footLogo">
-                <div id="liLogo"><img src="images/linkedin_logo.png"></div>
-                <div id="contactLogo"><img src="images/contact_logo.png"></div>
-            </div> -->
-            <h4>Copyright 2021</h4>
-            <!-- <h4>Connect With Me</h4> -->
-            <h4><a href="mailto:christianejacobs2020@gmail.com">Email Me</a></h4>
-    </footer>
-</body> 
-<script src="../js/index.js"></script>
-<script>
-  (function () {
-    const API_KEY  = '70fdc025bf2657ec22f6e41dc831a838'; // ← replace with key from last.fm/api/account/create
-    const USERNAME = 'CJBabes';
-    const container = document.getElementById('currently-playing');
-
-    fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json&limit=1`)
-      .then(r => r.json())
-      .then(data => {
-        const tracks = data?.recenttracks?.track;
-        if (!tracks || !tracks.length) return;
-
-        const track      = Array.isArray(tracks) ? tracks[0] : tracks;
-        const isLive     = track['@attr']?.nowplaying === 'true';
-        const name       = track.name || 'Unknown track';
-        const artist     = track.artist?.['#text'] || 'Unknown artist';
-        const imageUrl   = track.image?.find(i => i.size === 'large')?.['#text'] || '';
-        const fallbackImg = 'https://lastfm.freetls.fastly.net/i/u/64s/4128a6eb29f94943c9d206c08e625904.jpg';
-
-        container.innerHTML = `
-          <div id="now-playing-widget">
-            <img src="${imageUrl || fallbackImg}" alt="Album art" id="npArt" onerror="this.src='${fallbackImg}'">
-            <div class="np-meta">
-              <div class="np-eyebrow">
-                ${isLive ? '<span class="np-dot"></span> Now playing' : 'Last played'}
-              </div>
-              <div class="np-track">${name}</div>
-              <div class="np-artist">${artist}</div>
-            </div>
-          </div>`;
-
-        if (isLive) {
-          document.getElementById('npArt').classList.add('spinning');
+      /* ── BIO STRIP ── */
+      .bio-strip {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 64px;
+        align-items: start;
+        margin-bottom: 72px;
+      }
+      @media (max-width: 780px) {
+        .bio-strip {
+          grid-template-columns: 1fr;
+          gap: 40px;
         }
-      })
-      .catch(() => {}); // silently skip if offline or API key not set
-  })();
-</script>
+      }
+      .bio-text p {
+        font-size: 15px;
+        color: var(--text-2);
+        line-height: 1.85;
+        margin-bottom: 20px;
+      }
+      .bio-text p strong {
+        color: var(--text-1);
+        font-weight: 500;
+      }
+      .bio-text p:last-child {
+        margin-bottom: 0;
+      }
+      .bio-photo {
+        position: relative;
+      }
+      .bio-photo img {
+        width: 100%;
+        aspect-ratio: 3 / 4;
+        object-fit: cover;
+        object-position: top center;
+        border-radius: 4px;
+        display: block;
+        filter: grayscale(15%);
+        transition: filter 0.4s ease;
+      }
+      .bio-photo img:hover {
+        filter: grayscale(0%);
+      }
+      .bio-photo-caption {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--text-3);
+        letter-spacing: 0.08em;
+        margin-top: 10px;
+        text-align: right;
+      }
+
+      /* ── DIVIDER ── */
+      .about-divider {
+        border: none;
+        border-top: 1px solid var(--border-mid);
+        margin: 0 0 64px;
+      }
+
+      /* ── STATS ── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+        margin-bottom: 72px;
+      }
+      @media (max-width: 680px) {
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      .stat-cell {
+        padding: 28px 24px;
+        border: 1px solid var(--border-mid);
+        border-radius: 4px;
+      }
+      .stat-cell .stat-num {
+        font-family: "DM Serif Display", serif;
+        font-size: 40px;
+        color: var(--accent);
+        letter-spacing: -0.03em;
+        line-height: 1;
+        display: block;
+        margin-bottom: 8px;
+      }
+      .stat-cell .stat-label {
+        font-size: 12px;
+        color: var(--text-2);
+        line-height: 1.5;
+      }
+
+      /* ── NOW PLAYING ── */
+      .np-section {
+        margin-bottom: 72px;
+      }
+      .np-section-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--text-3);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      #now-playing-widget {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        border: 1px solid var(--border-mid);
+        border-radius: 4px;
+        background: var(--bg-2);
+        max-width: 420px;
+      }
+      #now-playing-widget img {
+        width: 56px;
+        height: 56px;
+        border-radius: 3px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+      #now-playing-widget img.spinning {
+        border-radius: 50%;
+        animation: vinyl-spin 8s linear infinite;
+      }
+      @keyframes vinyl-spin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+      .np-meta { min-width: 0; }
+      .np-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .np-dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #e74c3c;
+        flex-shrink: 0;
+        animation: np-pulse 1.4s ease-in-out infinite;
+      }
+      @keyframes np-pulse {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0.25; }
+      }
+      .np-track {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-1);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: "DM Sans", sans-serif;
+      }
+      .np-artist {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--text-3);
+        margin-top: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      #np-skeleton {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        max-width: 420px;
+        opacity: 0.4;
+      }
+      .np-skel-art {
+        width: 56px; height: 56px;
+        border-radius: 3px;
+        background: var(--border-mid);
+        flex-shrink: 0;
+      }
+      .np-skel-lines { flex: 1; }
+      .np-skel-line {
+        height: 10px;
+        border-radius: 3px;
+        background: var(--border-mid);
+        margin-bottom: 8px;
+      }
+      .np-skel-line:last-child { width: 60%; margin-bottom: 0; }
+
+      /* ── CTA ROW ── */
+      .about-cta {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .about-back {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--text-3);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .about-back:hover { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <script src="../js/cursor.js"></script>
+
+    <!-- ── NAV ── -->
+    <nav>
+      <a href="../index.html" class="nav-logo">C<span>.</span>J</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="art.html">Art</a></li>
+        <li><a href="photo.html">Photo</a></li>
+        <li><a href="../index.html#hobbies">Misc</a></li>
+        <li><a href="about.html" style="color: var(--accent);">About</a></li>
+        <li><a href="mailto:christianejacobs2020@gmail.com" class="nav-overlay-contact" data-overlay-link>Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="theme-picker">
+          <span class="theme-label">theme</span>
+          <button class="theme-btn" data-t="dark"  title="Dark"  aria-label="Dark theme"></button>
+          <button class="theme-btn" data-t="light" title="Light" aria-label="Light theme"></button>
+          <button class="theme-btn" data-t="alien" title="Alien" aria-label="Alien theme"></button>
+        </div>
+        <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="nav-overlay" id="navOverlay" aria-hidden="true">
+      <ul class="nav-overlay-links">
+        <li><a href="../index.html#work" data-overlay-link>Work</a></li>
+        <li><a href="art.html" data-overlay-link>Art</a></li>
+        <li><a href="photo.html" data-overlay-link>Photo</a></li>
+        <li><a href="../index.html#hobbies" data-overlay-link>Misc</a></li>
+        <li><a href="about.html" data-overlay-link>About</a></li>
+        <li><a href="mailto:christianejacobs2020@gmail.com" class="nav-overlay-contact" data-overlay-link>Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- ── MAIN ── -->
+    <main class="about-page">
+
+      <header class="about-header fade-in">
+        <div class="about-eyebrow">About</div>
+        <h1 class="about-title">Chris <em>Jacobs.</em></h1>
+      </header>
+
+      <!-- BIO + PHOTO -->
+      <div class="bio-strip">
+        <div class="bio-text fade-in">
+          <p>
+            Started at <strong>Metropolitan State University of Denver</strong> — biology,
+            ecology, fine art. The plan was medicine. Then graduation happened and I found
+            myself in a hospital, working in <strong>histotechnology and anatomic pathology</strong>.
+            Fascinating work. Not fulfilling work.
+          </p>
+          <p>
+            My real engine has always been creativity. I left the lab and followed it — into
+            design, into software, and eventually into <strong>healthcare IT</strong>, where I
+            found a way to be useful in the medical world without losing myself to it.
+          </p>
+          <p>
+            Now I sit at the intersection of <strong>LIS systems, Epic, and design</strong> —
+            building and optimizing laboratory information workflows for clinical labs while
+            keeping one foot firmly in photography, painting, and whatever else demands attention.
+          </p>
+          <p>
+            Based in <strong>Denver, Colorado</strong>. Perpetually behind on reading. Never
+            behind on music.
+          </p>
+        </div>
+        <div class="bio-photo fade-in">
+          <img src="../images/Scotland_chris.png" alt="Chris Jacobs" />
+          <div class="bio-photo-caption">Scotland, probably cold</div>
+        </div>
+      </div>
+
+      <hr class="about-divider" />
+
+      <!-- STATS -->
+      <div class="stats-grid fade-in">
+        <div class="stat-cell">
+          <span class="stat-num">8+</span>
+          <span class="stat-label">Years in healthcare IT &amp; LIS</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num">2</span>
+          <span class="stat-label">Epic certifications — Beaker AP &amp; Cogito</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Platforms: Epic, SCC Soft Computer, Sunquest, Cerner</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Gear acquired, researched, and occasionally regretted</span>
+        </div>
+      </div>
+
+      <hr class="about-divider" />
+
+      <!-- NOW PLAYING -->
+      <div class="np-section fade-in">
+        <div class="np-section-label">Currently listening to</div>
+        <div id="currently-playing">
+          <div id="np-skeleton">
+            <div class="np-skel-art"></div>
+            <div class="np-skel-lines">
+              <div class="np-skel-line"></div>
+              <div class="np-skel-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="about-divider" />
+
+      <!-- CTA -->
+      <div class="about-cta fade-in">
+        <a href="gate.html?section=resume" class="btn-primary">Download Résumé</a>
+        <a href="../index.html" class="about-back">← Back to home</a>
+      </div>
+
+    </main>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      <div class="footer-left">
+        <span class="footer-name">Chris Jacobs</span>
+        <span class="footer-role">LIS &amp; Epic · Design · Denver, CO</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Cjacobs20" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/chris-jacobs-design/" target="_blank">LinkedIn</a>
+        <a href="https://www.instagram.com/theinfamousch/" target="_blank">Instagram</a>
+        <a href="mailto:christianejacobs2020@gmail.com">Email</a>
+      </div>
+      <span class="footer-copy">© 2026 Chris Jacobs</span>
+    </footer>
+
+    <script>
+      // ── THEME ──
+      const root = document.documentElement;
+      const saved = localStorage.getItem("cj-theme");
+      if (saved) {
+        root.setAttribute("data-theme", saved);
+      }
+      document.querySelectorAll(".theme-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.t === (saved || "light"));
+        btn.addEventListener("click", () => {
+          root.setAttribute("data-theme", btn.dataset.t);
+          document.querySelectorAll(".theme-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          localStorage.setItem("cj-theme", btn.dataset.t);
+        });
+      });
+
+      // ── NAV BURGER ──
+      const burger  = document.getElementById("navBurger");
+      const overlay = document.getElementById("navOverlay");
+      function openNav() {
+        burger.classList.add("open");
+        overlay.classList.add("open");
+        burger.setAttribute("aria-expanded", "true");
+        overlay.setAttribute("aria-hidden", "false");
+        burger.setAttribute("aria-label", "Close menu");
+        document.body.style.overflow = "hidden";
+      }
+      function closeNav() {
+        burger.classList.remove("open");
+        overlay.classList.remove("open");
+        burger.setAttribute("aria-expanded", "false");
+        overlay.setAttribute("aria-hidden", "true");
+        burger.setAttribute("aria-label", "Open menu");
+        document.body.style.overflow = "";
+      }
+      burger.addEventListener("click", () => {
+        burger.classList.contains("open") ? closeNav() : openNav();
+      });
+      document.querySelectorAll("[data-overlay-link]").forEach((link) => {
+        link.addEventListener("click", closeNav);
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && overlay.classList.contains("open")) closeNav();
+      });
+
+      // ── FADE-IN ON SCROLL ──
+      const observer = new IntersectionObserver(
+        (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+        { threshold: 0.1 }
+      );
+      document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+
+      // ── NOW PLAYING (Last.fm) ──
+      (function () {
+        const API_KEY  = '70fdc025bf2657ec22f6e41dc831a838';
+        const USERNAME = 'CJBabes';
+        const container = document.getElementById('currently-playing');
+
+        fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json&limit=1`)
+          .then(r => r.json())
+          .then(data => {
+            const tracks = data?.recenttracks?.track;
+            if (!tracks || !tracks.length) { container.innerHTML = ''; return; }
+
+            const track      = Array.isArray(tracks) ? tracks[0] : tracks;
+            const isLive     = track['@attr']?.nowplaying === 'true';
+            const name       = track.name || 'Unknown track';
+            const artist     = track.artist?.['#text'] || 'Unknown artist';
+            const imageUrl   = track.image?.find(i => i.size === 'large')?.['#text'] || '';
+            const fallbackImg = 'https://lastfm.freetls.fastly.net/i/u/64s/4128a6eb29f94943c9d206c08e625904.jpg';
+
+            container.innerHTML = `
+              <div id="now-playing-widget">
+                <img src="${imageUrl || fallbackImg}" alt="Album art" id="npArt" onerror="this.src='${fallbackImg}'">
+                <div class="np-meta">
+                  <div class="np-eyebrow">
+                    ${isLive ? '<span class="np-dot"></span> Now playing' : 'Last played'}
+                  </div>
+                  <div class="np-track">${name}</div>
+                  <div class="np-artist">${artist}</div>
+                </div>
+              </div>`;
+
+            if (isLive) document.getElementById('npArt').classList.add('spinning');
+          })
+          .catch(() => { container.innerHTML = ''; });
+      })();
+    </script>
+  </body>
 </html>
