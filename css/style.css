@@ -1314,6 +1314,7 @@ section {
 
 /* ─── XENOMORPH ─── */
 #xenomorph {
+  display: none;
   position: fixed;
   bottom: 24px;
   right: 24px;
@@ -1324,8 +1325,11 @@ section {
   background-position: 0 0;
   pointer-events: none;
   z-index: 50;
-  transition: left 0.08s linear;
+  transition: none;
   filter: drop-shadow(0 0 8px var(--accent));
+}
+#xenomorph.active {
+  display: block;
 }
 
 @keyframes xeno-run {

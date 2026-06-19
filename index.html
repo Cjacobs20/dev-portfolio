@@ -441,8 +441,7 @@
       <span class="footer-copy">© 2026 Chris Jacobs</span>
     </footer>
 
-    <!-- Xenomorph — suppressed until sprite sheets are ready -->
-    <!-- <div id="xenomorph"></div> -->
+    <div id="xenomorph"></div>
 
     <script>
       // ── THEME PICKER ──
@@ -626,24 +625,34 @@ document.addEventListener("keydown", (e) => {
         }
         drawChaser();
       }
-      // ── XENOMORPH — suppressed ──
-      // Uncomment when sprite sheets are ready
-      // const xeno = document.getElementById('xenomorph');
-      // let isRunning = false;
-      // let stopTimer;
-      // document.addEventListener('mousemove', e => {
-      //   const newX = Math.max(20, Math.min(e.clientX - 75, window.innerWidth - 170));
-      //   xeno.style.left = newX + 'px';
-      //   xeno.style.right = 'auto';
-      //   xeno.style.transform = e.clientX > parseInt(xeno.style.left || 0) ? 'scaleX(1)' : 'scaleX(-1)';
-      //   if (!isRunning) { xeno.classList.add('running'); isRunning = true; }
-      //   clearTimeout(stopTimer);
-      //   stopTimer = setTimeout(() => {
-      //     xeno.classList.remove('running');
-      //     xeno.style.backgroundPosition = '0 0';
-      //     isRunning = false;
-      //   }, 300);
-      // });
+      // ── XENOMORPH ──
+      const xeno = document.getElementById('xenomorph');
+      let xenoRunning = false;
+      let xenoStopTimer;
+      let xenoTargetX = window.innerWidth / 2;
+      let xenoCurrentX = window.innerWidth / 2;
+      let xenoRafId = null;
+
+      function xenoTick() {
+        const dx = xenoTargetX - xenoCurrentX;
+        xenoCurrentX += dx * 0.08;
+        xeno.style.left = xenoCurrentX + 'px';
+        if (Math.abs(dx) > 1) {
+          xeno.style.transform = dx > 0 ? 'scaleX(-1)' : 'scaleX(1)';
+        }
+        xenoRafId = requestAnimationFrame(xenoTick);
+      }
+
+      document.addEventListener('mousemove', e => {
+        if (!xeno.classList.contains('active')) return;
+        xenoTargetX = Math.max(20, Math.min(e.clientX - 75, window.innerWidth - 170));
+        if (!xenoRunning) { xeno.classList.add('running'); xenoRunning = true; }
+        clearTimeout(xenoStopTimer);
+        xenoStopTimer = setTimeout(() => {
+          xeno.classList.remove('running');
+          xenoRunning = false;
+        }, 300);
+      });
 
       // ── KONAMI ──
       let kseq = [];
@@ -652,7 +661,15 @@ document.addEventListener("keydown", (e) => {
         kseq.push(e.keyCode);
         kseq = kseq.slice(-10);
         if (kseq.join() === kcode.join()) {
-          alert("👁 You found the egg. The xenomorph is pleased.");
+          xeno.classList.toggle('active');
+          if (xeno.classList.contains('active')) {
+            xenoCurrentX = xenoTargetX;
+            xenoRafId = requestAnimationFrame(xenoTick);
+          } else {
+            cancelAnimationFrame(xenoRafId);
+            xenoRafId = null;
+            xeno.classList.remove('running');
+          }
         }
       });
     </script>
