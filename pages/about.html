@@ -22,7 +22,7 @@
       gtag("config", "G-GKH1LPCHRY");
     </script>
     <style>
-      /* ── PAGE LAYOUT ── */
+      /*  PAGE LAYOUT  */
       .about-page {
         min-height: 100vh;
         padding: 120px 24px 80px;
@@ -30,7 +30,7 @@
         margin: 0 auto;
       }
 
-      /* ── PAGE HEADER ── */
+      /*  PAGE HEADER  */
       .about-header {
         margin-bottom: 72px;
       }
@@ -65,7 +65,7 @@
         font-style: italic;
       }
 
-      /* ── BIO STRIP ── */
+      /*  BIO STRIP  */
       .bio-strip {
         display: grid;
         grid-template-columns: 1fr 360px;
@@ -117,14 +117,14 @@
         text-align: right;
       }
 
-      /* ── DIVIDER ── */
+      /*  DIVIDER  */
       .about-divider {
         border: none;
         border-top: 1px solid var(--border-mid);
         margin: 0 0 64px;
       }
 
-      /* ── STATS ── */
+      /*  STATS  */
       .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -154,7 +154,7 @@
         line-height: 1.5;
       }
 
-      /* ── NOW PLAYING ── */
+      /*  NOW PLAYING  */
       .np-section {
         margin-bottom: 72px;
       }
@@ -257,7 +257,7 @@
       }
       .np-skel-line:last-child { width: 60%; margin-bottom: 0; }
 
-      /* ── CTA ROW ── */
+      /*  CTA ROW  */
       .about-cta {
         display: flex;
         gap: 20px;
@@ -280,7 +280,7 @@
     <div class="cursor-ring" id="cursorRing"></div>
     <script src="../js/cursor.js"></script>
 
-    <!-- ── NAV ── -->
+    <!--  NAV  -->
     <nav>
       <a href="../index.html" class="nav-logo">C<span>.</span>J</a>
       <ul class="nav-links">
@@ -315,7 +315,7 @@
       </ul>
     </div>
 
-    <!-- ── MAIN ── -->
+    <!--  MAIN  -->
     <main class="about-page">
 
       <header class="about-header fade-in">
@@ -401,7 +401,7 @@
 
     </main>
 
-    <!-- ── FOOTER ── -->
+    <!--  FOOTER  -->
     <footer>
       <div class="footer-left">
         <span class="footer-name">Chris Jacobs</span>
@@ -417,7 +417,7 @@
     </footer>
 
     <script>
-      // ── THEME ──
+      //  THEME 
       const root = document.documentElement;
       const saved = localStorage.getItem("cj-theme");
       if (saved) {
@@ -433,7 +433,7 @@
         });
       });
 
-      // ── NAV BURGER ──
+      //  NAV BURGER 
       const burger  = document.getElementById("navBurger");
       const overlay = document.getElementById("navOverlay");
       function openNav() {
@@ -462,14 +462,14 @@
         if (e.key === "Escape" && overlay.classList.contains("open")) closeNav();
       });
 
-      // ── FADE-IN ON SCROLL ──
+      //  FADE-IN ON SCROLL 
       const observer = new IntersectionObserver(
         (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
         { threshold: 0.1 }
       );
       document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 
-      // ── NOW PLAYING (Last.fm) ──
+      //  NOW PLAYING (Last.fm) 
       (function () {
         const API_KEY  = '70fdc025bf2657ec22f6e41dc831a838';
         const USERNAME = 'CJBabes';

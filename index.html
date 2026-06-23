@@ -444,7 +444,7 @@
     <div id="xenomorph"></div>
 
     <script>
-      // ── THEME PICKER ──
+      //  THEME PICKER 
       const root = document.documentElement;
       document.querySelectorAll(".theme-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -465,7 +465,7 @@
         });
       }
 
-      // ── HAMBURGER NAV ──
+      //  HAMBURGER NAV 
 const burger = document.getElementById("navBurger");
 const overlay = document.getElementById("navOverlay");
 
@@ -498,7 +498,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && overlay.classList.contains("open")) closeNav();
 });
 
-      // ── ANALYTICS EVENTS ──
+      //  ANALYTICS EVENTS 
       document.querySelectorAll(".project-row").forEach((el) => {
         el.addEventListener("click", () => {
           gtag("event", "project_click", { project_name: el.querySelector(".project-title").textContent.trim() });
@@ -526,7 +526,7 @@ document.addEventListener("keydown", (e) => {
         });
       }
 
-      // ── SCROLL FADE ──
+      //  SCROLL FADE 
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
@@ -536,7 +536,7 @@ document.addEventListener("keydown", (e) => {
         { threshold: 0.1 },
       );
       document.querySelectorAll(".fade-in").forEach((el) => obs.observe(el));
-      // ── AVATAR SWAP ──
+      //  AVATAR SWAP 
       const avatarFrame = document.getElementById("avatarFrame");
       const seeTheWork = document.querySelector('a[href="#work"].btn-primary');
       if (seeTheWork && avatarFrame) {
@@ -547,7 +547,7 @@ document.addEventListener("keydown", (e) => {
           avatarFrame.classList.remove("surprised"),
         );
       }
-      // ── AVATAR FRAME CHASE ──
+      //  AVATAR FRAME CHASE 
       const frame = document.getElementById("avatarFrame");
       if (frame) {
         // Create canvas overlay
@@ -625,7 +625,7 @@ document.addEventListener("keydown", (e) => {
         }
         drawChaser();
       }
-      // ── XENOMORPH ──
+      //  XENOMORPH 
       const xeno = document.getElementById('xenomorph');
       let xenoRunning = false;
       let xenoStopTimer;
@@ -654,7 +654,7 @@ document.addEventListener("keydown", (e) => {
         }, 300);
       });
 
-      // ── KONAMI ──
+      //  KONAMI 
       let kseq = [];
       const kcode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
       document.addEventListener("keydown", (e) => {
