@@ -545,17 +545,22 @@
                   <div class="np-track">${name}</div>
                   <div class="np-artist">${artist}</div>
                 </div>
-              </div>`;
+              </div>
+              ${historyRows ? `
+              <button class="np-toggle" id="npToggle">Show recent history</button>
+              <div class="np-history" id="npHistory" hidden>${historyRows}</div>` : ''}`;
 
             if (isLive) document.getElementById('npArt').classList.add('spinning');
-            
+
             const toggleBtn = document.getElementById('npToggle');
             const historyEl = document.getElementById('npHistory');
-            toggleBtn.addEventListener('click', () => {
-              const open = !historyEl.hidden;
-              historyEl.hidden = open;
-              toggleBtn.textContent = open ? 'Show recent history' : 'Hide recent history';
-            });
+            if (toggleBtn && historyEl) {
+              toggleBtn.addEventListener('click', () => {
+                const open = !historyEl.hidden;
+                historyEl.hidden = open;
+                toggleBtn.textContent = open ? 'Show recent history' : 'Hide recent history';
+              });
+            }
           })
           .catch(() => { container.innerHTML = ''; });
       })();

@@ -1,29 +1,43 @@
 (function () {
   'use strict';
 
-  const canvas    = document.getElementById('buddy-canvas');
-  const spriteEl  = document.getElementById('buddy-sprite');
-  const miniEl    = document.getElementById('buddy-sprite-mini');
-
+  const canvas = document.getElementById('buddy-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
   const TOTAL_FRAMES   = 17;
+  const SPRITE_SIZE    = 300;
   const CANVAS_HEIGHT  = 480;
   const PARTICLE_COUNT = 90;
 
-  // ── Renderer ──────────────────────────────────────────────────────────────────
+  // ── Renderer ─────────────────────────────────────────────────────────────────
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  const scene  = new THREE.Scene();
-  let W        = canvas.parentElement.clientWidth || window.innerWidth;
-  const H      = CANVAS_HEIGHT;
+  const scene = new THREE.Scene();
+
+  let W = canvas.parentElement.clientWidth || window.innerWidth;
+  const H = CANVAS_HEIGHT;
 
   const camera = new THREE.OrthographicCamera(-W / 2, W / 2, H / 2, -H / 2, 0.1, 100);
   camera.position.z = 10;
   renderer.setSize(W, H);
 
-  // ── Particles ─────────────────────────────────────────────────────────────────
+  // ── Sprite ───────────────────────────────────────────────────────────────────
+  const loader  = new THREE.TextureLoader();
+  const textures = new Array(TOTAL_FRAMES).fill(null);
+
+  const spriteMat = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false });
+  const spriteMesh = new THREE.Mesh(new THREE.PlaneGeometry(SPRITE_SIZE, SPRITE_SIZE), spriteMat);
+  scene.add(spriteMesh);
+
+  for (let i = 0; i < TOTAL_FRAMES; i++) {
+    loader.load(`../ANI${i + 1}.svg`, (tex) => {
+      textures[i] = tex;
+      if (i === 0) { spriteMat.map = tex; spriteMat.needsUpdate = true; }
+    });
+  }
+MMMMMMMMMMMm
+  // ── Particles ────────────────────────────────────────────────────────────────
   const pGeo = new THREE.BufferGeometry();
   const pPos = new Float32Array(PARTICLE_COUNT * 3);
   const pVel = [];
@@ -36,62 +50,53 @@
   }
 
   pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-  const pMat   = new THREE.PointsMaterial({ size: 2.5, color: 0x0af5e7, transparent: true, opacity: 0.45 });
+  const pMat = new THREE.PointsMaterial({ size: 2.5, color: 0x0af5e7, transparent: true, opacity: 0.35 });
   const points = new THREE.Points(pGeo, pMat);
   scene.add(points);
 
-  // ── State config ──────────────────────────────────────────────────────────────
-  const stateMap = {
-    idle:    { fps: 8,  bobSpeed: 0.8,  bobAmt: 10, miniAmt: 4,  shake: false, pSpeed: 1.0, pColor: 0x0af5e7, pOpacity: 0.45, filter: 'none' },
-    running: { fps: 22, bobSpeed: 0.0,  bobAmt: 0,  miniAmt: 0,  shake: true,  pSpeed: 4.5, pColor: 0x0af5e7, pOpacity: 0.65, filter: 'brightness(1.15)' },
-    success: { fps: 6,  bobSpeed: 0.4,  bobAmt: 14, miniAmt: 5,  shake: false, pSpeed: 1.5, pColor: 0x00ff88, pOpacity: 0.55, filter: 'hue-rotate(120deg) brightness(1.1)' },
-    failure: { fps: 3,  bobSpeed: 0.15, bobAmt: 3,  miniAmt: 1,  shake: false, pSpeed: 0.3, pColor: 0xff4433, pOpacity: 0.40, filter: 'hue-rotate(320deg) saturate(1.8)' },
+  // ── State config ─────────────────────────────────────────────────────────────
+  const states = {
+    idle:    { fps: 8,  bobSpeed: 0.8,  bobAmt: 10, pSpeed: 1.0, pColor: 0x0af5e7, pOpacity: 0.35 },
+    running: { fps: 22, bobSpeed: 0.0,  bobAmt: 0,  pSpeed: 4.5, pColor: 0x0af5e7, pOpacity: 0.65 },
+    success: { fps: 6,  bobSpeed: 0.4,  bobAmt: 14, pSpeed: 1.5, pColor: 0x00ff88, pOpacity: 0.55 },
+    failure: { fps: 3,  bobSpeed: 0.15, bobAmt: 3,  pSpeed: 0.3, pColor: 0xff4433, pOpacity: 0.40 },
   };
 
   let currentState = 'idle';
-  let frameTimer   = null;
   let currentFrame = 0;
+  let lastFrameTime = 0;
 
-  // ── Frame cycling (img swap — reliable across all browsers) ──────────────────
-  function startFrameLoop(fps) {
-    clearInterval(frameTimer);
-    frameTimer = setInterval(() => {
-      currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
-      const src = `../ANI${currentFrame + 1}.svg`;
-      if (spriteEl) spriteEl.src = src;
-      if (miniEl)   miniEl.src   = src;
-    }, 1000 / fps);
-  }
-
-  function applyState(key) {
-    currentState = key;
-    const cfg = stateMap[key] || stateMap.idle;
+  document.addEventListener('cantoStateChange', (e) => {
+    currentState = e.detail.state;
+    currentFrame = 0;
+    const cfg = states[currentState] || states.idle;
     pMat.color.setHex(cfg.pColor);
     pMat.opacity = cfg.pOpacity;
-    if (spriteEl) spriteEl.style.filter = cfg.filter;
-    if (miniEl)   miniEl.style.filter   = cfg.filter;
-    startFrameLoop(cfg.fps);
-  }
+  });
 
-  document.addEventListener('cantoStateChange', (e) => applyState(e.detail.state));
-  applyState('idle');
-
-  // ── Render loop ───────────────────────────────────────────────────────────────
+  // ── Render loop ──────────────────────────────────────────────────────────────
   function animate(t) {
     requestAnimationFrame(animate);
 
-    const cfg = stateMap[currentState] || stateMap.idle;
+    const cfg = states[currentState] || states.idle;
 
-    // Bob / shake the sprite overlay via CSS transform
-    if (spriteEl) {
-      const bobY   = cfg.shake ? 0 : Math.sin(t * 0.001 * cfg.bobSpeed) * cfg.bobAmt;
-      const shakeX = cfg.shake ? (Math.random() - 0.5) * 6 : 0;
-      spriteEl.style.transform = `translate(calc(-50% + ${shakeX}px), calc(-50% + ${bobY}px))`;
+    // Advance frame
+    if (t - lastFrameTime > 1000 / cfg.fps) {
+      currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
+      lastFrameTime = t;
+      if (textures[currentFrame]) {
+        spriteMat.map = textures[currentFrame];
+        spriteMat.needsUpdate = true;
+      }
     }
-    if (miniEl) {
-      const bobY   = cfg.shake ? 0 : Math.sin(t * 0.001 * cfg.bobSpeed) * cfg.miniAmt;
-      const shakeX = cfg.shake ? (Math.random() - 0.5) * 3 : 0;
-      miniEl.style.transform = `translate(${shakeX}px, ${bobY}px)`;
+
+    // Bob / shake
+    if (currentState === 'running') {
+      spriteMesh.position.x = (Math.random() - 0.5) * 6;
+      spriteMesh.position.y = 0;
+    } else {
+      spriteMesh.position.x = 0;
+      spriteMesh.position.y = Math.sin(t * 0.001 * cfg.bobSpeed) * cfg.bobAmt;
     }
 
     // Drift particles upward, wrap at top
