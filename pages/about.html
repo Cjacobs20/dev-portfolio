@@ -257,6 +257,41 @@
       }
       .np-skel-line:last-child { width: 60%; margin-bottom: 0; }
 
+      /* NOW PLAYING - HISTORY TOGGLE */
+      .np-toggle {
+        background: none;
+        border: none;
+        color: inherit;
+        opacity: 0.7;
+        font-family: "DM Mono", monospace;
+        font-size: 0.85rem;
+        cursor: pointer;
+        margin-top: 8px;
+        padding: 0;
+      }
+      .np-toggle:hover {opacity: 1;}
+
+      .np-history {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-width: 420px;
+      }
+      .np-history-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        opacity: 0.8;
+        border-bottom: 1px solid var(--border-mid);
+        padding-bottom: 4px;
+      }
+      .np-history-artist {
+        font-family: "DM Mono", monospace;
+        color: var(--text-3);
+        opacity: 0.8;
+      }
+
       /*  CTA ROW  */
       .about-cta {
         display: flex;
@@ -475,18 +510,30 @@
         const USERNAME = 'CJBabes';
         const container = document.getElementById('currently-playing');
 
-        fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json&limit=1`)
+        fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json&limit=20`)
           .then(r => r.json())
           .then(data => {
             const tracks = data?.recenttracks?.track;
             if (!tracks || !tracks.length) { container.innerHTML = ''; return; }
 
-            const track      = Array.isArray(tracks) ? tracks[0] : tracks;
+            const list = Array.isArray(tracks) ? tracks : [tracks];
+            const [track, ...rest] = list;
+
             const isLive     = track['@attr']?.nowplaying === 'true';
             const name       = track.name || 'Unknown track';
             const artist     = track.artist?.['#text'] || 'Unknown artist';
             const imageUrl   = track.image?.find(i => i.size === 'large')?.['#text'] || '';
             const fallbackImg = 'https://lastfm.freetls.fastly.net/i/u/64s/4128a6eb29f94943c9d206c08e625904.jpg';
+
+            const historyRows = rest.map(t=>{
+              const rName = t.name || 'Unknown track';
+              const rArtist = t.artist?. ['#text'] || 'Unknown artist';
+              return `
+                <div class="np-history-row">
+                  <span class="np-history-track">${rName}</span>
+                  <span class="np-history-artist">${rArtist}</span>
+                  </div>`;
+            }).join('');
 
             container.innerHTML = `
               <div id="now-playing-widget">
@@ -501,6 +548,14 @@
               </div>`;
 
             if (isLive) document.getElementById('npArt').classList.add('spinning');
+            
+            const toggleBtn = document.getElementById('npToggle');
+            const historyEl = document.getElementById('npHistory');
+            toggleBtn.addEventListener('click', () => {
+              const open = !historyEl.hidden;
+              historyEl.hidden = open;
+              toggleBtn.textContent = open ? 'Show recent history' : 'Hide recent history';
+            });
           })
           .catch(() => { container.innerHTML = ''; });
       })();
